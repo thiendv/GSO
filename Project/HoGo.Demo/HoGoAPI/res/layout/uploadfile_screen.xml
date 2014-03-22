@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <EditText
+        android:id="@+id/et_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/btn_upload_file"
+        android:ellipsize="start"
+        android:hint="choose file..."
+        android:singleLine="true" />
+
+    <ImageButton
+        android:id="@+id/btn_upload_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@android:drawable/ic_menu_add"
+        android:text="" />
+
+    <ImageButton
+        android:id="@+id/btn_upload_file_exe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/btn_encode_file"
+        android:layout_marginTop="10dp"
+        android:background="@android:drawable/ic_menu_upload"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_encode_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_upload_file"
+        android:layout_marginTop="10dp"
+        android:text="Start Encode file"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_check_encode_statsu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_encode_file"
+        android:layout_marginTop="10dp"
+        android:text="Check encode status"
+        android:visibility="gone" />
+
+</RelativeLayout>
