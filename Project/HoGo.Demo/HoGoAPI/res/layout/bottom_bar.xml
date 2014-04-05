@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/margin_16px"
+        android:background="@drawable/ic_img_wooden_navbar"
+        android:layout_height="@dimen/bottom_bar_h">
+
+    <com.gso.hogoapi.views.TabButton
+            style="@style/TabButton"
+            android:id="@+id/tab_send_document"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/send_document"
+            />
+
+    <com.gso.hogoapi.views.TabButton
+            style="@style/TabButton"
+            android:id="@+id/tab_my_document"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/my_document"
+            />
+
+    <com.gso.hogoapi.views.TabButton
+            style="@style/TabButton"
+            android:id="@+id/tab_send_history"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="@string/send_history"
+            />
+
+</LinearLayout>

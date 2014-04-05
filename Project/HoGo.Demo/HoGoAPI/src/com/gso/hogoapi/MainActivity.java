@@ -13,11 +13,15 @@ import com.gso.hogoapi.fragement.EncodeFileFragment;
 import com.gso.hogoapi.fragement.LoginFragment;
 import com.gso.hogoapi.fragement.UploadFileFragment;
 import com.gso.hogoapi.model.FileData;
+import com.gso.hogoapi.views.RadioGroupController;
+import com.gso.hogoapi.views.TabButton;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements RadioGroupController.OnCheckedChangeListener{
 
 	private ProgressBar mPrBar;
 	private FrameLayout mContent;
+    private View mTopBar;
+    private View mBottomBar;
 	private FragmentManager mFramentManager;
 
 	@Override
@@ -26,20 +30,55 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 		mFramentManager = getSupportFragmentManager();
 		mPrBar = (ProgressBar) findViewById(R.id.pr_bar);
-		mContent = (FrameLayout) findViewById(R.id.content);
+        mTopBar = findViewById(R.id.top_bar);
+        mBottomBar = findViewById(R.id.bottom_bar);
+        mContent = (FrameLayout) findViewById(R.id.content);
+        initBottomBar();
 		initContent();
-
 	}
+
+
+    @Override
+    public void onCheckedChanged(int checkedId) {
+        switch (checkedId) {
+            case R.id.tab_send_document:
+                gotoUpdateScreen();
+                break;
+            case R.id.tab_my_document:
+                gotoEncodeScreen(new FileData());
+                break;
+            case R.id.tab_send_history:
+                gotoHistoryScreen();
+                break;
+        }
+    }
+
+    private void initBottomBar() {
+        final TabButton left = (TabButton) findViewById(R.id.tab_send_document);
+        left.setType(TabButton.Type.left);
+        final TabButton middle = (TabButton) findViewById(R.id.tab_my_document);
+        middle.setType(TabButton.Type.center);
+        final TabButton right = (TabButton) findViewById(R.id.tab_send_history);
+        right.setType(TabButton.Type.right);
+
+        RadioGroupController radioGroupController = new RadioGroupController();
+        radioGroupController.setOnCheckedChangeListener(this);
+        radioGroupController.setRadioButtons(left, middle, right);
+        radioGroupController.setSelection(0);
+    }
 
 	private void initContent() {
 		// TODO Auto-generated method stub
 		if (HoGoApplication.instace().getToken(this) != null) {
+            exitLogin();
 			UploadFileFragment loginFragment = new UploadFileFragment();
 			FragmentTransaction transaction = mFramentManager
 					.beginTransaction();
 			transaction.add(R.id.content, loginFragment).commit();
 
 		} else {
+            mTopBar.setVisibility(View.GONE);
+            mBottomBar.setVisibility(View.GONE);
 			LoginFragment loginFragment = new LoginFragment();
 			FragmentTransaction transaction = mFramentManager
 					.beginTransaction();
@@ -57,10 +96,8 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void gotoUpdateScreen() {
-		// TODO Auto-generated method stub
 		UploadFileFragment fragement = new UploadFileFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
-		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 
 	}
@@ -70,7 +107,8 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	public void showLogin() {
-		// TODO Auto-generated method stub
+		mTopBar.setVisibility(View.GONE);
+		mBottomBar.setVisibility(View.GONE);
 		LoginFragment fragement = new LoginFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.replace(R.id.content, fragement).commit();
@@ -83,7 +121,17 @@ public class MainActivity extends FragmentActivity {
 		bundle.putSerializable("file", parseData);
 		fragement.setArguments(bundle);
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
-		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 	}
+
+
+    public void exitLogin() {
+        mTopBar.setVisibility(View.VISIBLE);
+        mBottomBar.setVisibility(View.VISIBLE);
+    }
+
+    private void gotoHistoryScreen() {
+
+    }
+
 }

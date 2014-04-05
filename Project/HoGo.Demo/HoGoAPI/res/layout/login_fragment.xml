@@ -14,6 +14,7 @@
     <TextView
             android:id="@+id/copy_right"
             android:layout_marginBottom="@dimen/copy_right_margin_bottom"
+            android:textSize="12sp"
             android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:text="Copyright © 2013 HoGo, Inc. All Rights Reserved"
               android:layout_centerHorizontal="true"
