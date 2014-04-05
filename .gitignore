@@ -1,0 +1,7 @@
+/Project/HoGo.Demo/.idea
+/Project/HoGo.Demo/out
+bin
+gen
+*.iml
+/Project/HoGo.Demo/ServiceAPILib/bin
+/Project/HoGo.Demo/ServiceAPILib/gen

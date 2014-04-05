@@ -1,42 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:orientation="vertical">
 
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/copy_right"
+               android:src="@drawable/hogo_logo"
+               android:layout_centerHorizontal="true"/>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world"
-        android:visibility="gone" />
+            android:id="@+id/copy_right"
+            android:layout_marginBottom="@dimen/copy_right_margin_bottom"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:text="Copyright © 2013 HoGo, Inc. All Rights Reserved"
+              android:layout_centerHorizontal="true"
+              android:layout_above="@+id/login_form"
+            />
+    <LinearLayout
+            android:id="@+id/login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/et_user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Input your username or email" />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_world"
+                android:visibility="gone"/>
 
-    <EditText
-        android:id="@+id/et_user_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_user_name"
-        android:layout_marginTop="20dp"
-        android:hint="Input your passw" />
+        <EditText
+                style="@style/TextBox"
+                android:id="@+id/et_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_account"
+                android:layout_marginBottom="@dimen/margin_16px"
+                android:hint="Enter your e-mail address"/>
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_user_password"
-        android:layout_marginTop="40dp"
-        android:text="Login" />
+        <EditText
+                style="@style/TextBox"
+                android:id="@+id/et_user_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_password"
+                android:layout_marginBottom="@dimen/margin_16px"
+                android:hint="Enter your password"/>
+
+        <Button
+                style="@style/AppButton"
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LOG IN"/>
+    </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/pr_bar_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
+            android:id="@+id/pr_bar_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
 
 </RelativeLayout>
