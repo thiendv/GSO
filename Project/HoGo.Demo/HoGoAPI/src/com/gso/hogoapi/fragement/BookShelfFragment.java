@@ -119,6 +119,7 @@ public class BookShelfFragment extends Fragment {
         		viewHolder.book1 = (ImageView) view.findViewById(R.id.book_1);
         		viewHolder.book2 = (ImageView) view.findViewById(R.id.book_2);
         		viewHolder.book3 = (ImageView) view.findViewById(R.id.book_3);
+        		view.setTag(viewHolder);
         	} else {
         		viewHolder = (ViewHolder) view.getTag();
         	}
