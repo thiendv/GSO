@@ -11,5 +11,10 @@
     <dimen name="top_bar_padding_top">4dp</dimen>
     <dimen name="book_item_padding">16dp</dimen>
     <dimen name="book_shelf_margin_bottom">12dp</dimen>
+    <dimen name="ic_add_size">32dp</dimen>
+    <dimen name="margin_8px">4dp</dimen>
+    <dimen name="id_accept_size">64dp</dimen>
+    <dimen name="margin_90px">45dp</dimen>
+    <dimen name="margin_32px">16dp</dimen>
 
 </resources>

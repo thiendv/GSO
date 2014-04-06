@@ -2,8 +2,6 @@ package com.gso.hogoapi.service;
 
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.LoginData;
 

@@ -6,6 +6,19 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.gso.hogoapi.APIType;
 import com.gso.hogoapi.HoGoApplication;
 import com.gso.hogoapi.MainActivity;
@@ -16,21 +29,6 @@ import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
 import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.DialogFragment;
-import android.text.format.Time;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class EncodeFileFragment extends DialogFragment implements
 		IServiceListener {

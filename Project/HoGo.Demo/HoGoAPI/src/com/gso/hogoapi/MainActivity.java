@@ -6,9 +6,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.gso.hogoapi.fragement.AddFileFragment;
 import com.gso.hogoapi.fragement.BookShelfFragment;
 import com.gso.hogoapi.fragement.EncodeFileFragment;
 import com.gso.hogoapi.fragement.LoginFragment;
@@ -17,18 +19,21 @@ import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.views.RadioGroupController;
 import com.gso.hogoapi.views.TabButton;
 
-public class MainActivity extends FragmentActivity implements RadioGroupController.OnCheckedChangeListener{
+public class MainActivity extends FragmentActivity implements RadioGroupController.OnCheckedChangeListener, OnClickListener{
 
 	private ProgressBar mPrBar;
 	private FrameLayout mContent;
     private View mTopBar;
     private View mBottomBar;
 	private FragmentManager mFramentManager;
+	private View mBtnActionAdd; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		mBtnActionAdd = findViewById(R.id.action_add);
+		mBtnActionAdd.setOnClickListener(this);
 		mFramentManager = getSupportFragmentManager();
 		mPrBar = (ProgressBar) findViewById(R.id.pr_bar);
         mTopBar = findViewById(R.id.top_bar);
@@ -137,9 +142,37 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
         mTopBar.setVisibility(View.VISIBLE);
         mBottomBar.setVisibility(View.VISIBLE);
     }
+    
+    public void enterBookShelfScreen() {
+    	mBtnActionAdd.setVisibility(View.VISIBLE);
+    }
+    public void exitBookShelfScreen() {
+    	mBtnActionAdd.setVisibility(View.GONE);
+    }
 
     private void gotoHistoryScreen() {
 
     }
+
+	private void gotoAddScreen() {
+		AddFileFragment fragement = new AddFileFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.replace(R.id.content, fragement);
+		transaction.addToBackStack(null);
+		transaction.commit();
+	}
+	
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+		case R.id.action_add:
+			gotoAddScreen();
+			break;
+
+		default:
+			break;
+		}
+	}
+
 
 }

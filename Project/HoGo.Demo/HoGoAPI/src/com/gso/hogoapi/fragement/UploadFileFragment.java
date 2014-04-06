@@ -29,7 +29,6 @@ import com.gso.hogoapi.HoGoApplication;
 import com.gso.hogoapi.MainActivity;
 import com.gso.hogoapi.R;
 import com.gso.hogoapi.model.FileData;
-import com.gso.hogoapi.model.LoginData;
 import com.gso.hogoapi.service.DataParser;
 import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;

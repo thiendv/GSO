@@ -3,6 +3,7 @@ package com.gso.hogoapi.fragement;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.gso.hogoapi.MainActivity;
 import com.gso.hogoapi.R;
 import com.gso.hogoapi.model.FileData;
 import com.squareup.picasso.Picasso;
@@ -26,7 +28,24 @@ public class BookShelfFragment extends Fragment {
 	
 	private BookShelfAdapter mBookShelfAdapter;
 	private static int sRowHeight;
+	private MainActivity mActivity;
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (activity instanceof MainActivity) {
+			mActivity = (MainActivity) activity;
+		}
+	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mActivity != null) {
+			mActivity.enterBookShelfScreen();
+		}
+	}
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_bookshelf, container, false);
@@ -50,6 +69,14 @@ public class BookShelfFragment extends Fragment {
         mBookShelfAdapter = new BookShelfAdapter(getActivity());
         listView.setAdapter(mBookShelfAdapter);
         
+    }
+    
+    @Override
+    public void onStop() {
+    	super.onStop();
+    	if (mActivity != null) {
+    		mActivity.exitBookShelfScreen();
+    	}
     }
     
     private List<FileData> getMockData(int count) {
