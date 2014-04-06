@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:padding="@dimen/margin_16px"
-        android:background="@drawable/ic_img_wooden_navbar"
         android:layout_height="@dimen/bottom_bar_h">
 
     <com.gso.hogoapi.views.TabButton

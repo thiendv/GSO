@@ -8,5 +8,8 @@
     <dimen name="top_bar_h">48dp</dimen>
     <dimen name="top_bar_padding_bottom">8dp</dimen>
     <dimen name="bottom_bar_h">48dp</dimen>
+    <dimen name="top_bar_padding_top">4dp</dimen>
+    <dimen name="book_item_padding">16dp</dimen>
+    <dimen name="book_shelf_margin_bottom">12dp</dimen>
 
 </resources>

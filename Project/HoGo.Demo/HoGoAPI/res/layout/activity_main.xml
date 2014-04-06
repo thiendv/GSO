@@ -1,32 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@drawable/ic_img_wooden_navbar"
+    android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <include layout="@layout/top_bar" android:id="@+id/top_bar"/>
+    <include
+        android:id="@+id/top_bar"
+        layout="@layout/top_bar" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1" >
+
         <FrameLayout
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
         </FrameLayout>
+
         <ProgressBar
-                android:id="@+id/pr_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+            android:id="@+id/pr_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/bottom_bar_divider" />
 
-    <include layout="@layout/bottom_bar" android:id="@+id/bottom_bar"/>
-
-
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/bottom_bar" />
 
 </LinearLayout>

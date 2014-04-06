@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.gso.hogoapi.fragement.BookShelfFragment;
 import com.gso.hogoapi.fragement.EncodeFileFragment;
 import com.gso.hogoapi.fragement.LoginFragment;
 import com.gso.hogoapi.fragement.UploadFileFragment;
@@ -45,7 +46,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
                 gotoUpdateScreen();
                 break;
             case R.id.tab_my_document:
-                gotoEncodeScreen(new FileData());
+                gotoBookShelfScreen();
                 break;
             case R.id.tab_send_history:
                 gotoHistoryScreen();
@@ -53,7 +54,14 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
         }
     }
 
-    private void initBottomBar() {
+    private void gotoBookShelfScreen() {
+    	BookShelfFragment fragement = new BookShelfFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.replace(R.id.content, fragement).commit();
+	}
+
+
+	private void initBottomBar() {
         final TabButton left = (TabButton) findViewById(R.id.tab_send_document);
         left.setType(TabButton.Type.left);
         final TabButton middle = (TabButton) findViewById(R.id.tab_my_document);

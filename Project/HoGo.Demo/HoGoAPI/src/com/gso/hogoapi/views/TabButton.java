@@ -27,6 +27,7 @@ public class TabButton extends Button implements IRadioButton {
     public TabButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setType(Type.center);
+        setCheck(false);
     }
 
     public void setType(Type type) {

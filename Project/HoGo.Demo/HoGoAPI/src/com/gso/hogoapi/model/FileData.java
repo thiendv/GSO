@@ -13,13 +13,8 @@ public class FileData implements Serializable{
 	private String fileDescription;
 	private String fileTitle;
 	private String queueId;
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	private String coverImageUrl;
+	 
 	/**
 	 * @return the fileTitle
 	 */
@@ -67,6 +62,12 @@ public class FileData implements Serializable{
 	 */
 	public void setQueueId(String queueId) {
 		this.queueId = queueId;
+	}
+	public String getCoverImageUrl() {
+		return coverImageUrl;
+	}
+	public void setCoverImageUrl(String coverImageUrl) {
+		this.coverImageUrl = coverImageUrl;
 	}
 
 }
