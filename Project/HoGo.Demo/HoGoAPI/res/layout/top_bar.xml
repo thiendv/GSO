@@ -14,13 +14,23 @@
         android:src="@drawable/hogo_logo" />
 
     <ImageView
+        android:id="@+id/action_send"
+        android:layout_width="@dimen/ic_add_size"
+        android:layout_height="@dimen/ic_add_size"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_16px"
+        android:src="@android:drawable/ic_menu_send"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/action_add"
         android:layout_width="@dimen/ic_add_size"
         android:layout_height="@dimen/ic_add_size"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:layout_marginRight="@dimen/margin_16px"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_action_add" />
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_16px"
+        android:src="@drawable/ic_action_add"
+        android:visibility="gone" />
 
 </RelativeLayout>

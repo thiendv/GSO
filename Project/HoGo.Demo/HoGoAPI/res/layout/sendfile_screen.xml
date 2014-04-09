@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/TextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:text="Send your document:"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/rl_mailto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_margin="10dp" >
+
+        <EditText
+            android:id="@+id/et_mail_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="0dp"
+            android:layout_toLeftOf="@+id/btn_send_file_exe"
+            android:ellipsize="start"
+            android:hint="Input email to send"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/btn_send_file_exe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@android:drawable/ic_menu_upload"
+            android:text="Send"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_title_listview"
+        style="@style/TextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_mailto"
+        android:layout_margin="15dp"
+        android:text="File send:"
+        android:textStyle="bold" />
+
+    <ListView
+        android:background="@drawable/white_container"
+        android:id="@+id/lv_file_send"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_title_listview"
+        android:layout_margin="10dp" />
+
+</RelativeLayout>

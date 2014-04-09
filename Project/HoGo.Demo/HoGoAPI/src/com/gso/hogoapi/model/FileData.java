@@ -14,6 +14,8 @@ public class FileData implements Serializable{
 	private String fileTitle;
 	private String queueId;
 	private String coverImageUrl;
+	private String documentId;
+	private Boolean isChecked = false;
 	 
 	/**
 	 * @return the fileTitle
@@ -68,6 +70,30 @@ public class FileData implements Serializable{
 	}
 	public void setCoverImageUrl(String coverImageUrl) {
 		this.coverImageUrl = coverImageUrl;
+	}
+	/**
+	 * @return the documentId
+	 */
+	public String getDocumentId() {
+		return documentId;
+	}
+	/**
+	 * @param documentId the documentId to set
+	 */
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
+	}
+	/**
+	 * @return the isChecked
+	 */
+	public Boolean getIsChecked() {
+		return isChecked;
+	}
+	/**
+	 * @param isChecked the isChecked to set
+	 */
+	public void setIsChecked(Boolean isChecked) {
+		this.isChecked = isChecked;
 	}
 
 }

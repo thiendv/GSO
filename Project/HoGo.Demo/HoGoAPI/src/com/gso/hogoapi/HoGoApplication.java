@@ -50,7 +50,11 @@ public class HoGoApplication extends Application {
 	public void setToken(Context context, String token){
 		SharedPreferences account = context.getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = account.edit();
-		editor.putString("token", token);
+		if(token!=null){
+			editor.putString("token", token);
+		}else{
+			editor.remove("token");
+		}
 		editor.commit();
 	}
 

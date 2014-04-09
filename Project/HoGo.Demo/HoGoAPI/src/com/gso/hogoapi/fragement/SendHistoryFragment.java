@@ -27,7 +27,7 @@ import com.gso.serviceapilib.Service;
 import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
 
-public class LoginFragment extends Fragment implements IServiceListener {
+public class SendHistoryFragment extends Fragment implements IServiceListener {
 
 	/**
 	 * @param args
@@ -50,20 +50,8 @@ public class LoginFragment extends Fragment implements IServiceListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.login_fragment, container, false);
-		mEtUsername = (EditText) v.findViewById(R.id.et_user_name);
-		mEtUserpassword = (EditText) v.findViewById(R.id.et_user_password);
-		mPrBar = (ProgressBar) v.findViewById(R.id.pr_bar_login);
-		mBtnLogin = (Button) v.findViewById(R.id.btnLogin);
-		mBtnLogin.setOnClickListener(new View.OnClickListener() {
+		View v = inflater.inflate(R.layout.send_history_screen, container, false);
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				onLoginClicked();
-
-			}
-		});
 
 		return v;
 	}

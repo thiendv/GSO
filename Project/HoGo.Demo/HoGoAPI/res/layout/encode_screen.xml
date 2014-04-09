@@ -5,29 +5,38 @@
     android:orientation="vertical"
     android:padding="20dp" >
 
-    <TextView
-        android:id="@+id/tv_filename"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="File name"
-        android:textSize="20sp" />
+        android:layout_margin="10dp"
+        android:background="@drawable/white_container"
+        android:padding="10dp" >
 
-    <EditText
-        android:id="@+id/et_des_file"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/tv_filename"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:gravity="top|left"
-        android:hint="Input something for your file description" />
+        <TextView
+            android:id="@+id/tv_filename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="File name"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/btn_encode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_des_file"
-        android:layout_marginTop="10dp"
-        android:text="Next" />
+        <EditText
+            android:id="@+id/et_des_file"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/tv_filename"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:gravity="top|left"
+            android:textSize="17sp"
+            android:hint="Input something for your file description" />
+
+        <Button
+            android:id="@+id/btn_encode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_des_file"
+            android:layout_marginTop="10dp"
+            android:text="Next" />
+    </RelativeLayout>
 
 </RelativeLayout>

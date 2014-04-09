@@ -1,9 +1,14 @@
 package com.gso.hogoapi.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.LoginData;
+import com.gso.hogoapi.model.ResponseData;
 
 public class DataParser {
 
@@ -41,53 +46,114 @@ public class DataParser {
 		return null;
 	}
 
-	public FileData parseUpdateResult(String input) {
+	public ResponseData parseUpdateResult(String input) {
 		// TODO Auto-generated method stub
+		ResponseData resData = new ResponseData();
 		try {
 			JSONObject root = new JSONObject(input);
 			FileData data = new FileData();
-			boolean status = root.optString("status").equalsIgnoreCase("OK");
-			if(status){
+			String status = root.optString("status");
+			resData.setStatus(status);
+			if(status.equalsIgnoreCase("OK")){
 				data.setFileName(root.optString("file_name"));
 				data.setQueueId(root.optString("queue_id"));
-				return data;
+				resData.setData(data);
 			}else{
-				return null;
+				
 			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return null;
+		
 		}
+		return resData;
 	}
 
-	public boolean parseEncodeResult(String input) {
+	public ResponseData parseEncodeResult(String input) {
 		// TODO Auto-generated method stub
-		try {
-			JSONObject root = new JSONObject(input);
-			boolean status = root.optString("status").equalsIgnoreCase("OK");
-			return status;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public String parseCheckEncodeResult(String input) {
-		// TODO Auto-generated method stub
+		ResponseData resData = new ResponseData();
 		try {
 			JSONObject root = new JSONObject(input);
 			String status = root.optString("status");
-			return status;
+			resData.setStatus(status);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return "0";
 		}
+		return resData;
+	}
+
+	public ResponseData parseCheckEncodeResult(String input) {
+		// TODO Auto-generated method stub
+		ResponseData data = new ResponseData();
+		try {
+			
+			JSONObject root = new JSONObject(input);
+			String status = root.optString("status");
+			String documentId = root.optString("document_id");
+			FileData item = new FileData();
+			item.setDocumentId(documentId);
+			data.setStatus(status);
+			data.setData(item);
+			
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return data;
+	}
+
+	public ResponseData parseSendResponse(String input) {
+		// TODO Auto-generated method stub
+		ResponseData resData = new ResponseData();
+		try {
+			
+			JSONObject root = new JSONObject(input);
+			String status = root.optString("status");
+			resData.setStatus(status);
+			
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			
+		}
+		return resData;
+	}
+
+	public ResponseData parseGetDocumentListResult(String input) {
+		// TODO Auto-generated method stub
+		ResponseData resData = new ResponseData();
+		List<FileData> data = new ArrayList<FileData>();
+		try {
+			JSONObject root = new JSONObject(input);
+			String status = root.optString("status");
+			resData.setStatus(status);
+			if(root.optString("status").equalsIgnoreCase("OK")){
+				JSONArray array = root.optJSONArray("document_id");
+				if(array !=null){
+					int length = array.length();
+					for(int i = 0 ; i < length; i++){
+						String obj = array.optString(i);
+						if(obj !=null){
+							FileData item = new FileData();
+							item.setDocumentId(obj);
+							data.add(item);
+						}
+						
+					}
+				}
+			}
+			resData.setData(data);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return resData;
 	}
 
 }

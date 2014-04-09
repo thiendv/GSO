@@ -1,5 +1,8 @@
 package com.gso.hogoapi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -8,14 +11,19 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.gso.hogoapi.fragement.AddFileFragment;
+import com.gso.hogoapi.fragement.AddFileSuccessfulFragment;
 import com.gso.hogoapi.fragement.BookShelfFragment;
 import com.gso.hogoapi.fragement.EncodeFileFragment;
 import com.gso.hogoapi.fragement.LoginFragment;
+import com.gso.hogoapi.fragement.SendFileFragment;
+import com.gso.hogoapi.fragement.SendHistoryFragment;
 import com.gso.hogoapi.fragement.UploadFileFragment;
 import com.gso.hogoapi.model.FileData;
+import com.gso.hogoapi.model.SendData;
 import com.gso.hogoapi.views.RadioGroupController;
 import com.gso.hogoapi.views.TabButton;
 
@@ -26,14 +34,19 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
     private View mTopBar;
     private View mBottomBar;
 	private FragmentManager mFramentManager;
-	private View mBtnActionAdd; 
+	private View mBtnActionAdd;
+	private View mBtnActionSend; 
 
+	
+	public static List<FileData> fileDataList = new ArrayList<FileData>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mBtnActionAdd = findViewById(R.id.action_add);
+		mBtnActionSend = findViewById(R.id.action_send);
 		mBtnActionAdd.setOnClickListener(this);
+		mBtnActionSend.setOnClickListener(this);
 		mFramentManager = getSupportFragmentManager();
 		mPrBar = (ProgressBar) findViewById(R.id.pr_bar);
         mTopBar = findViewById(R.id.top_bar);
@@ -67,16 +80,16 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 
 
 	private void initBottomBar() {
-        final TabButton left = (TabButton) findViewById(R.id.tab_send_document);
-        left.setType(TabButton.Type.left);
+//        final TabButton left = (TabButton) findViewById(R.id.tab_send_document);
+//        left.setType(TabButton.Type.left);
         final TabButton middle = (TabButton) findViewById(R.id.tab_my_document);
-        middle.setType(TabButton.Type.center);
+        middle.setType(TabButton.Type.left);
         final TabButton right = (TabButton) findViewById(R.id.tab_send_history);
         right.setType(TabButton.Type.right);
 
         RadioGroupController radioGroupController = new RadioGroupController();
         radioGroupController.setOnCheckedChangeListener(this);
-        radioGroupController.setRadioButtons(left, middle, right);
+        radioGroupController.setRadioButtons(middle, right);
         radioGroupController.setSelection(0);
     }
 
@@ -84,10 +97,11 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		// TODO Auto-generated method stub
 		if (HoGoApplication.instace().getToken(this) != null) {
             exitLogin();
-			UploadFileFragment loginFragment = new UploadFileFragment();
-			FragmentTransaction transaction = mFramentManager
-					.beginTransaction();
-			transaction.add(R.id.content, loginFragment).commit();
+//			UploadFileFragment loginFragment = new UploadFileFragment();
+//			FragmentTransaction transaction = mFramentManager
+//					.beginTransaction();
+//			transaction.add(R.id.content, loginFragment).commit();
+            gotoMainScreen();
 
 		} else {
             mTopBar.setVisibility(View.GONE);
@@ -111,6 +125,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 	public void gotoUpdateScreen() {
 		UploadFileFragment fragement = new UploadFileFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 
 	}
@@ -134,6 +149,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		bundle.putSerializable("file", parseData);
 		fragement.setArguments(bundle);
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 	}
 
@@ -151,12 +167,21 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
     }
 
     private void gotoHistoryScreen() {
-
+    	SendHistoryFragment fragement = new SendHistoryFragment();
+    	FragmentTransaction transaction = mFramentManager.beginTransaction();
+    	transaction.replace(R.id.content, fragement).commit();
     }
 
-	private void gotoAddScreen() {
-		AddFileFragment fragement = new AddFileFragment();
+	public void gotoAddScreen(FileData fileData) {
+		AddFileSuccessfulFragment fragement = new AddFileSuccessfulFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		Bundle bundle = new Bundle();
+		SendData sendData = new SendData();
+		List<FileData> dataList = new ArrayList<FileData>();
+		dataList.add(fileData);
+		sendData.setDataList(dataList);
+		bundle.putSerializable("send_data", sendData);
+		fragement.setArguments(bundle);
 		transaction.replace(R.id.content, fragement);
 		transaction.addToBackStack(null);
 		transaction.commit();
@@ -166,12 +191,77 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.action_add:
-			gotoAddScreen();
+//			gotoAddScreen();
+			gotoUpdateScreen();
 			break;
-
+		case R.id.action_send:
+//			gotoAddScreen();
+			gotoSendScreen();
+			break;
 		default:
 			break;
 		}
+	}
+
+
+	private void gotoSendScreen() {
+		// TODO Auto-generated method stub
+		List<FileData> items = new ArrayList<FileData>();
+		SendData sendData = new SendData();
+		for(FileData item: BookShelfFragment.BookShelfAdapter.mItems){
+			if(item.getIsChecked()){
+				items.add(item);
+			}
+		}
+		if(items.size() > 0){
+			sendData.setDataList(items);
+			gotoSendDocumentScreen(sendData);
+			
+		}else{
+			Toast.makeText(this, "Please choose any item before sending", Toast.LENGTH_LONG).show();
+		}
+	}
+
+
+	public void gotoSendDocumentScreen(SendData sendData) {
+		// TODO Auto-generated method stub
+		SendFileFragment fragement = new SendFileFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("send_data", sendData);
+		fragement.setArguments(bundle);
+		transaction.addToBackStack(null);
+		transaction.replace(R.id.content, fragement).commit();
+	}
+
+
+	public void gotoMainScreen() {
+		// TODO Auto-generated method stub
+		BookShelfFragment fragement = new BookShelfFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.replace(R.id.content, fragement).commit();
+	}
+
+
+	public void changeAddtoSendData() {
+		// TODO Auto-generated method stub
+		findViewById(R.id.action_send).setVisibility(View.VISIBLE);
+		findViewById(R.id.action_add).setVisibility(View.GONE);
+	}
+
+
+	public void gotologinScreen() {
+		// TODO Auto-generated method stub
+		LoginFragment fragement = new LoginFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.replace(R.id.content, fragement).commit();
+	}
+
+
+	public void changeToAdd() {
+		// TODO Auto-generated method stub
+		findViewById(R.id.action_send).setVisibility(View.GONE);
+		findViewById(R.id.action_add).setVisibility(View.VISIBLE);
 	}
 
 

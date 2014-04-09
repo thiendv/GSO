@@ -6,6 +6,8 @@ public class APIType {
 	public static final String UPLOAD = "/v1/UploadDocument";
 	public static final String ENCODE = "/v1/StartEncoding";
 	public static final String CHECK_ENCODE = "/v1/CheckEncodeStatus";
+	public static final String SEND = "/v1/CreatePackage";
+	public static final String GET_MY_DOCUMENT = "/v1/GetDocumentList";
 
 	/**
 	 * @param args

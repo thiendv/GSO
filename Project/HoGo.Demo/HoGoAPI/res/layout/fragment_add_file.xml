@@ -12,13 +12,15 @@
         style="@style/TextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_90px"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:text="Add new document" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_marginBottom="@dimen/margin_90px"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content" />
 
     <ImageView
@@ -38,12 +40,12 @@
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/btn_submit"
+        android:id="@+id/btn_send_this_document"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_8px"
         android:background="@drawable/bg_button_green"
-        android:text="Browse PDF file from your SD Card"
+        android:text="Send this document"
         android:textSize="18sp" />
 
 </LinearLayout>

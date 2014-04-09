@@ -29,6 +29,7 @@ import com.gso.hogoapi.HoGoApplication;
 import com.gso.hogoapi.MainActivity;
 import com.gso.hogoapi.R;
 import com.gso.hogoapi.model.FileData;
+import com.gso.hogoapi.model.ResponseData;
 import com.gso.hogoapi.service.DataParser;
 import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
@@ -58,7 +59,7 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 		View v = inflater.inflate(R.layout.uploadfile_screen, container, false);
 		ImageButton btnUpload = (ImageButton) v
 				.findViewById(R.id.btn_upload_file);
-		ImageButton btnUploadExe = (ImageButton) v
+		Button btnUploadExe = (Button) v
 				.findViewById(R.id.btn_upload_file_exe);
 		Button btnEncode = (Button) v.findViewById(R.id.btn_encode_file);
 		Button btnCheckEncode = (Button) v
@@ -176,13 +177,17 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 				&& result.getAction() == ServiceAction.ActionUpload) {
 			Log.d("onCompleted", "onCompleted " + result.getData());
 			DataParser parser = new DataParser(true);
-			FileData parseData = (FileData) parser
+			ResponseData resData =  parser
 					.parseUpdateResult((String) result.getData());
-			if (parseData != null) {
+			FileData parseData = (FileData)resData.getData();
+			if (resData.getStatus().equals("OK")) {
 				Toast.makeText(getActivity(), "Upload Successful",
 						Toast.LENGTH_LONG).show();
 				((MainActivity)getActivity()).gotoEncodeScreen(parseData);
-			} else {
+			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
+				HoGoApplication.instace().setToken(getActivity(), null);
+				((MainActivity) getActivity()).gotologinScreen();
+			}else {
 				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
 						.show();
 			}

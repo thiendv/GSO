@@ -24,6 +24,7 @@ import com.gso.hogoapi.HoGoApplication;
 import com.gso.hogoapi.MainActivity;
 import com.gso.hogoapi.R;
 import com.gso.hogoapi.model.FileData;
+import com.gso.hogoapi.model.ResponseData;
 import com.gso.hogoapi.service.DataParser;
 import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
@@ -132,14 +133,18 @@ public class EncodeFileFragment extends DialogFragment implements
 		if (result.isSuccess()
 				&& result.getAction() == ServiceAction.ActionEncode) {
 			DataParser parser = new DataParser(true);
-			boolean encodeStatus = (boolean) parser
+			ResponseData resData = parser
 					.parseEncodeResult((String) result.getData());
+			boolean encodeStatus = resData.getStatus().equalsIgnoreCase("OK");
 			if (encodeStatus) {
 				Toast.makeText(getActivity(),
 						"Upload Successful waiting Encode data",
 						Toast.LENGTH_LONG).show();
 				checkEncodeData();
-			} else {
+			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
+				HoGoApplication.instace().setToken(getActivity(), null);
+				((MainActivity)getActivity()).gotologinScreen();
+			}else {
 				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
 						.show();
 			}
@@ -151,9 +156,9 @@ public class EncodeFileFragment extends DialogFragment implements
 		if (result.isSuccess()
 				&& result.getAction() == ServiceAction.ActionCheckEncodeStatus) {
 			DataParser parser = new DataParser(true);
-			String encodeStatus = (String) parser
+			ResponseData encodeStatus = (ResponseData) parser
 					.parseCheckEncodeResult((String) result.getData());
-			if (encodeStatus.equalsIgnoreCase("OK")) {
+			if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equalsIgnoreCase("OK")) {
 				if(timer!=null){
 					timer.cancel();
 				}
@@ -161,7 +166,8 @@ public class EncodeFileFragment extends DialogFragment implements
 						"Upload Successful and Encode data sucessful",
 						Toast.LENGTH_LONG).show();
 				((MainActivity) getActivity()).setProgressVisibility(false);
-			} else if (encodeStatus.equals("4")) {
+				((MainActivity) getActivity()).gotoAddScreen((FileData)encodeStatus.getData());
+			} else if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equals("4")) {
 				if(timer!=null){
 					timer.cancel();
 				}

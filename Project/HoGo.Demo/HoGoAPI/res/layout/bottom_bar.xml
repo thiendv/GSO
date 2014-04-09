@@ -15,6 +15,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="@string/send_document"
+            android:visibility="gone"
             />
 
     <com.gso.hogoapi.views.TabButton
