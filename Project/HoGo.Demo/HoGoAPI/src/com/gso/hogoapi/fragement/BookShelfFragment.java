@@ -326,6 +326,9 @@ public class BookShelfFragment extends Fragment implements IServiceListener {
 			Toast.makeText(getActivity(), "Can not get data for now!", Toast.LENGTH_LONG)
 			.show();
 		}
-		((MainActivity) getActivity()).setProgressVisibility(false);
+		if(!getActivity().isFinishing()){
+			((MainActivity) getActivity()).setProgressVisibility(false);	
+		}
+		
 	}
 }

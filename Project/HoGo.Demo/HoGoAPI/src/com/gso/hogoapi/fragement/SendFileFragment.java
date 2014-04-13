@@ -153,7 +153,7 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("SessionID", HoGoApplication.instace().getToken(getActivity()));
 			params.put("Documents", "" + stringDataSend);
-			params.put("Method", "3");
+			params.put("Method", "1");
 			params.put("status_desc", "Test");
 			params.put("Recipients", "" + mailTo);
 			params.put("Printing", cbxIsPrint.isChecked());
