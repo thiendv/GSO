@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="240dp"
     android:background="@drawable/ic_img_wooden_bookshelf_patch"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/book_item_padding"
@@ -18,7 +18,8 @@
             android:id="@+id/book_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@drawable/no_icon" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
             android:id="@+id/book_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@drawable/no_icon" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -98,7 +100,8 @@
             android:id="@+id/book_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:src="@drawable/no_icon" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
