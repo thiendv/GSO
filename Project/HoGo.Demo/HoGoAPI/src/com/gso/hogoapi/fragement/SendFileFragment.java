@@ -234,8 +234,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		params.put("SessionID", HoGoApplication.instace().getToken(getActivity()));
 		params.put("PackageID", "" + packageData.getId());
 		params.put("EmailAddress", mailTo);
-		params.put("Subject", "HoGo has sent you the following documents");
-		params.put("Message", "");
+//		params.put("Subject",);// "HoGo has sent you the following documents"
+//		params.put("Message", "");
 
 		service.login(ServiceAction.ActionSendPackageNote, APIType.SEND_PACKAGE_NOTE, params);
 		((MainActivity) getActivity()).setProgressVisibility(true);
