@@ -19,7 +19,7 @@ public class HoGoApplication extends Application {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		API.hostURL = "https://www.hogodoc.com/HoGo/api";
+		API.hostURL = "http://avalanche.hogodoc.com/HoGo/api";
 
 	}
 

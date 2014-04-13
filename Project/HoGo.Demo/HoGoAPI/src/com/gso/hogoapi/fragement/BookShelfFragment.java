@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.BaseAdapter;
@@ -98,7 +99,7 @@ public class BookShelfFragment extends Fragment implements IServiceListener {
 //		        getDocumentList();
 //			}
 //		});
-        sRowHeight = mListView.getHeight() / 2;
+        sRowHeight = mListView.getHeight() / 3;
         getDocumentList();
     }
     
@@ -187,7 +188,7 @@ public class BookShelfFragment extends Fragment implements IServiceListener {
         	final ViewHolder viewHolder;
         	if (view == null) {
         		view = mInflater.inflate(R.layout.book_row, viewGroup, false);
-        		view.getLayoutParams().height = sRowHeight;
+//        		view.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
         		viewHolder = new ViewHolder();
         		viewHolder.book1 = (ImageView) view.findViewById(R.id.book_1);
         		viewHolder.book2 = (ImageView) view.findViewById(R.id.book_2);
@@ -287,10 +288,15 @@ public class BookShelfFragment extends Fragment implements IServiceListener {
 					}
 				}
 			}
+			boolean isSend = false;
 			for(FileData item: mItems){
 				if(item.getIsChecked()){
 					((MainActivity)mContext).changeAddtoSendData();
+					isSend = true;
 				}
+			}
+			if(!isSend){
+				((MainActivity)mContext).changeToAdd();
 			}
 		}
     }
@@ -302,14 +308,17 @@ public class BookShelfFragment extends Fragment implements IServiceListener {
 				&& result.getAction() == ServiceAction.ActionGetMyDocument) {
 			Log.d("onCompleted", "onCompleted " + result.getData());
 			DataParser parser = new DataParser(true);
-			ResponseData responseData =  parser
+			ResponseData resData =  parser
 					.parseGetDocumentListResult((String) result.getData());
-			List<FileData> parseData = (List<FileData>)responseData.getData();
-			if (parseData != null) {
+			List<FileData> parseData = (List<FileData>)resData.getData();
+			if (resData.getStatus().equalsIgnoreCase("OK")) {
 //				Toast.makeText(getActivity(), "Upload Successful",
 //						Toast.LENGTH_LONG).show();
 				bindDataToListview(parseData);
-			} else {
+			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
+				HoGoApplication.instace().setToken(getActivity(), null);
+				((MainActivity)getActivity()).gotologinScreen();
+			}else {
 //				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
 //						.show();
 			}

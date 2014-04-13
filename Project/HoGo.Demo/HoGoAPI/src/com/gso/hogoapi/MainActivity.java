@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -151,12 +152,13 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
+		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
 	}
 
 
     public void exitLogin() {
         mTopBar.setVisibility(View.VISIBLE);
-        mBottomBar.setVisibility(View.VISIBLE);
+//        mBottomBar.setVisibility(View.VISIBLE);
     }
     
     public void enterBookShelfScreen() {
@@ -185,6 +187,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		transaction.replace(R.id.content, fragement);
 		transaction.addToBackStack(null);
 		transaction.commit();
+		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
 	}
 	
 	@Override
@@ -232,6 +235,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		fragement.setArguments(bundle);
 		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
+		findViewById(R.id.top_bar).setVisibility(View.GONE);
 	}
 
 
@@ -240,6 +244,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		BookShelfFragment fragement = new BookShelfFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.replace(R.id.content, fragement).commit();
+		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
 	}
 
 
@@ -264,5 +269,14 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		findViewById(R.id.action_add).setVisibility(View.VISIBLE);
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode == event.KEYCODE_BACK){
+			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+			onBackPressed();
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 
 }
