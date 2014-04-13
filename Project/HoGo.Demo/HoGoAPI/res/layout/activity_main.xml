@@ -30,11 +30,13 @@
     </FrameLayout>
 
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/bottom_bar_divider" />
 
     <include
+        android:visibility="gone"
         android:id="@+id/bottom_bar"
         layout="@layout/bottom_bar" />
 

@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_8px"
-        android:background="@drawable/bg_button_green"
+        android:background="@drawable/bg_button"
         android:text="Send this document"
         android:textSize="18sp" />
 

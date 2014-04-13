@@ -1,69 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin" >
 
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/copy_right"
-               android:src="@drawable/hogo_logo"
-               android:layout_centerHorizontal="true"/>
+        android:id="@+id/img_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/hogo_logo" />
+
     <TextView
-            android:id="@+id/copy_right"
-            android:layout_marginBottom="@dimen/copy_right_margin_bottom"
-            android:textSize="12sp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="Copyright © 2013 HoGo, Inc. All Rights Reserved"
-              android:layout_centerHorizontal="true"
-              android:layout_above="@+id/login_form"
-            />
-    <LinearLayout
+        android:id="@+id/copy_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:text="Copyright © 2013 HoGo, Inc. All Rights Reserved"
+        android:textSize="12sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/copy_right"
+        android:layout_marginTop="10dp" >
+
+        <LinearLayout
             android:id="@+id/login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp" >
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/hello_world"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
-        <EditText
-                style="@style/TextBox"
+            <EditText
                 android:id="@+id/et_user_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_account"
-                android:layout_marginBottom="@dimen/margin_16px"
-                android:hint="Enter your e-mail address"/>
-
-        <EditText
                 style="@style/TextBox"
-                android:id="@+id/et_user_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_password"
                 android:layout_marginBottom="@dimen/margin_16px"
-                android:hint="Enter your password"/>
+                android:drawableLeft="@drawable/ic_account"
+                android:hint="Enter your e-mail address" />
 
-        <Button
-                style="@style/AppButton"
-                android:id="@+id/btnLogin"
+            <EditText
+                android:id="@+id/et_user_password"
+                style="@style/TextBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="LOG IN"/>
-    </LinearLayout>
+                android:layout_marginBottom="@dimen/margin_16px"
+                android:drawableLeft="@drawable/ic_password"
+                android:hint="Enter your password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="LOG IN" />
+        </LinearLayout>
+    </ScrollView>
 
     <ProgressBar
-            android:id="@+id/pr_bar_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"/>
+        android:id="@+id/pr_bar_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -42,8 +42,9 @@
 
             <ImageButton
                 android:id="@+id/btn_upload_file"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_button"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="20dp"
@@ -53,12 +54,13 @@
 
         <Button
             android:id="@+id/btn_upload_file_exe"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/rl_content1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:background="@drawable/bg_button"
             android:drawableLeft="@android:drawable/ic_menu_upload"
             android:text="Upload"
             android:visibility="visible" />

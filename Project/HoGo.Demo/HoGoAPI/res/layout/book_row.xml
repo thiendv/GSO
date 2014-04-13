@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="180dp"
     android:background="@drawable/ic_img_wooden_bookshelf_patch"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/book_item_padding"
@@ -17,7 +17,8 @@
         <ImageView
             android:id="@+id/book_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -26,12 +27,14 @@
             android:layout_margin="5dp"
             android:alpha="0.45"
             android:background="@drawable/white_container"
-            android:padding="5dp" >
+            android:gravity="center"
+            android:padding="0dp" >
 
             <CheckBox
                 android:id="@+id/cbx_item1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_centerInParent="true"
                 android:button="@drawable/bg_checkbox" />
         </RelativeLayout>
 
@@ -54,7 +57,8 @@
         <ImageView
             android:id="@+id/book_2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -63,12 +67,13 @@
             android:layout_margin="5dp"
             android:alpha="0.45"
             android:background="@drawable/white_container"
-            android:padding="5dp" >
+            android:padding="0dp" >
 
             <CheckBox
                 android:id="@+id/cbx_item2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_centerInParent="true"
                 android:button="@drawable/bg_checkbox" />
         </RelativeLayout>
 
@@ -92,7 +97,8 @@
         <ImageView
             android:id="@+id/book_3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -100,13 +106,15 @@
             android:layout_alignParentRight="true"
             android:layout_margin="5dp"
             android:alpha="0.45"
-            android:background="@drawable/white_container"
-            android:padding="5dp" >
+            android:background="@android:color/transparent"
+            android:padding="0dp" >
 
             <CheckBox
                 android:id="@+id/cbx_item3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/white_container"
                 android:button="@drawable/bg_checkbox" />
         </RelativeLayout>
 

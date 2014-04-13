@@ -8,6 +8,7 @@ public class APIType {
 	public static final String CHECK_ENCODE = "/v1/CheckEncodeStatus";
 	public static final String SEND = "/v1/CreatePackage";
 	public static final String GET_MY_DOCUMENT = "/v1/GetDocumentList";
+	public static final String SEND_PACKAGE_NOTE = "/v1/SendPackageNotice";
 
 	/**
 	 * @param args

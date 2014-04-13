@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.LoginData;
+import com.gso.hogoapi.model.PackageData;
 import com.gso.hogoapi.model.ResponseData;
 
 public class DataParser {
@@ -108,11 +109,18 @@ public class DataParser {
 
 	public ResponseData parseSendResponse(String input) {
 		// TODO Auto-generated method stub
+		input = input.replace("package_id ", "package_id");
 		ResponseData resData = new ResponseData();
 		try {
 			
 			JSONObject root = new JSONObject(input);
 			String status = root.optString("status");
+
+			PackageData item = new PackageData();
+			if(status.equals("OK")){
+				item.setId(root.optString("package_id"));	
+			}
+			resData.setData(item);
 			resData.setStatus(status);
 			
 
