@@ -1,5 +1,6 @@
 package com.gso.hogoapi.fragement;
 
+import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,8 +103,8 @@ public class LoginFragment extends Fragment implements IServiceListener {
 
 	private void exeLogin() {
 		// TODO Auto-generated method stub
-		mUserName = "lxanh@tma.com.vn";
-		mPassword = "e10adc3949ba59abbe56e057f20f883e";
+		mUserName = mEtUsername.getText().toString();//"lxanh@tma.com.vn"
+		mPassword = ""+md5(mEtUserpassword.getText().toString());//"e10adc3949ba59abbe56e057f20f883e"
 		Service service = new Service(this);
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("EmailAddress", mUserName);
@@ -145,6 +146,21 @@ public class LoginFragment extends Fragment implements IServiceListener {
 
 	private void setProgressVisibility(boolean isShow) {
 		mPrBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
+	}
+	
+	public static final String md5(final String toEncrypt) {
+	    try {
+	        final MessageDigest digest = MessageDigest.getInstance("md5");
+	        digest.update(toEncrypt.getBytes());
+	        final byte[] bytes = digest.digest();
+	        final StringBuilder sb = new StringBuilder();
+	        for (int i = 0; i < bytes.length; i++) {
+	            sb.append(String.format("%02X", bytes[i]));
+	        }
+	        return sb.toString().toLowerCase();
+	    } catch (Exception exc) {
+	        return ""; // Impossibru!
+	    }
 	}
 
 }
