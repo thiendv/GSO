@@ -274,7 +274,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		// TODO Auto-generated method stub
 		if(keyCode == event.KEYCODE_BACK){
 			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-			onBackPressed();
+//			onBackPressed();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
