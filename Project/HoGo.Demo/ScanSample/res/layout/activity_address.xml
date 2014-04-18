@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="900px"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/transparent">
+
+    <RelativeLayout
+        android:layout_width="900px"
+        android:layout_height="480px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20px"
+        android:background="@drawable/destination_background_in" >
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="150px"
+            android:layout_height="45px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="35px"
+            android:layout_marginTop="33px"
+            android:layout_marginBottom="33px"
+            android:textColor="@color/dimgray"
+            android:textSize="16px"
+            android:text="@string/txid_cmn_b_cancel" />
+
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="4px"
+            android:layout_marginTop="33px"
+            android:text="@string/txid_addressbook_t_title"
+            android:textColor="@color/dimgray"
+            android:textSize="26px" />
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="150px"
+            android:layout_height="45px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="35px"
+            android:layout_marginTop="33px"
+            android:textColor="@color/dimgray"
+            android:textSize="16px"
+            android:text="@string/txid_cmn_b_ok" />
+
+        <RelativeLayout
+            android:layout_width="850px"
+            android:layout_height="390px"
+            android:layout_below="@+id/textView_title"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/content_background" >
+
+            <RelativeLayout
+                android:id="@+id/layout_tagbutton_area"
+                android:layout_width="wrap_content"
+                android:layout_height="30px"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10px"
+                android:gravity="center" >
+
+                <ViewFlipper
+                    android:id="@+id/flipper_tag_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30px"
+                    android:layout_marginLeft="35px"
+                    android:gravity="center" >
+
+                    <include
+                        android:id="@+id/tag_group_1"
+                        layout="@layout/view_address_tag_10buttons" />
+                    <include
+                        android:id="@+id/tag_group_2"
+                        layout="@layout/view_address_tag_10buttons" />
+                    <include
+                        android:id="@+id/tag_group_3"
+                        layout="@layout/view_address_tag_5buttons" />
+
+                </ViewFlipper>
+
+                <Button
+                    android:id="@+id/button_change_tag_group"
+                    android:layout_width="120px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20px"
+                    android:gravity="center"
+                    android:textSize="18px"
+                    android:background="@drawable/selector_button_address_tag"
+                    android:text="@string/txid_addressbook_b_switch_title" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_progress"
+                android:layout_width="780px"
+                android:layout_height="300px"
+                android:layout_below="@+id/layout_tagbutton_area"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15px"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:visibility="gone" >
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_entry_view"
+                android:layout_width="780px"
+                android:layout_height="300px"
+                android:layout_below="@+id/layout_tagbutton_area"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15px"
+                android:background="@color/transparent" >
+
+                <ListView
+                    android:id="@+id/listview_address_entry"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:choiceMode="singleChoice" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment implements IServiceListener {
 							Toast.LENGTH_LONG).show();
 					HoGoApplication.instace().setToken(getActivity() ,parseData.getToken());
                     MainActivity activity = (MainActivity) getActivity();
-                    activity.gotoMainScreen();
+                    activity.gotoScanScreen();
                     activity.exitLogin();
 				} else {
 					Toast.makeText(getActivity(), "Login Fail",

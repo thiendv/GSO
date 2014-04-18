@@ -7,8 +7,9 @@ import com.gso.serviceapilib.ServiceAction;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import jp.co.ricoh.ssdk.sample.app.scan.application.ScanSampleApplication;
 
-public class HoGoApplication extends Application {
+public class HoGoApplication extends ScanSampleApplication {
 
 	private static final String PREFS_NAME = "user_data";
 

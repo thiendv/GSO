@@ -1,10 +1,11 @@
 package com.gso.hogoapi;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -27,8 +28,12 @@ import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.SendData;
 import com.gso.hogoapi.views.RadioGroupController;
 import com.gso.hogoapi.views.TabButton;
+import jp.co.ricoh.ssdk.sample.app.scan.activity.ScanActivity;
+import jp.co.ricoh.ssdk.sample.app.scan.activity.ScanFragment;
+import jp.co.ricoh.ssdk.sample.app.scan.application.ScanSampleApplication;
+import jp.co.ricoh.ssdk.sample.function.scan.ScanPDF;
 
-public class MainActivity extends FragmentActivity implements RadioGroupController.OnCheckedChangeListener, OnClickListener{
+public class MainActivity extends ScanActivity implements RadioGroupController.OnCheckedChangeListener, OnClickListener{
 
 	private ProgressBar mPrBar;
 	private FrameLayout mContent;
@@ -40,7 +45,9 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 
 	
 	public static List<FileData> fileDataList = new ArrayList<FileData>();
-	@Override
+    private ScanPDF mScanPDF;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -102,7 +109,7 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 //			FragmentTransaction transaction = mFramentManager
 //					.beginTransaction();
 //			transaction.add(R.id.content, loginFragment).commit();
-            gotoMainScreen();
+            gotoScanScreen();
 
 		} else {
             mTopBar.setVisibility(View.GONE);
@@ -279,4 +286,39 @@ public class MainActivity extends FragmentActivity implements RadioGroupControll
 		return super.onKeyDown(keyCode, event);
 	}
 
+    public void gotoScanScreen() {
+        ScanFragment fragement = new ScanFragment();
+        FragmentTransaction transaction = mFramentManager.beginTransaction();
+        transaction.replace(R.id.content, fragement).commit();
+        findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onJobCompleted() {
+        super.onJobCompleted();
+        mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
+
+        /** Continue by change to send screen.
+         * After user click send. You can get inputStream by call ((MainActivity)getActivity).getPDFInputStream().
+         * */
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                // How to get file's path.
+                final String filePath = mScanPDF.getImageFilePath();
+
+                // How to get inputStream.
+                mScanPDF.getImageInputStream();
+                return null;
+            }
+        }.execute();
+    }
+
+    /**
+     * NOTE: this method should be called in worker thread.
+     * @return Return the scanned pdf by input stream.
+     */
+    public InputStream getPDFInputStream() {
+        return mScanPDF.getImageInputStream();
+    }
 }
