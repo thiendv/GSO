@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.http.entity.mime.content.FileBody;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.gso.hogoapi.APIType;
@@ -35,6 +37,7 @@ import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
 import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
+import com.squareup.picasso.Picasso;
 
 public class UploadFileFragment extends Fragment implements OnClickListener,
 		IServiceListener {
@@ -51,6 +54,7 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 
 	private File mFilePath;
 	private EditText mEtFilePath;
+	private String mPath;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,11 +70,25 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 				.findViewById(R.id.btn_check_encode_statsu);
 		mEtFilePath = (EditText) v.findViewById(R.id.et_file_path);
 
+		Bundle bundle = getArguments();
+		mPath = bundle.getString("path");
+		mEtFilePath.setText(""+mPath);
+		
+		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
+		Picasso.with(getActivity()).load(new File(mPath)).into(imgPreview);
+		
 		btnUpload.setOnClickListener(this);
 		btnEncode.setOnClickListener(this);
 		btnCheckEncode.setOnClickListener(this);
 		btnUploadExe.setOnClickListener(this);
 		return v;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+
 	}
 
 	private void loadFileList() {

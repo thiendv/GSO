@@ -35,35 +35,58 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/btn_upload_file"
+                android:layout_toLeftOf="@+id/btn_upload_file_exe"
                 android:ellipsize="start"
                 android:hint="Choose file to upload..."
                 android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btn_upload_file_exe"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_button"
+                android:drawableLeft="@android:drawable/ic_menu_upload"
+                android:text="Upload"
+                android:visibility="visible" />
 
             <ImageButton
                 android:id="@+id/btn_upload_file"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_button"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_button"
                 android:src="@android:drawable/ic_menu_add"
-                android:text="" />
+                android:text=""
+                android:visibility="gone" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_upload_file_exe"
-            android:layout_width="100dp"
+        <TextView
+            android:id="@+id/txt_preview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/rl_content1"
-            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_button"
-            android:drawableLeft="@android:drawable/ic_menu_upload"
-            android:text="Upload"
-            android:visibility="visible" />
+            android:layout_below="@+id/rl_content1"
+            android:text="PREVIEW" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txt_preview"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border"
+            android:padding="1dp" >
+
+            <ImageView
+                android:id="@+id/img_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
     </RelativeLayout>
 
     <Button

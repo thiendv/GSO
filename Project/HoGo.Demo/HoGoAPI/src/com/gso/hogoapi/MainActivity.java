@@ -1,23 +1,44 @@
 package com.gso.hogoapi;
 
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.co.ricoh.ssdk.sample.app.scan.activity.ScanActivity;
+import jp.co.ricoh.ssdk.sample.app.scan.application.ScanSampleApplication;
+import jp.co.ricoh.ssdk.sample.function.scan.ScanPDF;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.ProtocolException;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.gso.hogoapi.fragement.AddFileSuccessfulFragment;
+import com.gso.hogoapi.fragement.AppScanFragment;
 import com.gso.hogoapi.fragement.BookShelfFragment;
 import com.gso.hogoapi.fragement.EncodeFileFragment;
 import com.gso.hogoapi.fragement.LoginFragment;
@@ -28,13 +49,10 @@ import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.SendData;
 import com.gso.hogoapi.views.RadioGroupController;
 import com.gso.hogoapi.views.TabButton;
-import jp.co.ricoh.ssdk.sample.app.scan.activity.ScanActivity;
-import jp.co.ricoh.ssdk.sample.app.scan.activity.ScanFragment;
-import jp.co.ricoh.ssdk.sample.app.scan.application.ScanSampleApplication;
-import jp.co.ricoh.ssdk.sample.function.scan.ScanPDF;
 
 public class MainActivity extends ScanActivity implements RadioGroupController.OnCheckedChangeListener, OnClickListener{
 
+	protected static final String TAG = MainActivity.class.getSimpleName();
 	private ProgressBar mPrBar;
 	private FrameLayout mContent;
     private View mTopBar;
@@ -138,6 +156,17 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 
 	}
 
+	public void gotoUpdateScreen(String path) {
+		UploadFileFragment fragement = new UploadFileFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		Bundle bundle = new Bundle();
+		bundle.putString("path", path);
+		fragement.setArguments(bundle);
+		transaction.addToBackStack(null);
+		transaction.replace(R.id.content, fragement).commit();
+
+	}
+
 	public void setProgressVisibility(boolean isShow) {
 		mPrBar.setVisibility(isShow ? View.VISIBLE : View.GONE);
 	}
@@ -223,6 +252,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 				items.add(item);
 			}
 		}
+		FileData item = new FileData();
 		if(items.size() > 0){
 			sendData.setDataList(items);
 			gotoSendDocumentScreen(sendData);
@@ -287,7 +317,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 	}
 
     public void gotoScanScreen() {
-        ScanFragment fragement = new ScanFragment();
+    	AppScanFragment fragement = new AppScanFragment();
         FragmentTransaction transaction = mFramentManager.beginTransaction();
         transaction.replace(R.id.content, fragement).commit();
         findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
@@ -297,21 +327,113 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
     public void onJobCompleted() {
         super.onJobCompleted();
         mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
-
         /** Continue by change to send screen.
          * After user click send. You can get inputStream by call ((MainActivity)getActivity).getPDFInputStream().
          * */
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, String>() {
             @Override
-            protected Void doInBackground(Void... params) {
-                // How to get file's path.
-                final String filePath = mScanPDF.getImageFilePath();
-
+            protected String doInBackground(Void... params) {
                 // How to get inputStream.
-                mScanPDF.getImageInputStream();
+            	final String localPath = MainActivity.this.getFilesDir() + "/temp.jpg";
+            	final String pdfPath = MainActivity.this.getFilesDir() + "/temp.pdf";
+            	InputStream in = null;
+				try {
+					Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
+					write(mScanPDF.getImageInputStream(), localPath);
+					in = convert2PDF(localPath);
+					if (in != null) {
+						write(in, pdfPath);
+						Log.d(TAG, "ConvertPDFSucceed!");
+						return pdfPath;
+					}
+					return localPath;
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
                 return null;
             }
+            
+            @Override
+            protected void onPostExecute(String result) {
+            	super.onPostExecute(result);
+            	if (result != null) {
+            		FileData item = new FileData();
+            		item.setCoverImageUrl(result);
+            		gotoUpdateScreen(result);
+            	}
+            }
         }.execute();
+        
+    }
+    
+    private static InputStream convert2PDF(String filePath) {
+        HttpURLConnection conn = null;
+        try {
+            URL url = new URL("http://do.convertapi.com/Image2Pdf");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
+            conn.setRequestProperty("Content-Type", "multipart/form-data");
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setUseCaches(true);
+
+            // Write post data
+            conn.setDoOutput(true);
+            OutputStream out = conn.getOutputStream();
+            MultipartEntity requestData = new MultipartEntity();
+            requestData.addPart("ApiKey", new StringBody("260387366"));
+            requestData.addPart("file", new FileBody(new File(filePath), "pdf"));
+            requestData.writeTo(out);
+            out.close();
+            InputStream is = null;
+            if (conn.getResponseCode() >= 400) {
+                is = conn.getErrorStream();
+            } else {
+                is = conn.getInputStream();
+            }
+
+            if (is == null) {
+                return null;
+            }
+
+            return is;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+    
+    
+    public static void write(InputStream inStream, String output)
+            throws IOException {
+        final File outputFile = new File(output);
+        final File parent = outputFile.getParentFile();
+        if (!parent.exists()) {
+            parent.mkdirs();
+        }
+        FileOutputStream outStream = new FileOutputStream(outputFile);
+        byte[] buf = new byte[1024];
+        int l;
+        while ((l = inStream.read(buf)) >= 0) {
+            outStream.write(buf, 0, l);
+        }
+        inStream.close();
+        outStream.flush();
+        outStream.close();
     }
 
     /**
