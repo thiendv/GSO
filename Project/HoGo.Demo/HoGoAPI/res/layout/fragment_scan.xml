@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/main_layout"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="22px"
+        android:layout_marginTop="89px"
+        android:text="@string/txid_cmn_t_title"
+        android:textColor="@color/gray"
+        android:textSize="32px"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="870px"
+        android:layout_height="270px"
+        android:layout_below="@+id/txt_title"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/destination_background_in"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_color"
+                android:layout_width="180px"
+                android:layout_height="60px"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="60px"
+                android:layout_marginLeft="50px"
+                android:textColor="@color/black"
+                android:textSize="16px" />
+
+            <Button
+                android:id="@+id/btn_file"
+                android:layout_width="180px"
+                android:layout_height="60px"
+                android:layout_alignTop="@+id/btn_color"
+                android:layout_marginLeft="21px"
+                android:layout_toRightOf="@+id/btn_color"
+                android:textColor="@color/black"
+                android:textSize="16px" />
+
+            <Button
+                android:id="@+id/btn_side"
+                android:layout_width="180px"
+                android:layout_height="60px"
+                android:layout_alignTop="@+id/btn_file"
+                android:layout_marginLeft="21px"
+                android:layout_toRightOf="@+id/btn_file"
+                android:textColor="@color/black"
+                android:textSize="16px" />
+
+            <Button
+                android:id="@+id/btn_destination"
+                android:layout_width="150px"
+                android:layout_height="70px"
+                android:layout_above="@+id/btn_color"
+                android:layout_alignLeft="@+id/btn_color"
+                android:layout_marginBottom="33px"
+                android:text="Destination"
+                android:textSize="20px" />
+
+            <LinearLayout
+                android:id="@+id/view_destination"
+                android:layout_width="440px"
+                android:layout_height="70px"
+                android:layout_alignLeft="@+id/btn_color"
+                android:layout_alignTop="@+id/btn_destination"
+                android:layout_marginLeft="145px"
+                android:background="@android:drawable/editbox_background"
+                android:gravity="center_vertical" >
+
+                <ImageView
+                    android:id="@+id/img_dest_icon"
+                    android:layout_width="50px"
+                    android:layout_height="20px" />
+
+                <TextView
+                    android:id="@+id/text_dest_title"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:scrollHorizontally="true"
+                    android:textSize="20px"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/btn_side"
+                android:layout_below="@+id/btn_side"
+                android:layout_marginTop="10px"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="20px"
+                    android:layout_height="20px"
+                    android:background="@android:drawable/ic_media_play" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txid_scan_t_top_other_title"
+                    android:textColor="@color/dimgray"
+                    android:textSize="20px" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="230px"
+            android:layout_height="fill_parent" >
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/hogo_logo" />
+
+    <TextView
+        android:id="@+id/text_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_logo"
+        android:layout_centerHorizontal="true"
+        android:text="Start to scan your document"
+        android:layout_margin="10dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF" />
+
+    <RelativeLayout
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_scan">
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_scan" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_info_details" />
+
+        <TextView
+            android:id="@+id/text_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/txid_scan_t_state_please_wait"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+</RelativeLayout>

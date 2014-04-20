@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import jp.co.ricoh.ssdk.sample.app.scan.R;
 import jp.co.ricoh.ssdk.sample.app.scan.activity.MainActivity;
 import jp.co.ricoh.ssdk.sample.app.scan.activity.PreviewActivity;
@@ -33,18 +32,19 @@ import jp.co.ricoh.ssdk.sample.function.scan.attribute.ScanJobAttributeSet;
 import jp.co.ricoh.ssdk.sample.function.scan.attribute.ScanRequestAttributeSet;
 import jp.co.ricoh.ssdk.sample.function.scan.attribute.ScanResponseException;
 import jp.co.ricoh.ssdk.sample.function.scan.attribute.standard.*;
+import jp.co.ricoh.ssdk.sample.function.scan.attribute.standard.FileSetting.FileFormat;
 
 import java.util.Map;
 
 /**
- * スキャンサンプルアプリのステートマシン
- * [処理内容]
- * ジョブのハンドリングを行います。
- * また、起動時及びジョブ発行後の以下のダイアログの生成・表示・破棄はすべてこのステートマシンを通して実行します。
- *   ・お待ち下さいダイアログ
- *   ・スキャン中ダイアログ
- *   ・次原稿待ちダイアログ
- *   ・プレビュー画面
+ * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ³ãƒ—ãƒ«ã‚¢ãƒ—ãƒªã�®ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³
+ * [å‡¦ç�†å†…å®¹]
+ * ã‚¸ãƒ§ãƒ–ã�®ãƒ�ãƒ³ãƒ‰ãƒªãƒ³ã‚°ã‚’è¡Œã�„ã�¾ã�™ã€‚
+ * ã�¾ã�Ÿã€�èµ·å‹•æ™‚å�Šã�³ã‚¸ãƒ§ãƒ–ç™ºè¡Œå¾Œã�®ä»¥ä¸‹ã�®ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®ç”Ÿæˆ�ãƒ»è¡¨ç¤ºãƒ»ç ´æ£„ã�¯ã�™ã�¹ã�¦ã�“ã�®ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³ã‚’é€šã�—ã�¦å®Ÿè¡Œã�—ã�¾ã�™ã€‚
+ *   ãƒ»ã�Šå¾…ã�¡ä¸‹ã�•ã�„ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ *   ãƒ»ã‚¹ã‚­ãƒ£ãƒ³ä¸­ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ *   ãƒ»æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ *   ãƒ»ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”»é�¢
  *
  * State machine of scan sample application.
  * Handles the Scan job.
@@ -58,55 +58,55 @@ public class ScanStateMachine {
     private static String TAG = "ScanStateMachine";
 
     /**
-     * デフォルトのダイアログの横幅
+     * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã�®ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®æ¨ªå¹…
      * Default dialog width
      */
     private static final int DEFAULT_DIALOG_WIDTH = 400;
 
     /**
-     * メインアクティビティへの参照
+     * ãƒ¡ã‚¤ãƒ³ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�¸ã�®å�‚ç…§
      * Reference to Main activity
      */
     private static Activity mActivity;
 
     /**
-     * お待ちくださいダイアログ
+     * ã�Šå¾…ã�¡ã��ã� ã�•ã�„ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
      * "Please wait" dialog
      */
     private ProgressDialog mPleaseWaitDialog;
 
     /**
-     * 初期化失敗ダイアログ
+     * åˆ�æœŸåŒ–å¤±æ•—ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
      * Boot failed dialog
      */
     private AlertDialog mBootFailedDialog;
 
     /**
-     * スキャン中ダイアログ
+     * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
      * Scanning dialog
      */
     protected ProgressDialog mScanningDialog;
 
     /**
-     * カウントダウンあり次原稿待ちダイアログ
+     * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�‚ã‚Šæ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
      * "Set next original" dialog : with count down
      */
     protected Dialog mCountDownDialog;
 
     /**
-     * カウントダウンなし次原稿待ちダイアログ
+     * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�ªã�—æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
      * "Set next original" dialog: without count down
      */
     protected Dialog mNoCountDownDialog;
 
     /**
-     * スキャンサンプルアプリケーション
+     * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ³ãƒ—ãƒ«ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
      * Scan sample application object
      */
     private static ScanSampleApplication mApplication;
 
     /**
-     * UIスレッドのハンドラー
+     * UIã‚¹ãƒ¬ãƒƒãƒ‰ã�®ãƒ�ãƒ³ãƒ‰ãƒ©ãƒ¼
      * UI thread handler
      */
     private Handler mHandler;
@@ -117,7 +117,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * メインアクティビティを登録します。
+     * ãƒ¡ã‚¤ãƒ³ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã‚’ç™»éŒ²ã�—ã�¾ã�™ã€‚
      * Registers the MainActivity.
      *
      * @param act MainActivity
@@ -127,130 +127,130 @@ public class ScanStateMachine {
     }
 
     /**
-     * 状態遷移イベント
+     * çŠ¶æ…‹é�·ç§»ã‚¤ãƒ™ãƒ³ãƒˆ
      * State transition event
      */
     public enum ScanEvent {
 
         /**
-         * ジョブ状態がPENDING（ジョブ実行前）に遷移したことを示すイベント
+         * ã‚¸ãƒ§ãƒ–çŠ¶æ…‹ã�ŒPENDINGï¼ˆã‚¸ãƒ§ãƒ–å®Ÿè¡Œå‰�ï¼‰ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to PENDING (before the job starts)
          */
         CHANGE_JOB_STATE_PENDING,
 
         /**
-         * ジョブ状態がPROCESSING（ジョブ実行中）に遷移したことを示すイベント
+         * ã‚¸ãƒ§ãƒ–çŠ¶æ…‹ã�ŒPROCESSINGï¼ˆã‚¸ãƒ§ãƒ–å®Ÿè¡Œä¸­ï¼‰ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to PROCESSING (the job is processing)
          */
         CHANGE_JOB_STATE_PROCESSING,
 
         /**
-         * ジョブ状態がABORTED（システム側で読取中止）に遷移したことを示すイベント
+         * ã‚¸ãƒ§ãƒ–çŠ¶æ…‹ã�ŒABORTEDï¼ˆã‚·ã‚¹ãƒ†ãƒ å�´ã�§èª­å�–ä¸­æ­¢ï¼‰ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to ABORTED (the job is aborted by system)
          */
         CHANGE_JOB_STATE_ABORTED,
 
         /**
-         * ジョブ状態がCANCELED（ユーザー操作で読取中止）に遷移したことを示すイベント
+         * ã‚¸ãƒ§ãƒ–çŠ¶æ…‹ã�ŒCANCELEDï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¼æ“�ä½œã�§èª­å�–ä¸­æ­¢ï¼‰ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to CANCELED (the job is canceled by user)
          */
         CHANGE_JOB_STATE_CANCELED,
 
         /**
-         * 送信前プレビュー状態に遷移したことを示すイベント
+         * é€�ä¿¡å‰�ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼çŠ¶æ…‹ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to the preview state before the data is sent
          */
         CHANGE_JOB_STATE_STOPPED_PREVIEW,
 
         /**
-         * 一時停止中のカウントダウン状態に遷移したことを示すイベント
+         * ä¸€æ™‚å�œæ­¢ä¸­ã�®ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³çŠ¶æ…‹ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to the countdown state for pausing
          */
         CHANGE_JOB_STATE_STOPPED_COUNTDOWN,
 
         /**
-         * ジョブ状態がCOMPLETED（ジョブ正常終了）に遷移したことを示すイベント
+         * ã‚¸ãƒ§ãƒ–çŠ¶æ…‹ã�ŒCOMPLETEDï¼ˆã‚¸ãƒ§ãƒ–æ­£å¸¸çµ‚äº†ï¼‰ã�«é�·ç§»ã�—ã�Ÿã�“ã�¨ã‚’ç¤ºã�™ã‚¤ãƒ™ãƒ³ãƒˆ
          * The event to indicate that the job state has changed to COMPLETED (the job ended successfully)
          */
         CHANGE_JOB_STATE_COMPLETED,
 
 
         /**
-         * ジョブ実行のリクエストイベント
+         * ã‚¸ãƒ§ãƒ–å®Ÿè¡Œã�®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
          * Job start request event
          */
         REQUEST_JOB_START,
 
         /**
-         * ジョブキャンセルのリクエストイベント
+         * ã‚¸ãƒ§ãƒ–ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
          * Job cancel request event
          */
         REQUEST_JOB_CANCEL,
 
         /**
-         * ジョブ続行のリクエストイベント
+         * ã‚¸ãƒ§ãƒ–ç¶šè¡Œã�®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
          * Job continue request event
          */
         REQUEST_JOB_CONTINUE,
 
         /**
-         * ジョブ終了のリクエストイベント
+         * ã‚¸ãƒ§ãƒ–çµ‚äº†ã�®ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚¤ãƒ™ãƒ³ãƒˆ
          * Job end request event
          */
         REQUEST_JOB_END,
 
 
         /**
-         * スキャン実行中の情報変更イベント
+         * ã‚¹ã‚­ãƒ£ãƒ³å®Ÿè¡Œä¸­ã�®æƒ…å ±å¤‰æ›´ã‚¤ãƒ™ãƒ³ãƒˆ
          * Information change event for scan job in process
          */
         UPDATE_JOB_STATE_PROCESSING,
 
         /**
-         * アクティビティ生成イベント
+         * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ç”Ÿæˆ�ã‚¤ãƒ™ãƒ³ãƒˆ
          * MainActivity created event
          */
         ACTIVITY_CREATED,
 
         /**
-         * アクティビティ終了イベント
+         * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£çµ‚äº†ã‚¤ãƒ™ãƒ³ãƒˆ
          * MainActivity destroyed event
          */
         ACTIVITY_DESTROYED,
 
 
         /**
-         * 初期化完了イベント
+         * åˆ�æœŸåŒ–å®Œäº†ã‚¤ãƒ™ãƒ³ãƒˆ
          * Initialization completed event
          */
         ACTIVITY_BOOT_COMPLETED,
 
         /**
-         * 初期化失敗イベント
+         * åˆ�æœŸåŒ–å¤±æ•—ã‚¤ãƒ™ãƒ³ãƒˆ
          * Initialization failed event
          */
         ACTIVITY_BOOT_FAILED,
 
         /**
-         * ジョブリセット完了イベント
+         * ã‚¸ãƒ§ãƒ–ãƒªã‚»ãƒƒãƒˆå®Œäº†ã‚¤ãƒ™ãƒ³ãƒˆ
          * Job reset completed event
          */
         REBOOT_COMPLETED,
     }
 
     /**
-     * ステートマシンの初期状態
+     * ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³ã�®åˆ�æœŸçŠ¶æ…‹
      * Statemachine initial state
      */
     private State mState = State.INITIAL;
 
     /**
-     * 状態定義
+     * çŠ¶æ…‹å®šç¾©
      * State definition
      */
     public enum State {
         /**
-         * 初期状態
+         * åˆ�æœŸçŠ¶æ…‹
          * Initial state
          */
         INITIAL {
@@ -273,7 +273,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ生成後のジョブ開始前状態
+         * ã‚¸ãƒ§ãƒ–ç”Ÿæˆ�å¾Œã�®ã‚¸ãƒ§ãƒ–é–‹å§‹å‰�çŠ¶æ…‹
          * The state before the job is started after the job has been created
          */
         IDLE {
@@ -290,7 +290,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ開始待ち状態
+         * ã‚¸ãƒ§ãƒ–é–‹å§‹å¾…ã�¡çŠ¶æ…‹
          * Job start waiting state
          */
         WAITING_JOB_START {
@@ -324,7 +324,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ開始後の実行前状態
+         * ã‚¸ãƒ§ãƒ–é–‹å§‹å¾Œã�®å®Ÿè¡Œå‰�çŠ¶æ…‹
          * The state before the job is started after the job has been started
          */
         JOB_PENDING {
@@ -349,7 +349,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ実行中
+         * ã‚¸ãƒ§ãƒ–å®Ÿè¡Œä¸­
          * Job processing
          */
         JOB_PROCESSING {
@@ -384,7 +384,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * システム側によりジョブキャンセル
+         * ã‚·ã‚¹ãƒ†ãƒ å�´ã�«ã‚ˆã‚Šã‚¸ãƒ§ãƒ–ã‚­ãƒ£ãƒ³ã‚»ãƒ«
          * Job cancelling by system
          */
         JOB_ABORTED {
@@ -422,7 +422,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブキャンセル中
+         * ã‚¸ãƒ§ãƒ–ã‚­ãƒ£ãƒ³ã‚»ãƒ«ä¸­
          * Job cancelling
          */
         JOB_CANCELED {
@@ -446,7 +446,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ一時停止中(次原稿待ちダイアログ表示)
+         * ã‚¸ãƒ§ãƒ–ä¸€æ™‚å�œæ­¢ä¸­(æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°è¡¨ç¤º)
          * Job pausing (display "set next original" dialog)
          */
         JOB_STOPPED_COUNTDOWN {
@@ -485,7 +485,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ一時停止中（プレビュー表示）
+         * ã‚¸ãƒ§ãƒ–ä¸€æ™‚å�œæ­¢ä¸­ï¼ˆãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºï¼‰
          * Job pausing (display preview)
          */
         JOB_STOPPED_PREVIEW {
@@ -519,7 +519,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ再開待ち
+         * ã‚¸ãƒ§ãƒ–å†�é–‹å¾…ã�¡
          * Job waiting to be resumed
          */
         WAITING_JOB_CONTINUE {
@@ -549,7 +549,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブキャンセル待ち
+         * ã‚¸ãƒ§ãƒ–ã‚­ãƒ£ãƒ³ã‚»ãƒ«å¾…ã�¡
          * Job waiting to be cancelled
          */
         WAITING_JOB_CANCEL {
@@ -576,7 +576,7 @@ public class ScanStateMachine {
             }
         },
         /**
-         * ジョブ終了待ち
+         * ã‚¸ãƒ§ãƒ–çµ‚äº†å¾…ã�¡
          * Job waiting to be finished
          */
         WAITING_JOB_END {
@@ -604,7 +604,7 @@ public class ScanStateMachine {
         },
 
         /**
-         * ジョブ正常終了
+         * ã‚¸ãƒ§ãƒ–æ­£å¸¸çµ‚äº†
          * Job completed successfully
          */
         JOB_COMPLETED {
@@ -635,8 +635,8 @@ public class ScanStateMachine {
 
 
         /**
-         * 次の状態を取得します。
-         * 各状態がオーバーライドします。
+         * æ¬¡ã�®çŠ¶æ…‹ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
+         * å�„çŠ¶æ…‹ã�Œã‚ªãƒ¼ãƒ�ãƒ¼ãƒ©ã‚¤ãƒ‰ã�—ã�¾ã�™ã€‚
          * Obtains the next state.
          * Each state should override this method.
          *
@@ -653,8 +653,8 @@ public class ScanStateMachine {
         }
 
         /**
-         * 状態に入るときに呼ばれるメソッドです。
-         * 各状態が必要に応じてオーバーライドします。
+         * çŠ¶æ…‹ã�«å…¥ã‚‹ã�¨ã��ã�«å‘¼ã�°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã�§ã�™ã€‚
+         * å�„çŠ¶æ…‹ã�Œå¿…è¦�ã�«å¿œã�˜ã�¦ã‚ªãƒ¼ãƒ�ãƒ¼ãƒ©ã‚¤ãƒ‰ã�—ã�¾ã�™ã€‚
          * This method is called when entering a state.
          * Each state should override this method if necessary.
          *
@@ -665,8 +665,8 @@ public class ScanStateMachine {
         }
 
         /**
-         * 状態から抜けるときに呼ばれるメソッドです。
-         * 各状態が必要に応じてオーバーライドします。
+         * çŠ¶æ…‹ã�‹ã‚‰æŠœã�‘ã‚‹ã�¨ã��ã�«å‘¼ã�°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã�§ã�™ã€‚
+         * å�„çŠ¶æ…‹ã�Œå¿…è¦�ã�«å¿œã�˜ã�¦ã‚ªãƒ¼ãƒ�ãƒ¼ãƒ©ã‚¤ãƒ‰ã�—ã�¾ã�™ã€‚
          * This method is called when exiting a state.
          * Each state should override this method if necessary.
          *
@@ -678,12 +678,12 @@ public class ScanStateMachine {
 
 
         // +++++++++++++++++++++++++++++++++++++++++
-        // アクション関数
+        // ã‚¢ã‚¯ã‚·ãƒ§ãƒ³é–¢æ•°
         // Action method
         // +++++++++++++++++++++++++++++++++++++++++
 
         /**
-         * PleaseWait画面の表示
+         * PleaseWaitç”»é�¢ã�®è¡¨ç¤º
          * Displays please wait dialog
          */
         protected void actShowPleaseWait(final ScanStateMachine sm, final Object prm) {
@@ -696,7 +696,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * PleaseWait画面の消去
+         * PleaseWaitç”»é�¢ã�®æ¶ˆåŽ»
          * Hides please wait dialog
          */
         protected void actClosePleaseWait(final ScanStateMachine sm, final Object prm) {
@@ -709,7 +709,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * 初期化失敗画面の表示
+         * åˆ�æœŸåŒ–å¤±æ•—ç”»é�¢ã�®è¡¨ç¤º
          * Displays boot failed dialog
          */
         protected void actShowBootFailedDialog(final ScanStateMachine sm, final Object prm) {
@@ -722,7 +722,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * スキャン中画面の表示
+         * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ç”»é�¢ã�®è¡¨ç¤º
          * Diaplays scanning dialog
          */
         protected void actShowScanningDialog(final ScanStateMachine sm, final Object prm) {
@@ -735,7 +735,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * スキャン中画面の消去
+         * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ç”»é�¢ã�®æ¶ˆåŽ»
          * Hides scanning dialog
          */
         protected void actCloseScanningDialog(final ScanStateMachine sm, final Object prm) {
@@ -748,7 +748,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * スキャン中画面の更新
+         * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ç”»é�¢ã�®æ›´æ–°
          * Updates scanning dialog
          */
         protected void actUpdateScanningDialog(final ScanStateMachine sm, final Object prm) {
@@ -763,7 +763,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * 次原稿待ちダイアログの表示
+         * æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®è¡¨ç¤º
          * Displays "set next original" dialog
          */
         protected void actWaitForNextOriginal(final ScanStateMachine sm, final Object prm) {
@@ -784,7 +784,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * 次原稿待ちダイアログの消去
+         * æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®æ¶ˆåŽ»
          * Hides "set next original" dialog
          */
         protected void actCloseWaitForNextOriginal(final ScanStateMachine sm, final Object prm) {
@@ -798,7 +798,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * プレビュー画面の表示
+         * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”»é�¢ã�®è¡¨ç¤º
          * Displays preview screen
          */
         protected void actShowPreview(final ScanStateMachine sm, final Object prm) {
@@ -811,7 +811,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * プレビュー画面の消去
+         * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”»é�¢ã�®æ¶ˆåŽ»
          * Hides preview screen
          */
         protected void actClosePreview(final ScanStateMachine sm, final Object prm) {
@@ -824,7 +824,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * Toastメッセージ表示
+         * Toastãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤º
          * Displays toast message
          */
         protected void actShowToastMessage(final ScanStateMachine sm, final Object prm) {
@@ -837,7 +837,7 @@ public class ScanStateMachine {
         }
 
         /**
-         * スキャンジョブの初期化
+         * ã‚¹ã‚­ãƒ£ãƒ³ã‚¸ãƒ§ãƒ–ã�®åˆ�æœŸåŒ–
          * Initializes scan job
          */
         protected void actInitJobSetting(final ScanStateMachine sm, final Object prm) {
@@ -858,7 +858,7 @@ public class ScanStateMachine {
 
 
     /**
-     * 状態遷移を行います。
+     * çŠ¶æ…‹é�·ç§»ã‚’è¡Œã�„ã�¾ã�™ã€‚
      * Changes states.
      *
      * @param event
@@ -868,7 +868,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * 状態遷移を行います。
+     * çŠ¶æ…‹é�·ç§»ã‚’è¡Œã�„ã�¾ã�™ã€‚
      * Changes states.
      *
      * @param event
@@ -891,12 +891,12 @@ public class ScanStateMachine {
     }
 
     /*=============================================================
-     * ステートマシンから呼ばれるpublicメソッド
+     * ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³ã�‹ã‚‰å‘¼ã�°ã‚Œã‚‹publicãƒ¡ã‚½ãƒƒãƒ‰
      * public methos called by statemachine
      *=============================================================*/
 
     /**
-     * ダイアログを指定された幅で表示します。
+     * ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’æŒ‡å®šã�•ã‚Œã�Ÿå¹…ã�§è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays the dialog in specified width.
      *
      * @param d dialog
@@ -910,7 +910,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * ダイアログをデフォルトサイズで表示します。
+     * ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚ºã�§è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays the dialog in default size.
      * @param d dialog
      */
@@ -919,7 +919,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * お待ち下さいダイアログを表示します。
+     * ã�Šå¾…ã�¡ä¸‹ã�•ã�„ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays please wait dialog.
      */
     public void showPleaseWaitDialog() {
@@ -930,7 +930,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * お待ち下さいダイアログを閉じます。
+     * ã�Šå¾…ã�¡ä¸‹ã�•ã�„ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‰ã�˜ã�¾ã�™ã€‚
      * Hides please wait dialog.
      */
     public void closePleaseWaitDialog() {
@@ -941,7 +941,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * 初期化失敗ダイアログを表示します。
+     * åˆ�æœŸåŒ–å¤±æ•—ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays boot failed dialog.
      */
     public void showBootFailedDialog() {
@@ -952,7 +952,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * スキャン中ダイアログを表示します。
+     * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays scanning dialog.
      */
     public void showScanningDialog() {
@@ -963,7 +963,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * スキャン中ダイアログを閉じます。
+     * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‰ã�˜ã�¾ã�™ã€‚
      * Hides scanning dialog.
      */
     public void closeScanningDialog() {
@@ -974,7 +974,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * カウントダウンあり次原稿待ちダイアログを表示します。
+     * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�‚ã‚Šæ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays "set next original" dialog (with count down)
      */
     public void showCountDownDialog() {
@@ -985,7 +985,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * カウントダウンあり次原稿待ちダイアログを閉じます。
+     * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�‚ã‚Šæ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‰ã�˜ã�¾ã�™ã€‚
      * Hides "set next original" dialog (with count down)
      */
     public void closeCountDownDialog() {
@@ -996,7 +996,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * カウントダウンなし次原稿待ちダイアログを表示します。
+     * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�ªã�—æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays "set next original" dialog (without count down)
      */
     public void showNoCountDownDialog() {
@@ -1007,7 +1007,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * カウントダウンなし次原稿待ちダイアログを閉じます。
+     * ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�ªã�—æ¬¡åŽŸç¨¿å¾…ã�¡ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’é–‰ã�˜ã�¾ã�™ã€‚
      * Hides "set next original" dialog (without count down)
      */
     public void closeNoCountDownDialog() {
@@ -1018,7 +1018,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * スキャンダイアログの表示を更新します。
+     * ã‚¹ã‚­ãƒ£ãƒ³ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®è¡¨ç¤ºã‚’æ›´æ–°ã�—ã�¾ã�™ã€‚
      * Updates scanning dialog.
      */
     public void updateScanDialogMessage(String message) {
@@ -1028,7 +1028,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * プレビュー画面に遷移します。
+     * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”»é�¢ã�«é�·ç§»ã�—ã�¾ã�™ã€‚
      * Changes to the preview screen.
      */
     public void showPreview() {
@@ -1037,7 +1037,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * プレビュー画面を消去します。
+     * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”»é�¢ã‚’æ¶ˆåŽ»ã�—ã�¾ã�™ã€‚
      * Hides preview screen
      */
     public void closePreview() {
@@ -1045,7 +1045,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * Toastメッセージを表示します。
+     * Toastãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã�—ã�¾ã�™ã€‚
      * Displays a toast message.
      */
     void showToastMessage(String message) {
@@ -1053,12 +1053,12 @@ public class ScanStateMachine {
     }
 
     /*=============================================================
-     * ダイアログ生成
+     * ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ç”Ÿæˆ�
      * Creates dialog
      *=============================================================*/
 
     /**
-     * しばらくお待ち下さいダイアログを生成します。
+     * ã�—ã�°ã‚‰ã��ã�Šå¾…ã�¡ä¸‹ã�•ã�„ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the "please wait" dialog.
      */
     private ProgressDialog createPleaseWaitDialog() {
@@ -1076,7 +1076,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * 初期化失敗ダイアログを生成します。
+     * åˆ�æœŸåŒ–å¤±æ•—ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the "boot failed" dialog.
      */
     private AlertDialog createBootFailedDialog() {
@@ -1095,7 +1095,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * スキャン中ダイアログを生成します。
+     * ã‚¹ã‚­ãƒ£ãƒ³ä¸­ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the scanning dialog.
      */
     private ProgressDialog createScanProgressDialog() {
@@ -1114,7 +1114,7 @@ public class ScanStateMachine {
     }
 
     /**
-     * 一時停止イベント中のカウントダウンダイアログを生成します。
+     * ä¸€æ™‚å�œæ­¢ã‚¤ãƒ™ãƒ³ãƒˆä¸­ã�®ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the "set next original" dialog (with countdown) for the pause event.
      */
    private Dialog createCountDownDialog() {
@@ -1171,7 +1171,7 @@ public class ScanStateMachine {
     }
 
    /**
-    * 一時停止イベント中のカウントダウンなしダイアログを生成します。
+    * ä¸€æ™‚å�œæ­¢ã‚¤ãƒ™ãƒ³ãƒˆä¸­ã�®ã‚«ã‚¦ãƒ³ãƒˆãƒ€ã‚¦ãƒ³ã�ªã�—ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
     * Creates "set next original" dialog (without countdown) for the pause event.
     */
   private Dialog createNoCountDownDialog() {
@@ -1204,13 +1204,13 @@ public class ScanStateMachine {
    }
 
    /*=============================================================
-    * スキャンジョブ操作の非同期タスク
+    * ã‚¹ã‚­ãƒ£ãƒ³ã‚¸ãƒ§ãƒ–æ“�ä½œã�®é�žå�ŒæœŸã‚¿ã‚¹ã‚¯
     * The asynchronous task to start the scan job.
     *=============================================================*/
 
    /**
-    * ScanResponseExceptionのエラー情報を文字列化します。
-    * フォーマットは以下の通りです。
+    * ScanResponseExceptionã�®ã‚¨ãƒ©ãƒ¼æƒ…å ±ã‚’æ–‡å­—åˆ—åŒ–ã�—ã�¾ã�™ã€‚
+    * ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã�¯ä»¥ä¸‹ã�®é€šã‚Šã�§ã�™ã€‚
     * Creates the string of the ScanResponseException error information.
     * The format is as below.
     *
@@ -1220,11 +1220,11 @@ public class ScanStateMachine {
     * message_id: message[separator]
     * message_id: message
     *
-    * @param e 文字列化対象のScanResponseException
+    * @param e æ–‡å­—åˆ—åŒ–å¯¾è±¡ã�®ScanResponseException
     *          ScanResponseException to be converted as a string
-    * @param base メッセージ先頭文字列
+    * @param base ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å…ˆé ­æ–‡å­—åˆ—
     *             Starting string of the message
-    * @return メッセージ文字列
+    * @return ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸æ–‡å­—åˆ—
     *         Message string
     */
    private String makeJobErrorResponceMessage(ScanResponseException e, String base) {
@@ -1252,7 +1252,7 @@ public class ScanStateMachine {
    }
 
    /**
-    * スキャンジョブを実行開始するための非同期タスクです。
+    * ã‚¹ã‚­ãƒ£ãƒ³ã‚¸ãƒ§ãƒ–ã‚’å®Ÿè¡Œé–‹å§‹ã�™ã‚‹ã�Ÿã‚�ã�®é�žå�ŒæœŸã‚¿ã‚¹ã‚¯ã�§ã�™ã€‚
     * The asynchronous task to start the scan job.
     */
    private class StartScanJobTask extends AsyncTask<Void, Void, Boolean> {
@@ -1276,9 +1276,9 @@ public class ScanStateMachine {
 //           DestinationSettingDataHolder destSetDataHolder = mApplication.getDestinationSettingDataHolder();
 
            Log.d(TAG, "before request...");
-           Log.d(TAG, "getSelectedColorValue: " + scanSetDataHolder.getSelectedColorValue());
-           Log.d(TAG, "getSelectedSideValue: " + scanSetDataHolder.getSelectedSideValue());
-           Log.d(TAG, "getSelectedPreviewValue: " + scanSetDataHolder.getSelectedPreviewValue());
+           Log.d(TAG, "getSelectedColorValue: " + ScanColor.AUTO_COLOR);
+           Log.d(TAG, "getSelectedSideValue: " + OriginalSide.ONE_SIDE);
+           Log.d(TAG, "getSelectedPreviewValue: " + OriginalPreview.OFF);
            Log.d(TAG, "getSelectedFileFormatValue: " + scanSetDataHolder.getSelectedFileFormatValue());
            Log.d(TAG, "getSelectedMultiPageValue: " + scanSetDataHolder.getSelectedMultiPageValue());
 
@@ -1287,13 +1287,13 @@ public class ScanStateMachine {
            requestAttributes = new HashScanRequestAttributeSet();
            requestAttributes.add(AutoCorrectJobSetting.AUTO_CORRECT_ON);
            requestAttributes.add(JobMode.SCAN_AND_STORE_TEMPORARY);
-           requestAttributes.add(scanSetDataHolder.getSelectedColorValue());
-           requestAttributes.add(scanSetDataHolder.getSelectedSideValue());
+           requestAttributes.add(ScanColor.AUTO_COLOR);
+           requestAttributes.add(OriginalSide.ONE_SIDE);
            requestAttributes.add(OriginalPreview.OFF);
 
            FileSetting fileSetting = new FileSetting();
-           fileSetting.setFileFormat(scanSetDataHolder.getSelectedFileFormatValue());
-           fileSetting.setMultiPageFormat(scanSetDataHolder.getSelectedMultiPageValue());
+           fileSetting.setFileFormat(FileFormat.PDF);
+           fileSetting.setMultiPageFormat(true);
            requestAttributes.add(fileSetting);
 
 //           DestinationSetting destSet = new DestinationSetting();
@@ -1328,7 +1328,7 @@ public class ScanStateMachine {
    }
 
    /**
-    * スキャンジョブをキャンセルするための非同期タスクです。
+    * ã‚¹ã‚­ãƒ£ãƒ³ã‚¸ãƒ§ãƒ–ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�™ã‚‹ã�Ÿã‚�ã�®é�žå�ŒæœŸã‚¿ã‚¹ã‚¯ã�§ã�™ã€‚
     * The asynchronous task to cancel the scan job.
     */
    private class CancelScanJobTask extends AsyncTask<Void, Void, Boolean> {
@@ -1357,7 +1357,7 @@ public class ScanStateMachine {
    }
 
    /**
-    * スキャンジョブを再開するための非同期タスクです。
+    * ã‚¹ã‚­ãƒ£ãƒ³ã‚¸ãƒ§ãƒ–ã‚’å†�é–‹ã�™ã‚‹ã�Ÿã‚�ã�®é�žå�ŒæœŸã‚¿ã‚¹ã‚¯ã�§ã�™ã€‚
     * The asynchronous task to resume the scan job.
     */
    private class ContinueScanJobTask extends AsyncTask<Void, Void, Boolean> {
@@ -1392,7 +1392,7 @@ public class ScanStateMachine {
    }
 
    /**
-    * スキャンジョブを終了するための非同期タスク
+    * ã‚¹ã‚­ãƒ£ãƒ³ã‚¸ãƒ§ãƒ–ã‚’çµ‚äº†ã�™ã‚‹ã�Ÿã‚�ã�®é�žå�ŒæœŸã‚¿ã‚¹ã‚¯
     * The asynchronous task to end the scan job.
     */
    private class EndScanJobTask extends AsyncTask<Void, Void, Boolean> {
