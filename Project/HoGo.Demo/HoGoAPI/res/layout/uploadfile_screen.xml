@@ -48,7 +48,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/bg_button"
                 android:drawableLeft="@android:drawable/ic_menu_upload"
-                android:text="Upload"
+                android:text="Encode"
                 android:visibility="visible" />
 
             <ImageButton
