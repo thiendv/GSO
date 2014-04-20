@@ -57,6 +57,7 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 	private EditText mEtFilePath;
 	private String mPath;
 	private FileUpload mFileUpload;
+	private String mFileName;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,27 +66,43 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 		View v = inflater.inflate(R.layout.uploadfile_screen, container, false);
 		ImageButton btnUpload = (ImageButton) v
 				.findViewById(R.id.btn_upload_file);
-		Button btnUploadExe = (Button) v
-				.findViewById(R.id.btn_upload_file_exe);
+		Button btnUploadExe = (Button) v.findViewById(R.id.btn_upload_file_exe);
 		Button btnEncode = (Button) v.findViewById(R.id.btn_encode_file);
 		Button btnCheckEncode = (Button) v
 				.findViewById(R.id.btn_check_encode_statsu);
 		mEtFilePath = (EditText) v.findViewById(R.id.et_file_path);
 
 		Bundle bundle = getArguments();
-		mFileUpload = (FileUpload)bundle.getSerializable("file");
-		mEtFilePath.setText(""+mFileUpload.getPdfPath());
+		mFileUpload = (FileUpload) bundle.getSerializable("file");
 		
+		mFileName = getFileNameWithoutExtn(mFileUpload.getPdfPath());
+		
+		mEtFilePath.setText("" + mFileName);
+
 		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
-		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath())).into(imgPreview);
-		
+		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
+				.into(imgPreview);
+
 		btnUpload.setOnClickListener(this);
 		btnEncode.setOnClickListener(this);
 		btnCheckEncode.setOnClickListener(this);
 		btnUploadExe.setOnClickListener(this);
 		return v;
 	}
-	
+
+	public String getFileName(String url) {
+
+		String fileName = url.substring(url.lastIndexOf('/') + 1, url.length());
+		return fileName;
+	}
+
+	public static String getFileNameWithoutExtn(String url) {
+		String fileName = url.substring(url.lastIndexOf('/') + 1, url.length());
+		String fileNameWithoutExtn = fileName.substring(0,
+				fileName.lastIndexOf('.'));
+		return fileNameWithoutExtn;
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -157,7 +174,9 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 			params.put("SessionID",
 					HoGoApplication.instace().getToken(getActivity()));
 			try {
-				File file = new File("" + mEtFilePath.getText());
+				String oldFile = getFileNameWithoutExtn(mFileUpload.getPdfPath());
+//				String url = mFileUpload.getPdfPath().replace(oldFile, mEtFilePath.getText());
+				File file = new File("" + mFileUpload.getPdfPath());
 				if (file.exists()) {
 					FileBody encFile = new FileBody(file, "pdf");
 					params.put("File", encFile);
@@ -180,7 +199,7 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 		boolean isEnought = true;
 		if (mEtFilePath.getText().length() == 0) {
 			isEnought = false;
-			Toast.makeText(getActivity(), "Choose a file", Toast.LENGTH_LONG)
+			Toast.makeText(getActivity(), "Scan again", Toast.LENGTH_LONG)
 					.show();
 		}
 		if (HoGoApplication.instace().getToken(getActivity()) == null) {
@@ -197,17 +216,19 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 				&& result.getAction() == ServiceAction.ActionUpload) {
 			Log.d("onCompleted", "onCompleted " + result.getData());
 			DataParser parser = new DataParser(true);
-			ResponseData resData =  parser
-					.parseUpdateResult((String) result.getData());
-			FileData parseData = (FileData)resData.getData();
+			ResponseData resData = parser.parseUpdateResult((String) result
+					.getData());
+			FileData parseData = (FileData) resData.getData();
+			parseData.setFileTitle(""+mEtFilePath.getText().toString());
 			if (resData.getStatus().equals("OK")) {
 				Toast.makeText(getActivity(), "Upload Successful",
 						Toast.LENGTH_LONG).show();
-				((MainActivity)getActivity()).gotoEncodeScreen(parseData);
-			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
+				((MainActivity) getActivity()).gotoEncodeScreen(parseData);
+			} else if (resData.getStatus()
+					.equalsIgnoreCase("SessionIdNotFound")) {
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity) getActivity()).gotologinScreen();
-			}else {
+			} else {
 				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
 						.show();
 			}

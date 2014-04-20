@@ -214,7 +214,7 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 			if (resData.getStatus().equalsIgnoreCase("OK")) {
 				Toast.makeText(getActivity(), "Send Successful", Toast.LENGTH_LONG).show();
 
-				((MainActivity) getActivity()).gotoMainScreen();
+				((MainActivity) getActivity()).gotoScanScreen();
 			} else if (resData.getStatus().equalsIgnoreCase("SessionIdNotFound")) {
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity) getActivity()).gotologinScreen();

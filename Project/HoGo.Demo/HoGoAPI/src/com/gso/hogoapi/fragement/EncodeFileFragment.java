@@ -70,7 +70,7 @@ public class EncodeFileFragment extends DialogFragment implements
 		timer = new Timer();
 		tvFileName = (TextView) v.findViewById(R.id.tv_filename);
 		etFileDes = (EditText) v.findViewById(R.id.et_des_file);
-		tvFileName.setText("" + mFile.getFileName());
+		tvFileName.setText("" + mFile.getFileTitle());
 		if( mFile.getFileDescription()!=null)
 			etFileDes.setText("" + mFile.getFileDescription());
 		Button btnEncode = (Button) v.findViewById(R.id.btn_encode);
