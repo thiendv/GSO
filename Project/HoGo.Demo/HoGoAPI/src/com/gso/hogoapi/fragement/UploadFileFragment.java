@@ -31,6 +31,7 @@ import com.gso.hogoapi.HoGoApplication;
 import com.gso.hogoapi.MainActivity;
 import com.gso.hogoapi.R;
 import com.gso.hogoapi.model.FileData;
+import com.gso.hogoapi.model.FileUpload;
 import com.gso.hogoapi.model.ResponseData;
 import com.gso.hogoapi.service.DataParser;
 import com.gso.serviceapilib.IServiceListener;
@@ -55,6 +56,7 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 	private File mFilePath;
 	private EditText mEtFilePath;
 	private String mPath;
+	private FileUpload mFileUpload;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,11 +73,11 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 		mEtFilePath = (EditText) v.findViewById(R.id.et_file_path);
 
 		Bundle bundle = getArguments();
-		mPath = bundle.getString("path");
-		mEtFilePath.setText(""+mPath);
+		mFileUpload = (FileUpload)bundle.getSerializable("file");
+		mEtFilePath.setText(""+mFileUpload.getPdfPath());
 		
 		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
-		Picasso.with(getActivity()).load(new File(mPath)).into(imgPreview);
+		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath())).into(imgPreview);
 		
 		btnUpload.setOnClickListener(this);
 		btnEncode.setOnClickListener(this);

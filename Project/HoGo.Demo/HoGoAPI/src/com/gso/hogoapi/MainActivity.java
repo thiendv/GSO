@@ -1,7 +1,9 @@
 package com.gso.hogoapi;
 
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -46,7 +49,9 @@ import com.gso.hogoapi.fragement.SendFileFragment;
 import com.gso.hogoapi.fragement.SendHistoryFragment;
 import com.gso.hogoapi.fragement.UploadFileFragment;
 import com.gso.hogoapi.model.FileData;
+import com.gso.hogoapi.model.FileUpload;
 import com.gso.hogoapi.model.SendData;
+import com.gso.hogoapi.util.pdf.JpegToPDF;
 import com.gso.hogoapi.views.RadioGroupController;
 import com.gso.hogoapi.views.TabButton;
 
@@ -156,11 +161,11 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 
 	}
 
-	public void gotoUpdateScreen(String path) {
+	public void gotoUpdateScreen(FileUpload file) {
 		UploadFileFragment fragement = new UploadFileFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		Bundle bundle = new Bundle();
-		bundle.putString("path", path);
+		bundle.putSerializable("file", file);
 		fragement.setArguments(bundle);
 		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
@@ -330,23 +335,35 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
         /** Continue by change to send screen.
          * After user click send. You can get inputStream by call ((MainActivity)getActivity).getPDFInputStream().
          * */
-        new AsyncTask<Void, Void, String>() {
+        new AsyncTask<Void, Void, FileUpload>() {
             @Override
-            protected String doInBackground(Void... params) {
+            protected FileUpload doInBackground(Void... params) {
                 // How to get inputStream.
-            	final String localPath = MainActivity.this.getFilesDir() + "/temp.jpg";
-            	final String pdfPath = MainActivity.this.getFilesDir() + "/temp.pdf";
+            	final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
+            	final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
+            	Log.d("pdfPath","pdfPath"+pdfPath);
             	InputStream in = null;
 				try {
 					Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
 					write(mScanPDF.getImageInputStream(), localPath);
-					in = convert2PDF(localPath);
-					if (in != null) {
-						write(in, pdfPath);
-						Log.d(TAG, "ConvertPDFSucceed!");
-						return pdfPath;
-					}
-					return localPath;
+					in = mScanPDF.getImageInputStream();
+//					in = convert2PDF(localPath);
+					JpegToPDF convert = new JpegToPDF();
+//					FileOutputStream fos = openFileOutput(pdfPath, Context.MODE_PRIVATE);
+//					fos = new FileOutputStream(pdfPath,true);
+					File file = new File(pdfPath);
+					FileOutputStream fos = new FileOutputStream(file);
+//					convert.convertJpegToPDF2( readBytes(in), fos);
+					convert.convertJpegToPDF(localPath, fos);
+//					if (in != null) {
+//						write(in, pdfPath);
+//						Log.d(TAG, "ConvertPDFSucceed!");
+//						return pdfPath;
+//					}
+					FileUpload item = new FileUpload();
+					item.setPdfPath(pdfPath);
+					item.setJpgPath(localPath);
+					return item;
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
@@ -362,17 +379,33 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
             }
             
             @Override
-            protected void onPostExecute(String result) {
+            protected void onPostExecute(FileUpload result) {
             	super.onPostExecute(result);
             	if (result != null) {
-            		FileData item = new FileData();
-            		item.setCoverImageUrl(result);
             		gotoUpdateScreen(result);
             	}
             }
         }.execute();
         
     }
+    
+    public byte[] readBytes(InputStream inputStream) throws IOException {
+    	  // this dynamically extends to take the bytes you read
+    	  ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+
+    	  // this is storage overwritten on each iteration with bytes
+    	  int bufferSize = 1024;
+    	  byte[] buffer = new byte[bufferSize];
+
+    	  // we need to know how may bytes were read to write them to the byteBuffer
+    	  int len = 0;
+    	  while ((len = inputStream.read(buffer)) != -1) {
+    	    byteBuffer.write(buffer, 0, len);
+    	  }
+
+    	  // and then we can return your byte array.
+    	  return byteBuffer.toByteArray();
+    	}
     
     private static InputStream convert2PDF(String filePath) {
         HttpURLConnection conn = null;
