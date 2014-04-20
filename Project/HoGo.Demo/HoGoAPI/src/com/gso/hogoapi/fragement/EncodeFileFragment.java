@@ -84,6 +84,7 @@ public class EncodeFileFragment extends DialogFragment implements
 				}
 			}
 		});
+		exeEncodeFile();
 		return v;
 	}
 

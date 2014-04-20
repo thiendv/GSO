@@ -158,6 +158,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
+		
+		setHeaderVisibility(true);
 
 	}
 
@@ -169,6 +171,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		fragement.setArguments(bundle);
 		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
+		
+		setHeaderVisibility(true);
 
 	}
 
@@ -182,6 +186,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		LoginFragment fragement = new LoginFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.replace(R.id.content, fragement).commit();
+		
+		setHeaderVisibility(true);
 	}
 
 	public void gotoEncodeScreen(FileData parseData) {
@@ -194,6 +200,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+		
+		setHeaderVisibility(true);
 	}
 
 
@@ -225,10 +233,12 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		sendData.setDataList(dataList);
 		bundle.putSerializable("send_data", sendData);
 		fragement.setArguments(bundle);
-		transaction.replace(R.id.content, fragement);
-		transaction.addToBackStack(null);
+//		transaction.replace(R.id.content, fragement);
+//		transaction.addToBackStack(null);
 		transaction.commit();
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+		
+		gotoSendDocumentScreen(sendData);
 	}
 	
 	@Override
@@ -322,13 +332,20 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 	}
 
     public void gotoScanScreen() {
+    	
     	AppScanFragment fragement = new AppScanFragment();
         FragmentTransaction transaction = mFramentManager.beginTransaction();
         transaction.replace(R.id.content, fragement).commit();
-        findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+        setHeaderVisibility(false);
     }
 
-    @Override
+    private void setHeaderVisibility( boolean b) {
+		// TODO Auto-generated method stub
+    	mTopBar.setVisibility(b? View.VISIBLE: View.GONE);
+	}
+
+
+	@Override
     public void onJobCompleted() {
         super.onJobCompleted();
         mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());

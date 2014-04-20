@@ -219,10 +219,11 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 			ResponseData resData = parser.parseUpdateResult((String) result
 					.getData());
 			FileData parseData = (FileData) resData.getData();
-			parseData.setFileTitle(""+mEtFilePath.getText().toString());
+			
 			if (resData.getStatus().equals("OK")) {
 				Toast.makeText(getActivity(), "Upload Successful",
 						Toast.LENGTH_LONG).show();
+				parseData.setFileTitle(""+mEtFilePath.getText().toString());
 				((MainActivity) getActivity()).gotoEncodeScreen(parseData);
 			} else if (resData.getStatus()
 					.equalsIgnoreCase("SessionIdNotFound")) {

@@ -138,7 +138,7 @@
         android:id="@+id/img_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/hogo_logo" />
 
@@ -148,18 +148,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_logo"
         android:layout_centerHorizontal="true"
-        android:text="Start to scan your document"
-        android:layout_margin="10dp"
-        android:textSize="24sp"
+        android:text="Set document in ADF and press the Start"
+        android:layout_marginTop="10dp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF" />
-
+    <TextView
+        android:id="@+id/text_scan2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_scan"
+        android:layout_centerHorizontal="true"
+        android:text="button to scan"
+        android:layout_margin="0dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF" />
     <RelativeLayout
+        android:layout_marginTop="17dp"
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_scan">
+        android:layout_below="@+id/text_scan2">
 
         <ImageView
             android:layout_centerHorizontal="true"
