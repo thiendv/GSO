@@ -55,7 +55,6 @@
         style="@style/TextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_mailto"
         android:layout_marginLeft="15dp"
         android:text="File send:"
         android:textStyle="bold"

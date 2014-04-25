@@ -18,6 +18,7 @@ import java.util.List;
 
 import jp.co.ricoh.ssdk.sample.app.scan.activity.ScanActivity;
 import jp.co.ricoh.ssdk.sample.app.scan.application.ScanSampleApplication;
+import jp.co.ricoh.ssdk.sample.function.scan.ScanImage;
 import jp.co.ricoh.ssdk.sample.function.scan.ScanPDF;
 
 import org.apache.http.HttpEntity;
@@ -68,7 +69,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 
 	
 	public static List<FileData> fileDataList = new ArrayList<FileData>();
-    private ScanPDF mScanPDF;
+    //private ScanPDF mScanPDF;
+    private ScanImage mScanImage;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -348,7 +350,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 	@Override
     public void onJobCompleted() {
         super.onJobCompleted();
-        mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
+        //mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
+        mScanImage = new ScanImage(((ScanSampleApplication) getApplication()).getScanJob());
         /** Continue by change to send screen.
          * After user click send. You can get inputStream by call ((MainActivity)getActivity).getPDFInputStream().
          * */
@@ -361,27 +364,53 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
             	Log.d("pdfPath","pdfPath"+pdfPath);
             	InputStream in = null;
 				try {
-					Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
-					write(mScanPDF.getImageInputStream(), localPath);
-					in = mScanPDF.getImageInputStream();
-//					in = convert2PDF(localPath);
+					//Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
+					//write(mScanPDF.getImageInputStream(), localPath);
+					//in = mScanPDF.getImageInputStream();					
+					
+					write(mScanImage.getImageInputStream(1), localPath);
+					in = mScanImage.getImageInputStream(1);
+					
+					if (in != null) {													
+						runOnUiThread(new Runnable(){
+					          @Override
+					          public void run(){
+					            //update ui here
+					        	  Toast.makeText(getApplicationContext(),"Scan Job Completed! Get InputStream image success",Toast.LENGTH_SHORT).show();
+					          }
+					       });
+					}
+					
 					JpegToPDF convert = new JpegToPDF();
-//					FileOutputStream fos = openFileOutput(pdfPath, Context.MODE_PRIVATE);
-//					fos = new FileOutputStream(pdfPath,true);
 					File file = new File(pdfPath);
 					FileOutputStream fos = new FileOutputStream(file);
-//					convert.convertJpegToPDF2( readBytes(in), fos);
-					convert.convertJpegToPDF(localPath, fos);
-//					if (in != null) {
-//						write(in, pdfPath);
-//						Log.d(TAG, "ConvertPDFSucceed!");
-//						return pdfPath;
-//					}
+					boolean result=convert.convertJpegToPDF(localPath, fos);
+					if(!result)
+					{
+						 runOnUiThread(new Runnable(){
+					          @Override
+					          public void run(){
+					            //update ui here
+					        	  Toast.makeText(getApplicationContext(),"Cannot convert Image to PDF!",Toast.LENGTH_SHORT).show();
+					          }
+					       });
+					}
+						
+					
 					FileUpload item = new FileUpload();
 					item.setPdfPath(pdfPath);
 					item.setJpgPath(localPath);
 					return item;
-				} catch (IOException e) {
+				} catch (IOException e) { 
+					final String exMessage=e.getMessage();
+					 runOnUiThread(new Runnable(){
+				          @Override
+				          public void run(){
+				            //update ui here
+				        	  Toast.makeText(getApplicationContext(),"Error: " + exMessage,Toast.LENGTH_LONG).show();
+				          }
+				       });
+					 
 					e.printStackTrace();
 				} finally {
 					if (in != null) {
@@ -491,6 +520,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
      * @return Return the scanned pdf by input stream.
      */
     public InputStream getPDFInputStream() {
-        return mScanPDF.getImageInputStream();
+        //return mScanPDF.getImageInputStream();
+    	return mScanImage.getImageInputStream(1);
     }
 }

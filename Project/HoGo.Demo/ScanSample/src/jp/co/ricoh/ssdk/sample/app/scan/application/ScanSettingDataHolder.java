@@ -21,38 +21,38 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * スキャン設定情報クラスです。
+ * ã‚¹ã‚­ãƒ£ãƒ³è¨­å®šæƒ…å ±ã‚¯ãƒ©ã‚¹ã�§ã�™ã€‚
  * Scan setting data class.
  */
 public class ScanSettingDataHolder {
 	public static String TAG = ScanSettingDataHolder.class.getSimpleName();
 
     /**
-     * 読取カラーの表示文字列IDと設定値のマップです。
+     * èª­å�–ã‚«ãƒ©ãƒ¼ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�¨è¨­å®šå€¤ã�®ãƒžãƒƒãƒ—ã�§ã�™ã€‚
      * Map of scan color display string ID and setting values.
      */
 	private final LinkedHashMap<Integer, ScanColor> mAllColorMap;
 
     /**
-     * ファイル形式の表示文字列IDと設定値のマップです。
+     * ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼�ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�¨è¨­å®šå€¤ã�®ãƒžãƒƒãƒ—ã�§ã�™ã€‚
      * Map of file format display string ID and setting values.
      */
 	private final LinkedHashMap<Integer, FileFormat> mAllFileFormatMap;
 
     /**
-     * マルチページ設定の表示文字列IDと設定値のマップです。
+     * ãƒžãƒ«ãƒ�ãƒšãƒ¼ã‚¸è¨­å®šã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�¨è¨­å®šå€¤ã�®ãƒžãƒƒãƒ—ã�§ã�™ã€‚
      * Map of multipage setting display string ID and setting values.
      */
 	private final LinkedHashMap<Integer, Boolean> mAllMultiPageMap;
 
     /**
-     * 原稿面の表示文字列IDと設定値のマップです。
+     * åŽŸç¨¿é�¢ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�¨è¨­å®šå€¤ã�®ãƒžãƒƒãƒ—ã�§ã�™ã€‚
      * Map of scan side display string ID and setting values.
      */
 	private final LinkedHashMap<Integer, OriginalSide> mAllSideMap;
 
     /**
-     * プレビュー表示設定の表示文字列IDと設定値のマップです。
+     * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�¨è¨­å®šå€¤ã�®ãƒžãƒƒãƒ—ã�§ã�™ã€‚
      * Map of preview setting display string ID and setting values.
      */
 	private final LinkedHashMap<Integer, OriginalPreview> mAllPreviewMap;
@@ -60,25 +60,25 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 読取カラー設定可能値の表示文字列IDのリストです。
+     * èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�®ãƒªã‚¹ãƒˆã�§ã�™ã€‚
      * List of display string ID for the available scan color setting values.
      */
 	private List<Integer> mSupportedColorLabelList;
 
     /**
-     * ファイル設定の設定可能値の表示文字列IDのリストです。
+     * ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šã�®è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�®ãƒªã‚¹ãƒˆã�§ã�™ã€‚
      * List of display string ID for the available file setting values.
      */
 	private List<Integer> mSupportedFileSettingLabelList;
 
     /**
-     *原稿面設定可能値の表示文字列IDのリストです。
+     *åŽŸç¨¿é�¢è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�®ãƒªã‚¹ãƒˆã�§ã�™ã€‚
      * List of display string ID for the available scan side setting values.
      */
 	private List<Integer> mSupportedSideLabelList;
 
     /**
-     * プレビュー表示設定可能値の表示文字列IDのリストです。
+     * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�®ãƒªã‚¹ãƒˆã�§ã�™ã€‚
      * List of display string ID for the available preview setting values.
      */
 	private List<Integer> mSupportedPreviewLabelList;
@@ -86,39 +86,39 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 選択中の読取カラー設定値の表示文字列IDです。
+     * é�¸æŠžä¸­ã�®èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�§ã�™ã€‚
      * Display string ID of the selected scan color setting value.
      */
 	private int mSelectedColorLabel;
 
     /**
-     * 選択中のファイル設定値の表示文字列IDです。
+     * é�¸æŠžä¸­ã�®ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�§ã�™ã€‚
      * Display string ID of the selected file setting value.
      */
 	private int mSelectedFileSettingLabel;
 
     /**
-     * 選択中の原稿面設定値の表示文字列IDです。
+     * é�¸æŠžä¸­ã�®åŽŸç¨¿é�¢è¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�§ã�™ã€‚
      * Display string ID of the selected scan side setting value.
      */
 	private int mSelectedSideLabel;
 
     /**
-     * 選択中のプレビュー表示設定値の表示文字列IDです。
+     * é�¸æŠžä¸­ã�®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã�§ã�™ã€‚
      * Display string ID of the selected preview setting value.
      */
 	private int mSelectedPreviewLabel;
 
     /**
-     * コンストラクタです。
-     * 各マップの初期化を行います。
-     * [処理内容]
-     *   (1)読取カラー設定のマップの初期化
-     *   (2)ファイル形式設定のマップの初期化
-     *   (3)マルチページ設定のマップの初期化
-     *   (4)原稿面設定のマップの初期化
-     *   (5)プレビュー表示設定のマップの初期化
-     *   (6)各設定値の文字列を初期化します。
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã�§ã�™ã€‚
+     * å�„ãƒžãƒƒãƒ—ã�®åˆ�æœŸåŒ–ã‚’è¡Œã�„ã�¾ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šã�®ãƒžãƒƒãƒ—ã�®åˆ�æœŸåŒ–
+     *   (2)ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼�è¨­å®šã�®ãƒžãƒƒãƒ—ã�®åˆ�æœŸåŒ–
+     *   (3)ãƒžãƒ«ãƒ�ãƒšãƒ¼ã‚¸è¨­å®šã�®ãƒžãƒƒãƒ—ã�®åˆ�æœŸåŒ–
+     *   (4)åŽŸç¨¿é�¢è¨­å®šã�®ãƒžãƒƒãƒ—ã�®åˆ�æœŸåŒ–
+     *   (5)ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šã�®ãƒžãƒƒãƒ—ã�®åˆ�æœŸåŒ–
+     *   (6)å�„è¨­å®šå€¤ã�®æ–‡å­—åˆ—ã‚’åˆ�æœŸåŒ–ã�—ã�¾ã�™ã€‚
      *
      *   Constructor.
      *   Initializes maps.
@@ -197,12 +197,12 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * ScanServiceから各設定の設定可能値一覧を取得します。
-     * [処理内容]
-     *   (1)読取カラー設定可能値を取得する
-     *   (2)ファイル形式設定可能値とマルチページ設定可能値を取得する
-     *   (3)原稿面設定可能値を取得する
-     *   (4)プレビュー設定可能値を取得する
+     * ScanServiceã�‹ã‚‰å�„è¨­å®šã�®è¨­å®šå�¯èƒ½å€¤ä¸€è¦§ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå�¯èƒ½å€¤ã‚’å�–å¾—ã�™ã‚‹
+     *   (2)ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼�è¨­å®šå�¯èƒ½å€¤ã�¨ãƒžãƒ«ãƒ�ãƒšãƒ¼ã‚¸è¨­å®šå�¯èƒ½å€¤ã‚’å�–å¾—ã�™ã‚‹
+     *   (3)åŽŸç¨¿é�¢è¨­å®šå�¯èƒ½å€¤ã‚’å�–å¾—ã�™ã‚‹
+     *   (4)ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¨­å®šå�¯èƒ½å€¤ã‚’å�–å¾—ã�™ã‚‹
      *
      * Obtains the list of available setting values from ScanService.
      * [Processes]
@@ -240,10 +240,10 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 読取カラー設定可能値の表示文字列IDリストを作成します。
+     * èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDãƒªã‚¹ãƒˆã‚’ä½œæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the list of display string ID for the available scan color setting values.
      *
-     * @param colorList 読取カラー設定可能値のリスト
+     * @param colorList èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆ
      *                  List of available scan color setting values
      */
 	private void setSupportedColorList(List<ScanColor> colorList) {
@@ -262,12 +262,12 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * ファイル設定可能値の表示文字列IDリストを作成します。
+     * ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDãƒªã‚¹ãƒˆã‚’ä½œæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the list of display string ID for the available file setting values.
      *
-     * @param fileFormatList ファイル形式設定可能値のリスト
+     * @param fileFormatList ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼�è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆ
      *                  List of available scan file format setting values
-     * @param multiPageFormatList マルチページ設定可能値のリスト
+     * @param multiPageFormatList ãƒžãƒ«ãƒ�ãƒšãƒ¼ã‚¸è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆ
      *                  List of available scan multipage setting values
      */
 	private void setSupportedFileSettingList(List<FileFormat> fileFormatList, List<Boolean> multiPageFormatList) {
@@ -280,6 +280,8 @@ public class ScanSettingDataHolder {
 	        {
 	            Map.Entry<Integer, FileFormat> entry = it1.next();
 	            if(fileFormatList.contains(entry.getValue())) {
+	            	
+	            	System.out.println("DEBUG FILE Format: "+ entry.getValue() +"| "+entry.getKey());
 	                mSupportedFileSettingLabelList.add(entry.getKey());
 	            }
 	        }
@@ -298,10 +300,10 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 原稿面設定可能値の表示文字列IDリストを作成します。
+     * åŽŸç¨¿é�¢è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDãƒªã‚¹ãƒˆã‚’ä½œæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the list of display string ID for the available scan side setting values.
      *
-     * @param sideList 原稿面設定可能値のリスト
+     * @param sideList åŽŸç¨¿é�¢è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆ
      *                  List of available scan side setting values
      */
 	private void setSupportedSideList(List<OriginalSide> sideList) {
@@ -320,10 +322,10 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * プレビュー設定可能値の表示文字列IDリストを作成します。
+     * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDãƒªã‚¹ãƒˆã‚’ä½œæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the list of display string ID for the available preview setting values.
      *
-     * @param previewList プレビュー設定可能値のリスト
+     * @param previewList ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆ
      *                  List of available preview setting values
      */
     private void setSupportedPreviewList(List<OriginalPreview> previewList) {
@@ -343,7 +345,7 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 選択中の読取カラー設定値の表示文字列IDを取得します。
+     * é�¸æŠžä¸­ã�®èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the display string ID of the selected scan color setting value.
      */
 	public Integer getSelectedColorLabel() {
@@ -351,7 +353,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 選択中の読取カラー設定値を取得します。
+     * é�¸æŠžä¸­ã�®èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå€¤ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the selected scan color setting value.
      */
 	public ScanColor getSelectedColorValue() {
@@ -359,7 +361,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 指定された読取カラー設定値を選択状態にします。
+     * æŒ‡å®šã�•ã‚Œã�Ÿèª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå€¤ã‚’é�¸æŠžçŠ¶æ…‹ã�«ã�—ã�¾ã�™ã€‚
      * Changes the selection state of the specified scan color setting value to "selected."
      * @param id
      */
@@ -371,7 +373,7 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 選択中のファイル設定値の表示文字列IDを取得します。
+     * é�¸æŠžä¸­ã�®ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the display string ID of the selected scan color setting value.
      */
 	public Integer getSelectedFileSettingLabel() {
@@ -379,7 +381,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 選択中のファイル形式設定値を取得します。
+     * é�¸æŠžä¸­ã�®ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼�è¨­å®šå€¤ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the selected scan color setting value.
      */
 	public FileFormat getSelectedFileFormatValue() {
@@ -387,7 +389,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 選択中のマルチページ形式設定値を取得します。
+     * é�¸æŠžä¸­ã�®ãƒžãƒ«ãƒ�ãƒšãƒ¼ã‚¸å½¢å¼�è¨­å®šå€¤ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the selected multipage setting value.
      */
 	public Boolean getSelectedMultiPageValue() {
@@ -395,7 +397,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 指定されたファイル設定値を選択状態にします。
+     * æŒ‡å®šã�•ã‚Œã�Ÿãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šå€¤ã‚’é�¸æŠžçŠ¶æ…‹ã�«ã�—ã�¾ã�™ã€‚
      * Changes the selection state of the specified file setting value to "selected."
      * @param id
      */
@@ -407,7 +409,7 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 選択中の原稿面設定値の表示文字列IDを取得します。
+     * é�¸æŠžä¸­ã�®åŽŸç¨¿é�¢è¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the display string ID of the selected scan side setting value.
      */
 	public Integer getSelectedSideLabel() {
@@ -415,7 +417,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 選択中の原稿面設定値を取得します。
+     * é�¸æŠžä¸­ã�®åŽŸç¨¿é�¢è¨­å®šå€¤ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the selected scan side setting value.
      */
 	public OriginalSide getSelectedSideValue() {
@@ -423,7 +425,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 指定された原稿面設定値を選択状態にします。
+     * æŒ‡å®šã�•ã‚Œã�ŸåŽŸç¨¿é�¢è¨­å®šå€¤ã‚’é�¸æŠžçŠ¶æ…‹ã�«ã�—ã�¾ã�™ã€‚
      * Changes the selection state of the specified scan side setting value to "selected."
      * @param id
      */
@@ -435,7 +437,7 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 選択中のプレビュー表示設定値の表示文字列IDを取得します。
+     * é�¸æŠžä¸­ã�®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šå€¤ã�®è¡¨ç¤ºæ–‡å­—åˆ—IDã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the display string ID of the selected preview setting value.
      */
     public Integer getSelectedPreviewLabel() {
@@ -443,7 +445,7 @@ public class ScanSettingDataHolder {
     }
 
     /**
-     * 選択中のプレビュー表示設定値を取得します。
+     * é�¸æŠžä¸­ã�®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šå€¤ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the selected preview setting value.
      */
     public OriginalPreview getSelectedPreviewValue() {
@@ -451,7 +453,7 @@ public class ScanSettingDataHolder {
     }
 
     /**
-     * 指定されたプレビュー表示設定値を選択状態にします。
+     * æŒ‡å®šã�•ã‚Œã�Ÿãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤ºè¨­å®šå€¤ã‚’é�¸æŠžçŠ¶æ…‹ã�«ã�—ã�¾ã�™ã€‚
      * Changes the selection state of the specified preview setting value to "selected."
      * @param id
      */
@@ -463,7 +465,7 @@ public class ScanSettingDataHolder {
 
 
     /**
-     * 読取カラー設定可能値のリストを取得します。
+     * èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Display string ID of the scan color setting value to select
      */
 	public List<Integer> getColorLabelList() {
@@ -471,7 +473,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * ファイル設定可能値のリストを取得します。
+     * ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Display string ID of the file setting value to select
      */
 	public List<Integer> getFileSettingLabelList() {
@@ -479,7 +481,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * 原稿面設定可能値のリストを取得します。
+     * åŽŸç¨¿é�¢è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Display string ID of the scan side setting value to select
      */
 	public List<Integer> getSideLabelList() {
@@ -487,7 +489,7 @@ public class ScanSettingDataHolder {
 	}
 
     /**
-     * プレビュー設定可能値のリストを取得します。
+     * ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¨­å®šå�¯èƒ½å€¤ã�®ãƒªã‚¹ãƒˆã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Display string ID of the preview setting value to select
      */
     public List<Integer> getPreviewLabelList() {

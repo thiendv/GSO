@@ -10,8 +10,9 @@ import com.itextpdf.text.Document;
 
 public class JpegToPDF {
   
-  public void convertJpegToPDF(String jpgPathFileInput,FileOutputStream pdfPathFileOutput)
+  public boolean convertJpegToPDF(String jpgPathFileInput,FileOutputStream pdfPathFileOutput)
   {
+	     boolean result=false;
           try {
           //Create Document Object
           Document convertJpgToPdf = new Document();
@@ -25,9 +26,15 @@ public class JpegToPDF {
           //Close Document
           convertJpgToPdf.close();
           System.out.println("Successfully Converted JPG to PDF in iText");
+          result=true;
+          
+          
       } catch (Exception i1) {
           i1.printStackTrace();
-      }
+          result=false;
+      } 
+          
+     return result;     
   } 
   
   public void convertJpegToPDF2(byte[] inputStream,FileOutputStream pdfPathFileOutput)

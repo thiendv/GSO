@@ -32,6 +32,7 @@ import jp.co.ricoh.ssdk.sample.app.scan.application.ScanSettingDataHolder;
 import jp.co.ricoh.ssdk.sample.app.scan.application.ScanStateMachine;
 import jp.co.ricoh.ssdk.sample.app.scan.application.ScanStateMachine.ScanEvent;
 import jp.co.ricoh.ssdk.sample.function.common.impl.AsyncConnectState;
+import jp.co.ricoh.ssdk.sample.function.scan.ScanImage;
 import jp.co.ricoh.ssdk.sample.function.scan.ScanPDF;
 import jp.co.ricoh.ssdk.sample.function.scan.ScanService;
 import jp.co.ricoh.ssdk.sample.function.scan.attribute.ScanServiceAttributeSet;
@@ -53,7 +54,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * スキャンサンプルアプリのメインアクティビティです。
+ * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ³ãƒ—ãƒ«ã‚¢ãƒ—ãƒªã�®ãƒ¡ã‚¤ãƒ³ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�§ã�™ã€‚
  * Scan sample application: Main activity
  */
 public class MainActivity extends Activity {
@@ -61,142 +62,142 @@ public class MainActivity extends Activity {
 	private final static String TAG = MainActivity.class.getSimpleName();
 
     /**
-     * アプリケーションの種別
-     * システム警告ダイアログの設定に使用します。
+     * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ç¨®åˆ¥
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®è¨­å®šã�«ä½¿ç”¨ã�—ã�¾ã�™ã€‚
      * Application type
      * Used for setting system warning dialog.
      */
 	private final static String ALERT_DIALOG_APP_TYPE_SCANNER = "SCANNER";
 
     /**
-     * その他の設定ダイアログの横幅
+     * ã��ã�®ä»–ã�®è¨­å®šãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã�®æ¨ªå¹…
      * Other Setting dialog width
      */
     private final int OTHER_SETTING_DIALOG_WIDTH = 500;
 
     /**
-     * スキャンサンプルアプリケーションのオブジェクト
+     * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ³ãƒ—ãƒ«ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
      * Application object
      */
 	private ScanSampleApplication mApplication;
 
 	/**
-	 * 設定画面からの通知を受け取るブロードキャストレシーバー
+	 * è¨­å®šç”»é�¢ã�‹ã‚‰ã�®é€šçŸ¥ã‚’å�—ã�‘å�–ã‚‹ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆãƒ¬ã‚·ãƒ¼ãƒ�ãƒ¼
 	 * Broadcast receiver to accept intents from setting dialog
 	 */
     private BroadcastReceiver mReceiver;
 
     /**
-     * 読取カラー設定ボタン
+     * èª­å�–ã‚«ãƒ©ãƒ¼è¨­å®šãƒœã‚¿ãƒ³
      * Scan color setting button
      */
 	private Button mButtonColor;
 
 	/**
-	 * ファイル設定ボタン
+	 * ãƒ•ã‚¡ã‚¤ãƒ«è¨­å®šãƒœã‚¿ãƒ³
 	 * File setting button
 	 */
 	private Button mButtonFileSetting;
 
 	/**
-	 * スキャン面設定ボタン
+	 * ã‚¹ã‚­ãƒ£ãƒ³é�¢è¨­å®šãƒœã‚¿ãƒ³
 	 * Scan side setting button
 	 */
 	private Button mButtonSide;
 
 	/**
-	 * 宛先設定ボタン
+	 * å®›å…ˆè¨­å®šãƒœã‚¿ãƒ³
 	 * Destination setting button
 	 */
     private Button mButtonDestination;
 
     /**
-     * その他設定ボタン
+     * ã��ã�®ä»–è¨­å®šãƒœã‚¿ãƒ³
      * Other setting button
      */
 	private LinearLayout mButtonOther;
 
 	/**
-	 * 読取開始ボタン
+	 * èª­å�–é–‹å§‹ãƒœã‚¿ãƒ³
 	 * Scan start button
 	 */
     private RelativeLayout mButtonStart;
 
     /**
-     * スキャンサービス状態リスナー
+     * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹çŠ¶æ…‹ãƒªã‚¹ãƒŠãƒ¼
      * Scan service attribute listener
      */
     private ScanServiceAttributeListener mScanServiceAttrListener;
 
     /**
-     * スキャン設定
+     * ã‚¹ã‚­ãƒ£ãƒ³è¨­å®š
      * Scan setting
      */
     private ScanSettingDataHolder mScanSettingDataHolder;
 
     /**
-     * 宛先設定
+     * å®›å…ˆè¨­å®š
      * Destination Setting
      */
     private DestinationSettingDataHolder mDestSettingDataHolder;
 
     /**
-     * ステートマシン
+     * ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³
      * State machine
      */
     private ScanStateMachine mStateMachine;
 
     /**
-     * スキャンサービスと接続するタスク
+     * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹ã�¨æŽ¥ç¶šã�™ã‚‹ã‚¿ã‚¹ã‚¯
      * Task to connect with scan service
      */
     private ScanServiceInitTask mScanServiceInitTask;
 
     /**
-     * スキャンサービス状態表示ラベル
+     * ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹çŠ¶æ…‹è¡¨ç¤ºãƒ©ãƒ™ãƒ«
      * Scan service state display label
      */
     private TextView text_state;
 
     /**
-     * システム警告画面が表示されているかのフラグ
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢ã�Œè¡¨ç¤ºã�•ã‚Œã�¦ã�„ã‚‹ã�‹ã�®ãƒ•ãƒ©ã‚°
      * Flag to indicate if system warning screen is displayed
      */
     private volatile boolean mAlertDialogDisplayed = false;
 
     /**
-     * 現在発生しているエラーのエラーレベル
+     * ç�¾åœ¨ç™ºç”Ÿã�—ã�¦ã�„ã‚‹ã‚¨ãƒ©ãƒ¼ã�®ã‚¨ãƒ©ãƒ¼ãƒ¬ãƒ™ãƒ«
      * Level of the currently occurring error
      */
     private OccuredErrorLevel mLastErrorLevel = null;
 
     /**
-     * システム警告画面表示タスク
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢è¡¨ç¤ºã‚¿ã‚¹ã‚¯
      * Asynchronous task to request to display system warning screen
      */
     private AlertDialogDisplayTask mAlertDialogDisplayTask = null;
 
     /**
-     * メインアクティビティ起動済みフラグ
-     * trueであれば、すでにMainActivityが起動済みです。
+     * ãƒ¡ã‚¤ãƒ³ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£èµ·å‹•æ¸ˆã�¿ãƒ•ãƒ©ã‚°
+     * trueã�§ã�‚ã‚Œã�°ã€�ã�™ã�§ã�«MainActivityã�Œèµ·å‹•æ¸ˆã�¿ã�§ã�™ã€‚
      * MainActivity running flag
      * If true, another Mainactivity instance is running.
      */
     private boolean mMultipleRunning = false;
 
     /**
-     * アクティビティが生成されると呼び出されます。
-     * [処理内容]
-     *   (1)アプリケーションの初期化
-     *   (2)設定ブロードキャストレシーバーの設定
-     *   (3)宛先指定ボタンの設定
-     *   (4)読み取りカラー選択ボタンの設定
-     *   (5)ファイル形式選択ボタンの設定
-     *   (6)原稿面選択ボタンの設定
-     *   (7)その他の設定ボタンの設定
-     *   (8)読取開始ボタンの設定
-     *   (9)各ボタンの無効化
-     *   (10)リスナー初期化
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�Œç”Ÿæˆ�ã�•ã‚Œã‚‹ã�¨å‘¼ã�³å‡ºã�•ã‚Œã�¾ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®åˆ�æœŸåŒ–
+     *   (2)è¨­å®šãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆãƒ¬ã‚·ãƒ¼ãƒ�ãƒ¼ã�®è¨­å®š
+     *   (3)å®›å…ˆæŒ‡å®šãƒœã‚¿ãƒ³ã�®è¨­å®š
+     *   (4)èª­ã�¿å�–ã‚Šã‚«ãƒ©ãƒ¼é�¸æŠžãƒœã‚¿ãƒ³ã�®è¨­å®š
+     *   (5)ãƒ•ã‚¡ã‚¤ãƒ«å½¢å¼�é�¸æŠžãƒœã‚¿ãƒ³ã�®è¨­å®š
+     *   (6)åŽŸç¨¿é�¢é�¸æŠžãƒœã‚¿ãƒ³ã�®è¨­å®š
+     *   (7)ã��ã�®ä»–ã�®è¨­å®šãƒœã‚¿ãƒ³ã�®è¨­å®š
+     *   (8)èª­å�–é–‹å§‹ãƒœã‚¿ãƒ³ã�®è¨­å®š
+     *   (9)å�„ãƒœã‚¿ãƒ³ã�®ç„¡åŠ¹åŒ–
+     *   (10)ãƒªã‚¹ãƒŠãƒ¼åˆ�æœŸåŒ–
      *
      * Called when an activity is created.
      * [Processes]
@@ -343,10 +344,10 @@ public class MainActivity extends Activity {
 	}
 
     /**
-     * 遷移先のアクティビティからの結果を受け取ります。
-     * [処理内容]
-     *   (1)プレビューから戻ってきた場合、結果に応じてステートマシンにイベントを送信します。
-     *   (2)宛先設定から戻ってきた場合は、結果に応じて宛先表示欄の表示を更新します。
+     * é�·ç§»å…ˆã�®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�‹ã‚‰ã�®çµ�æžœã‚’å�—ã�‘å�–ã‚Šã�¾ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã�‹ã‚‰æˆ»ã�£ã�¦ã��ã�Ÿå ´å�ˆã€�çµ�æžœã�«å¿œã�˜ã�¦ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³ã�«ã‚¤ãƒ™ãƒ³ãƒˆã‚’é€�ä¿¡ã�—ã�¾ã�™ã€‚
+     *   (2)å®›å…ˆè¨­å®šã�‹ã‚‰æˆ»ã�£ã�¦ã��ã�Ÿå ´å�ˆã�¯ã€�çµ�æžœã�«å¿œã�˜ã�¦å®›å…ˆè¡¨ç¤ºæ¬„ã�®è¡¨ç¤ºã‚’æ›´æ–°ã�—ã�¾ã�™ã€‚
      *
      * Receive the result from the activity of the changed state.
      * [Processes]
@@ -383,8 +384,8 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * アクティビティの再開時に呼び出されます。
-     * エラーの発生有無を非同期で検査し、必要であればシステム警告画面切替えます。
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�®å†�é–‹æ™‚ã�«å‘¼ã�³å‡ºã�•ã‚Œã�¾ã�™ã€‚
+     * ã‚¨ãƒ©ãƒ¼ã�®ç™ºç”Ÿæœ‰ç„¡ã‚’é�žå�ŒæœŸã�§æ¤œæŸ»ã�—ã€�å¿…è¦�ã�§ã�‚ã‚Œã�°ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢åˆ‡æ›¿ã�ˆã�¾ã�™ã€‚
      * Called when the activity is resumed.
      * Checks error occurrence asynchronously and switches to a system warning screen if necessary.
      */
@@ -401,8 +402,8 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * アクティビティの停止時に呼び出されます。
-     * システム警告画面表示タスクが実行中であれば、キャンセルします。
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�®å�œæ­¢æ™‚ã�«å‘¼ã�³å‡ºã�•ã‚Œã�¾ã�™ã€‚
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢è¡¨ç¤ºã‚¿ã‚¹ã‚¯ã�Œå®Ÿè¡Œä¸­ã�§ã�‚ã‚Œã�°ã€�ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�—ã�¾ã�™ã€‚
      * Called when the activity is stopped.
      * If the system warning screen display task is in process, the task is cancelled.
      */
@@ -415,14 +416,14 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * アクティビティが破棄される際に呼び出されます。
-     * [処理内容]
-     *   (1)メインアクティビティ終了イベントをステートマシンに送る
-     *      読取中であれば、読取がキャンセルされます。
-     *   (2)サービスからイベントリスナーとブロードキャストレシーバーを除去する
-     *   (3)非同期タスクが実行中だった場合、キャンセルする
-     *   (4)アプリケーションの保持データを初期化する
-     *   (5)参照を破棄する
+     * ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã�Œç ´æ£„ã�•ã‚Œã‚‹éš›ã�«å‘¼ã�³å‡ºã�•ã‚Œã�¾ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)ãƒ¡ã‚¤ãƒ³ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£çµ‚äº†ã‚¤ãƒ™ãƒ³ãƒˆã‚’ã‚¹ãƒ†ãƒ¼ãƒˆãƒžã‚·ãƒ³ã�«é€�ã‚‹
+     *      èª­å�–ä¸­ã�§ã�‚ã‚Œã�°ã€�èª­å�–ã�Œã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�•ã‚Œã�¾ã�™ã€‚
+     *   (2)ã‚µãƒ¼ãƒ“ã‚¹ã�‹ã‚‰ã‚¤ãƒ™ãƒ³ãƒˆãƒªã‚¹ãƒŠãƒ¼ã�¨ãƒ–ãƒ­ãƒ¼ãƒ‰ã‚­ãƒ£ã‚¹ãƒˆãƒ¬ã‚·ãƒ¼ãƒ�ãƒ¼ã‚’é™¤åŽ»ã�™ã‚‹
+     *   (3)é�žå�ŒæœŸã‚¿ã‚¹ã‚¯ã�Œå®Ÿè¡Œä¸­ã� ã�£ã�Ÿå ´å�ˆã€�ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�™ã‚‹
+     *   (4)ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ä¿�æŒ�ãƒ‡ãƒ¼ã‚¿ã‚’åˆ�æœŸåŒ–ã�™ã‚‹
+     *   (5)å�‚ç…§ã‚’ç ´æ£„ã�™ã‚‹
      *
      * Called when the activity is destroyed.
      * [Processes]
@@ -481,16 +482,16 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 宛先表示ラベルを更新します。
-     * [表示の形式]
-     *   (1)フォルダ（直接入力）
-     *      - フォルダアイコン ＋ フォルダパス + 任意文字列
-     *   (2)メール（直接入力）
-     *      - メールアイコン + メールアドレス + 任意文字列
-     *   (3)フォルダ（アドレス帳選択）
-     *      - フォルダアイコン + 任意文字列
-     *   (4)メール（アドレス帳選択）
-     *      - メールアイコン + 任意文字列
+     * å®›å…ˆè¡¨ç¤ºãƒ©ãƒ™ãƒ«ã‚’æ›´æ–°ã�—ã�¾ã�™ã€‚
+     * [è¡¨ç¤ºã�®å½¢å¼�]
+     *   (1)ãƒ•ã‚©ãƒ«ãƒ€ï¼ˆç›´æŽ¥å…¥åŠ›ï¼‰
+     *      - ãƒ•ã‚©ãƒ«ãƒ€ã‚¢ã‚¤ã‚³ãƒ³ ï¼‹ ãƒ•ã‚©ãƒ«ãƒ€ãƒ‘ã‚¹ + ä»»æ„�æ–‡å­—åˆ—
+     *   (2)ãƒ¡ãƒ¼ãƒ«ï¼ˆç›´æŽ¥å…¥åŠ›ï¼‰
+     *      - ãƒ¡ãƒ¼ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ + ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ + ä»»æ„�æ–‡å­—åˆ—
+     *   (3)ãƒ•ã‚©ãƒ«ãƒ€ï¼ˆã‚¢ãƒ‰ãƒ¬ã‚¹å¸³é�¸æŠžï¼‰
+     *      - ãƒ•ã‚©ãƒ«ãƒ€ã‚¢ã‚¤ã‚³ãƒ³ + ä»»æ„�æ–‡å­—åˆ—
+     *   (4)ãƒ¡ãƒ¼ãƒ«ï¼ˆã‚¢ãƒ‰ãƒ¬ã‚¹å¸³é�¸æŠžï¼‰
+     *      - ãƒ¡ãƒ¼ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ + ä»»æ„�æ–‡å­—åˆ—
      *
      * Updates the destination display label.
      * This method must be called from UI thread.
@@ -504,7 +505,7 @@ public class MainActivity extends Activity {
      *   (4) For folder: manual entry
      *     - icon (mail) + string
      *
-     * @param optStr : 任意文字列 Specified string
+     * @param optStr : ä»»æ„�æ–‡å­—åˆ— Specified string
      */
 	public void updateDestinationLabel(String optStr) {
 
@@ -563,8 +564,8 @@ public class MainActivity extends Activity {
 	}
 
 	/**
-	 * 宛先表示ラベルを更新します。
-	 * 表示形式は アイコン(フォルダ/メール）＋ 文字列 です。
+	 * å®›å…ˆè¡¨ç¤ºãƒ©ãƒ™ãƒ«ã‚’æ›´æ–°ã�—ã�¾ã�™ã€‚
+	 * è¡¨ç¤ºå½¢å¼�ã�¯ ã‚¢ã‚¤ã‚³ãƒ³(ãƒ•ã‚©ãƒ«ãƒ€/ãƒ¡ãƒ¼ãƒ«ï¼‰ï¼‹ æ–‡å­—åˆ— ã�§ã�™ã€‚
 	 *  Updates the destination display label.
 	 *  Display format is "icon (folder/email) + string".
 	 *
@@ -596,12 +597,12 @@ public class MainActivity extends Activity {
 	}
 
     /**
-     * システム警告画面表示要求に渡す状態文字列を生成します。
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢è¡¨ç¤ºè¦�æ±‚ã�«æ¸¡ã�™çŠ¶æ…‹æ–‡å­—åˆ—ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
      * Creates the state string to be passed to system warning screen display request.
      *
-     * @param state スキャンサービス状態
+     * @param state ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹çŠ¶æ…‹
      *              State of scan service
-     * @return 状態文字列
+     * @return çŠ¶æ…‹æ–‡å­—åˆ—
      *         State string
      */
     private String makeAlertStateString(ScannerState state) {
@@ -613,14 +614,14 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * システム警告画面表示要求に渡す状態理由文字列を生成します。
-     * 複数の状態理由があった場合、1つ目の状態理由のみを渡します。
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢è¡¨ç¤ºè¦�æ±‚ã�«æ¸¡ã�™çŠ¶æ…‹ç�†ç”±æ–‡å­—åˆ—ã‚’ç”Ÿæˆ�ã�—ã�¾ã�™ã€‚
+     * è¤‡æ•°ã�®çŠ¶æ…‹ç�†ç”±ã�Œã�‚ã�£ã�Ÿå ´å�ˆã€�1ã�¤ç›®ã�®çŠ¶æ…‹ç�†ç”±ã�®ã�¿ã‚’æ¸¡ã�—ã�¾ã�™ã€‚
      * Creates the state reason string to be passed to the system warning screen display request.
      * If multiple state reasons exist, only the first state reason is passed.
      *
-     * @param stateReasons スキャナサービス状態理由
+     * @param stateReasons ã‚¹ã‚­ãƒ£ãƒŠã‚µãƒ¼ãƒ“ã‚¹çŠ¶æ…‹ç�†ç”±
      *                     Scan service state reason
-     * @return 状態理由文字列
+     * @return çŠ¶æ…‹ç�†ç”±æ–‡å­—åˆ—
      *         State reason string
      */
    private String makeAlertStateReasonString(ScannerStateReasons stateReasons) {
@@ -635,12 +636,12 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 指定されたアプリケーションがフォアグランド状態にあるかを取得します。
+     * æŒ‡å®šã�•ã‚Œã�Ÿã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�Œãƒ•ã‚©ã‚¢ã‚°ãƒ©ãƒ³ãƒ‰çŠ¶æ…‹ã�«ã�‚ã‚‹ã�‹ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains whether or not the specified application is in the foreground state.
      *
-     * @param packageName アプリケーションのパッケージ名
+     * @param packageName ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸å��
      *                    Application package name
-     * @return フォアグラウンド状態にある場合にtrue
+     * @return ãƒ•ã‚©ã‚¢ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰çŠ¶æ…‹ã�«ã�‚ã‚‹å ´å�ˆã�«true
      *         If the application is in the foreground state, true is returned.
      */
     private boolean isForegroundApp(String packageName) {
@@ -657,12 +658,12 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 指定されたアプリケーションのアクティビティスタックの最上位クラスを取得します。
+     * æŒ‡å®šã�•ã‚Œã�Ÿã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã‚¹ã‚¿ãƒƒã‚¯ã�®æœ€ä¸Šä½�ã‚¯ãƒ©ã‚¹ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the top class in the activity stack of the specified application.
      *
-     * @param packageName アプリケーションのパッケージ名
+     * @param packageName ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸å��
      *                    Application package name
-     * @return 最上位クラスのFQCNクラス名. 取得できない場合はnull
+     * @return æœ€ä¸Šä½�ã‚¯ãƒ©ã‚¹ã�®FQCNã‚¯ãƒ©ã‚¹å��. å�–å¾—ã�§ã��ã�ªã�„å ´å�ˆã�¯null
      *         The name of the FQCN class name of the top class. If the name cannot be obtained, null is returned.
      */
     private String getTopActivityClassName(String packageName) {
@@ -677,12 +678,12 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 指定されたアプリケーションのアクティビティスタック内のアクティビティ数を取得します。
+     * æŒ‡å®šã�•ã‚Œã�Ÿã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£ã‚¹ã‚¿ãƒƒã‚¯å†…ã�®ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£æ•°ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      * Obtains the number of activities in the activity stack of the specified application.
      *
-     * @param packageName アプリケーションのパッケージ名
+     * @param packageName ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã�®ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸å��
      *                    Application package name
-     * @return アクティビティ数. 取得できない場合は0
+     * @return ã‚¢ã‚¯ãƒ†ã‚£ãƒ“ãƒ†ã‚£æ•°. å�–å¾—ã�§ã��ã�ªã�„å ´å�ˆã�¯0
      *         The number of activitys. If the number cannot be obtained, 0 is returned.
      */
     private int getNumActivities(String packageName) {
@@ -699,6 +700,7 @@ public class MainActivity extends Activity {
     public void onJobCompleted() {
         Log.d(TAG, "onJobCompleted");
         final ScanPDF scanPDF = new ScanPDF(mApplication.getScanJob());
+       
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -711,10 +713,10 @@ public class MainActivity extends Activity {
 
 
     /**
-     * スキャナサービスの状態変更監視リスナーです。
-     * [処理内容]
-     *   (1)スキャンサービスの状態によって、スキャンサービス状態表示ラベルを書き換えます。
-     *   (2)エラー画面の表示・更新・非表示要求を行います。
+     * ã‚¹ã‚­ãƒ£ãƒŠã‚µãƒ¼ãƒ“ã‚¹ã�®çŠ¶æ…‹å¤‰æ›´ç›£è¦–ãƒªã‚¹ãƒŠãƒ¼ã�§ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹ã�®çŠ¶æ…‹ã�«ã‚ˆã�£ã�¦ã€�ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹çŠ¶æ…‹è¡¨ç¤ºãƒ©ãƒ™ãƒ«ã‚’æ›¸ã��æ�›ã�ˆã�¾ã�™ã€‚
+     *   (2)ã‚¨ãƒ©ãƒ¼ç”»é�¢ã�®è¡¨ç¤ºãƒ»æ›´æ–°ãƒ»é�žè¡¨ç¤ºè¦�æ±‚ã‚’è¡Œã�„ã�¾ã�™ã€‚
      * The listener class to monitor scan service attribute changes.
      * [Processes]
      *   (1) Rewrites the scan service state display label accordingly to the scan service state.
@@ -837,13 +839,13 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 非同期でスキャンサービスとの接続を行います。
-     * [処理内容]
-     *   (1)スキャンサービスのイベントを受信するリスナーを設定します。
-     *      機器が利用可能になるか、キャンセルが押されるまでリトライします。
-     *   (2)非同期イベントの接続確認を行います。
-     *      接続可能になるか、キャンセルが押されるまでリトライします。
-     *   (3)接続に成功した場合は、スキャンサービスから各設定の設定可能値を取得します。
+     * é�žå�ŒæœŸã�§ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹ã�¨ã�®æŽ¥ç¶šã‚’è¡Œã�„ã�¾ã�™ã€‚
+     * [å‡¦ç�†å†…å®¹]
+     *   (1)ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹ã�®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å�—ä¿¡ã�™ã‚‹ãƒªã‚¹ãƒŠãƒ¼ã‚’è¨­å®šã�—ã�¾ã�™ã€‚
+     *      æ©Ÿå™¨ã�Œåˆ©ç”¨å�¯èƒ½ã�«ã�ªã‚‹ã�‹ã€�ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�ŒæŠ¼ã�•ã‚Œã‚‹ã�¾ã�§ãƒªãƒˆãƒ©ã‚¤ã�—ã�¾ã�™ã€‚
+     *   (2)é�žå�ŒæœŸã‚¤ãƒ™ãƒ³ãƒˆã�®æŽ¥ç¶šç¢ºèª�ã‚’è¡Œã�„ã�¾ã�™ã€‚
+     *      æŽ¥ç¶šå�¯èƒ½ã�«ã�ªã‚‹ã�‹ã€�ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�ŒæŠ¼ã�•ã‚Œã‚‹ã�¾ã�§ãƒªãƒˆãƒ©ã‚¤ã�—ã�¾ã�™ã€‚
+     *   (3)æŽ¥ç¶šã�«æˆ�åŠŸã�—ã�Ÿå ´å�ˆã�¯ã€�ã‚¹ã‚­ãƒ£ãƒ³ã‚µãƒ¼ãƒ“ã‚¹ã�‹ã‚‰å�„è¨­å®šã�®è¨­å®šå�¯èƒ½å€¤ã‚’å�–å¾—ã�—ã�¾ã�™ã€‚
      *
      * Connects with the scan service asynchronously.
      * [Processes]
@@ -971,7 +973,7 @@ public class MainActivity extends Activity {
         }
 
         /**
-         * 指定された時間カレントスレッドをスリープします。
+         * æŒ‡å®šã�•ã‚Œã�Ÿæ™‚é–“ã‚«ãƒ¬ãƒ³ãƒˆã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ã‚¹ãƒªãƒ¼ãƒ—ã�—ã�¾ã�™ã€‚
          * sleep for the whole of the specified interval
          */
         private void sleep(long time) {
@@ -984,7 +986,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 読取開始ボタンを有効化します。
+     * èª­å�–é–‹å§‹ãƒœã‚¿ãƒ³ã‚’æœ‰åŠ¹åŒ–ã�—ã�¾ã�™ã€‚
      * Enables the start button.
      */
     private void enableStartKey() {
@@ -992,7 +994,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 読取開始ボタンを無効化します。
+     * èª­å�–é–‹å§‹ãƒœã‚¿ãƒ³ã‚’ç„¡åŠ¹åŒ–ã�—ã�¾ã�™ã€‚
      * Disables the start button.
      */
     private void disableStartKey() {
@@ -1000,7 +1002,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 各設定ボタンを有効化します。
+     * å�„è¨­å®šãƒœã‚¿ãƒ³ã‚’æœ‰åŠ¹åŒ–ã�—ã�¾ã�™ã€‚
      * Enables setting buttons.
      */
     private void enableSettingKey() {
@@ -1012,7 +1014,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 各設定ボタンを無効化します。
+     * å�„è¨­å®šãƒœã‚¿ãƒ³ã‚’ç„¡åŠ¹åŒ–ã�—ã�¾ã�™ã€‚
      * Disables setting buttons.
      */
     private void disableSettingKey() {
@@ -1024,7 +1026,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * システム警告画面表示タスクを開始します。
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢è¡¨ç¤ºã‚¿ã‚¹ã‚¯ã‚’é–‹å§‹ã�—ã�¾ã�™ã€‚
      * Starts the alert dialog display task.
      */
     private void startAlertDialogDisplayTask() {
@@ -1036,7 +1038,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * システム警告画面表示タスクをキャンセルします。
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢è¡¨ç¤ºã‚¿ã‚¹ã‚¯ã‚’ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã�—ã�¾ã�™ã€‚
      * Stop the alert dialog display task.
      */
     private void stopAlertDialogDisplayTask() {
@@ -1047,7 +1049,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * システム警告画面の表示有無を判断し、必要な場合は表示要求を行う非同期タスクです。
+     * ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šç”»é�¢ã�®è¡¨ç¤ºæœ‰ç„¡ã‚’åˆ¤æ–­ã�—ã€�å¿…è¦�ã�ªå ´å�ˆã�¯è¡¨ç¤ºè¦�æ±‚ã‚’è¡Œã�†é�žå�ŒæœŸã‚¿ã‚¹ã‚¯ã�§ã�™ã€‚
      * The asynchronous task to judge to display system warning screen and to request to display the screen if necessary.
      */
     class AlertDialogDisplayTask extends AsyncTask<Void, Void, Void> {
