@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.artifex.mupdf.MuPDFFragment;
@@ -38,6 +40,7 @@ import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
 import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
+import com.squareup.picasso.Picasso;
 
 public class UploadFileFragment extends MuPDFFragment implements OnClickListener,
 		IServiceListener {
@@ -82,13 +85,17 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 		
 		mEtFilePath.setText("" + mFileName);
 
-//		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
-//		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
-//				.into(imgPreview);
-		FrameLayout imgPreviewContainer = (FrameLayout) v.findViewById(R.id.img_preview_container);
-		View superView = super.onCreateView(inflater, imgPreviewContainer, savedInstanceState);
-		imgPreviewContainer.addView(superView);
-
+		if (core == null) {
+			ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
+			imgPreview.setVisibility(View.VISIBLE);
+			Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
+					.into(imgPreview);	
+		} else{
+			FrameLayout imgPreviewContainer = (FrameLayout) v.findViewById(R.id.img_preview_container);
+			View superView = super.onCreateView(inflater, imgPreviewContainer, savedInstanceState);
+			imgPreviewContainer.addView(superView);			
+		}
+		
 		btnUpload.setOnClickListener(this);
 		btnEncode.setOnClickListener(this);
 		btnCheckEncode.setOnClickListener(this);
