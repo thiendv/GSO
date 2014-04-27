@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +20,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.artifex.mupdf.MuPDFFragment;
 import com.gso.hogoapi.APIType;
 import com.gso.hogoapi.FileDialog;
 import com.gso.hogoapi.HoGoApplication;
@@ -38,9 +38,8 @@ import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
 import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
-import com.squareup.picasso.Picasso;
 
-public class UploadFileFragment extends Fragment implements OnClickListener,
+public class UploadFileFragment extends MuPDFFragment implements OnClickListener,
 		IServiceListener {
 
 	private static final int SELECT_FILE = 0;
@@ -60,6 +59,13 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 	private String mFileName;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle bundle = getArguments();
+		mFileUpload = (FileUpload) bundle.getSerializable("file");
+		core = openFile(Uri.decode(mFileUpload.getPdfPath()));
+	}
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -72,21 +78,22 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 				.findViewById(R.id.btn_check_encode_statsu);
 		mEtFilePath = (EditText) v.findViewById(R.id.et_file_path);
 
-		Bundle bundle = getArguments();
-		mFileUpload = (FileUpload) bundle.getSerializable("file");
-		
 		mFileName = getFileNameWithoutExtn(mFileUpload.getPdfPath());
 		
 		mEtFilePath.setText("" + mFileName);
 
-		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
-		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
-				.into(imgPreview);
+//		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
+//		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
+//				.into(imgPreview);
+		FrameLayout imgPreviewContainer = (FrameLayout) v.findViewById(R.id.img_preview_container);
+		View superView = super.onCreateView(inflater, imgPreviewContainer, savedInstanceState);
+		imgPreviewContainer.addView(superView);
 
 		btnUpload.setOnClickListener(this);
 		btnEncode.setOnClickListener(this);
 		btnCheckEncode.setOnClickListener(this);
 		btnUploadExe.setOnClickListener(this);
+		
 		return v;
 	}
 
