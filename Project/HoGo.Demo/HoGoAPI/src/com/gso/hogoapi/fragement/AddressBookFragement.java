@@ -49,6 +49,7 @@ public class AddressBookFragement extends DialogFragment implements IServiceList
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setStyle( DialogFragment.STYLE_NO_TITLE, 1);
+		setStyle(DialogFragment.STYLE_NO_FRAME, 0);
 	}
 	
 	@Override
