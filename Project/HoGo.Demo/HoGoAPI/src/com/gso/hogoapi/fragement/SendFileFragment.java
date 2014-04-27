@@ -248,24 +248,30 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 				((MainActivity) getActivity()).gotologinScreen();
 				((MainActivity) getActivity()).setProgressVisibility(false);
 			} else {
-				Toast.makeText(getActivity(), "Send Fail", Toast.LENGTH_LONG).show();
-				((MainActivity) getActivity()).setProgressVisibility(false);
+				if(getActivity()!=null &&!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Send Fail", Toast.LENGTH_LONG).show();
+					((MainActivity) getActivity()).setProgressVisibility(false);
+				}
+
 			}
 		} else if (result.isSuccess() && result.getAction() == ServiceAction.ActionSendPackageNote) {
 			Log.d("onCompleted", "ActionSendPackageNote " + result.getData());
 			DataParser parser = new DataParser(true);
 			ResponseData resData = parser.parseSendResponse((String) result.getData());
 			((MainActivity) getActivity()).setProgressVisibility(false);
-			if (resData.getStatus().equalsIgnoreCase("OK")) {
-				Toast.makeText(getActivity(), "Send Successful", Toast.LENGTH_LONG).show();
+			if(getActivity()!=null &&!getActivity().isFinishing()){
+				if (resData.getStatus().equalsIgnoreCase("OK")) {
+					Toast.makeText(getActivity(), "Send Successful", Toast.LENGTH_LONG).show();
 
-				((MainActivity) getActivity()).gotoScanScreen();
-			} else if (resData.getStatus().equalsIgnoreCase("SessionIdNotFound")) {
-				HoGoApplication.instace().setToken(getActivity(), null);
-				((MainActivity) getActivity()).gotologinScreen();
-			} else {
-				Toast.makeText(getActivity(), "Send Fail", Toast.LENGTH_LONG).show();
+					((MainActivity) getActivity()).gotoScanScreen();
+				} else if (resData.getStatus().equalsIgnoreCase("SessionIdNotFound")) {
+					HoGoApplication.instace().setToken(getActivity(), null);
+					((MainActivity) getActivity()).gotologinScreen();
+				} else {
+					Toast.makeText(getActivity(), "Send Fail", Toast.LENGTH_LONG).show();
+				}
 			}
+
 		} else {
 			((MainActivity) getActivity()).setProgressVisibility(false);
 		}

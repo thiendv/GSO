@@ -45,6 +45,13 @@ public class AddressBookFragement extends DialogFragment implements IServiceList
 	private AddressBookAdapter adapter;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setStyle( DialogFragment.STYLE_NO_TITLE, 1);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View v = inflater.inflate(R.layout.address_fragment, container, false);

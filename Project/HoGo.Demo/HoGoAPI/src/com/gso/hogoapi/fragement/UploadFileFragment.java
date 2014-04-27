@@ -1,6 +1,8 @@
 package com.gso.hogoapi.fragement;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +62,7 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 	private String mPath;
 	private FileUpload mFileUpload;
 	private String mFileName;
+	private String mCurrentDateandTime;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +86,17 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 
 		mFileName = getFileNameWithoutExtn(mFileUpload.getPdfPath());
 		
-		mEtFilePath.setText("" + mFileName);
+		final Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH) + 1;
+
+		int hours = c.get(Calendar.HOUR_OF_DAY);
+		int minutes = c.get(Calendar.MINUTE);
+		int second = c.get(Calendar.SECOND);
+		
+		mCurrentDateandTime = year + "-" + month + "-" + day;
+		mEtFilePath.setText("" + mFileName+"_"+mCurrentDateandTime+"_"+hours+"-"+minutes+"-"+second);
 
 		if (core == null) {
 			ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
@@ -235,17 +248,23 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 			FileData parseData = (FileData) resData.getData();
 			
 			if (resData.getStatus().equals("OK")) {
-				Toast.makeText(getActivity(), "Upload Successful",
-						Toast.LENGTH_LONG).show();
-				parseData.setFileTitle(""+mEtFilePath.getText().toString());
+				if(getActivity()!=null &&!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Upload Successful",
+							Toast.LENGTH_LONG).show();
+					parseData.setFileTitle(""+mEtFilePath.getText().toString());
+				}
+
 				((MainActivity) getActivity()).gotoEncodeScreen(parseData);
 			} else if (resData.getStatus()
 					.equalsIgnoreCase("SessionIdNotFound")) {
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity) getActivity()).gotologinScreen();
 			} else {
-				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
-						.show();
+				if(getActivity()!=null &&!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+					.show();	
+				}
+
 			}
 		}
 		((MainActivity) getActivity()).setProgressVisibility(false);
