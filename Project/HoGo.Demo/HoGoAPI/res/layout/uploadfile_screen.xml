@@ -12,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="0dp"
         android:text="Add new document"
+        android:visibility="gone"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content" >
 
             <EditText
+                style="@style/TextBox"
                 android:id="@+id/et_file_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -4,10 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,10 +30,12 @@ import com.gso.hogoapi.APIType;
 import com.gso.hogoapi.HoGoApplication;
 import com.gso.hogoapi.MainActivity;
 import com.gso.hogoapi.R;
+import com.gso.hogoapi.model.AddressBookItem;
 import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.PackageData;
 import com.gso.hogoapi.model.ResponseData;
 import com.gso.hogoapi.model.SendData;
+import com.gso.hogoapi.model.TransferData;
 import com.gso.hogoapi.service.DataParser;
 import com.gso.serviceapilib.IServiceListener;
 import com.gso.serviceapilib.Service;
@@ -53,6 +58,7 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	private RelativeLayout rLDateExprid;
 	private String currentDateandTime;
 	private CheckBox cbxIsPrint;
+	private Button btnAddressBook;
 
 	/**
 	 * @param args
@@ -77,18 +83,19 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		etMailto = (EditText) v.findViewById(R.id.et_mail_to);
 		btnDateExprid = (Button) v.findViewById(R.id.btn_doc_exquiry_date);
 		rLDateExprid = (RelativeLayout) v.findViewById(R.id.rl_doc_exprid_date);
+		btnAddressBook = (Button) v.findViewById(R.id.btn_address_book);
 		btnSendFile.setOnClickListener(this);
 		btnDateExprid.setOnClickListener(this);
 		rLDateExprid.setOnClickListener(this);
-		
-		cbxIsPrint =(CheckBox) v.findViewById(R.id.chx_allow_printing);
+		btnAddressBook.setOnClickListener(this);
+		cbxIsPrint = (CheckBox) v.findViewById(R.id.chx_allow_printing);
 		cbxIsPrint.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				// TODO Auto-generated method stub
 				isPrint = isChecked;
-				
+
 			}
 		});
 
@@ -114,7 +121,45 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 			}
 		} else if (v.getId() == R.id.btn_doc_exquiry_date) {
 			showDatePicker();
+		} else if (v.getId() == R.id.btn_address_book) {
+			exeGetAddressBook();
 		}
+	}
+
+	private void exeGetAddressBook() {
+		// TODO Auto-generated method stub
+		AddressBookFragement fragment = new AddressBookFragement();
+		fragment.setTargetFragment(this, 1);
+
+		getFragmentManager().beginTransaction().add(fragment, "address_book").commit();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1) {
+			if (resultCode == Activity.RESULT_OK) {
+
+				Bundle b = data.getExtras();
+				TransferData dataTr = (TransferData) b.getSerializable("data");
+				if (dataTr != null) {
+					updateEmailSend(dataTr.getList());
+				}
+
+			} else if (resultCode == Activity.RESULT_CANCELED) {
+
+			}
+		}
+	}
+
+	protected void updateEmailSend(List<AddressBookItem> list) {
+		// TODO Auto-generated method stub
+		String mailTo = "";
+		for (AddressBookItem item : list) {
+			mailTo += mailTo.equals("") ? "" + item.getEmail() : "," + item.getEmail();
+		}
+		etMailto.setText(mailTo);
 	}
 
 	private void showDatePicker() {
@@ -234,11 +279,16 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		params.put("SessionID", HoGoApplication.instace().getToken(getActivity()));
 		params.put("PackageID", "" + packageData.getId());
 		params.put("EmailAddress", mailTo);
-//		params.put("Subject",);// "HoGo has sent you the following documents"
-//		params.put("Message", "");
+		// params.put("Subject",);// "HoGo has sent you the following documents"
+		// params.put("Message", "");
 
 		service.login(ServiceAction.ActionSendPackageNote, APIType.SEND_PACKAGE_NOTE, params);
 		((MainActivity) getActivity()).setProgressVisibility(true);
+	}
+
+	public void updateSendEmail(AddressBookItem item) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
