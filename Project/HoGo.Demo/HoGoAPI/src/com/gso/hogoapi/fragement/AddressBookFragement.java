@@ -11,11 +11,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -48,31 +51,35 @@ public class AddressBookFragement extends DialogFragment implements IServiceList
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setStyle( DialogFragment.STYLE_NO_TITLE, 1);
-		setStyle(DialogFragment.STYLE_NO_FRAME, 0);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		View v = inflater.inflate(R.layout.address_fragment, container, false);
-		context = getActivity();
+        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        View v = inflater.inflate(R.layout.address_fragment, container, false);
+        context = getActivity();
 //		prBar = (ProgressBar) v.findViewById(R.id.prgBar);
-		lvFriends = (ListView) v.findViewById(R.id.lvFriends);
-		btnDone = (Button) v.findViewById(R.id.btn_done);
-		addressBookSelected = new ArrayList<AddressBookItem>();
+        lvFriends = (ListView) v.findViewById(R.id.lvFriends);
+        btnDone = (Button) v.findViewById(R.id.btn_done);
+        addressBookSelected = new ArrayList<AddressBookItem>();
 
-		btnDone.setOnClickListener(new View.OnClickListener() {
+        btnDone.setOnClickListener(new View.OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				onDoneClicked(v);
-			}
-		});
-		exeGetData();
-		return v;
-	}
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                onDoneClicked(v);
+            }
+        });
+        exeGetData();
+        final FrameLayout frameLayout = new FrameLayout(getActivity());
+        frameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        final FrameLayout.LayoutParams contentViewLP = new FrameLayout.LayoutParams(600,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        contentViewLP.gravity = Gravity.CENTER;
+        frameLayout.addView(v, contentViewLP);
+        return frameLayout;
+    }
 
 	@Override
 	public void onAttach(Activity activity) {
