@@ -230,7 +230,7 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity) getActivity()).gotologinScreen();
 			} else {
-				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+				Toast.makeText(getActivity(), "Upload Fail" +resData.getData(), Toast.LENGTH_LONG)
 						.show();
 			}
 		}

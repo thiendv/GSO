@@ -69,7 +69,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 
 	
 	public static List<FileData> fileDataList = new ArrayList<FileData>();
-    //private ScanPDF mScanPDF;
+    private ScanPDF mScanPDF;
     private ScanImage mScanImage;
 
     @Override
@@ -350,8 +350,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 	@Override
     public void onJobCompleted() {
         super.onJobCompleted();
-        //mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
-        mScanImage = new ScanImage(((ScanSampleApplication) getApplication()).getScanJob());
+        mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
+        //mScanImage = new ScanImage(((ScanSampleApplication) getApplication()).getScanJob());
         /** Continue by change to send screen.
          * After user click send. You can get inputStream by call ((MainActivity)getActivity).getPDFInputStream().
          * */
@@ -365,11 +365,12 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
             	InputStream in = null;
 				try {
 					//Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
-					//write(mScanPDF.getImageInputStream(), localPath);
-					//in = mScanPDF.getImageInputStream();					
+					write(mScanPDF.getImageInputStream(), localPath);
+					write(mScanPDF.getImageInputStream(), pdfPath);
+					in = mScanPDF.getImageInputStream();					
 					
-					write(mScanImage.getImageInputStream(1), localPath);
-					in = mScanImage.getImageInputStream(1);
+					//write(mScanImage.getImageInputStream(1), localPath);
+					//in = mScanImage.getImageInputStream(1);
 					
 					if (in != null) {													
 						runOnUiThread(new Runnable(){
@@ -381,6 +382,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 					       });
 					}
 					
+					/*
 					JpegToPDF convert = new JpegToPDF();
 					File file = new File(pdfPath);
 					FileOutputStream fos = new FileOutputStream(file);
@@ -396,7 +398,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 					       });
 					}
 						
-					
+					*/
 					FileUpload item = new FileUpload();
 					item.setPdfPath(pdfPath);
 					item.setJpgPath(localPath);
@@ -520,7 +522,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
      * @return Return the scanned pdf by input stream.
      */
     public InputStream getPDFInputStream() {
-        //return mScanPDF.getImageInputStream();
-    	return mScanImage.getImageInputStream(1);
+        return mScanPDF.getImageInputStream();
+    	//return mScanImage.getImageInputStream(1);
     }
 }
