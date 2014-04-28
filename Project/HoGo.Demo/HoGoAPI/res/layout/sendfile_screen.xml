@@ -29,18 +29,6 @@
             android:layout_marginBottom="0dp"
             android:src="@drawable/hogo_logo"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btn_send_file_exe"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/bg_button"
-            android:drawableLeft="@android:drawable/ic_menu_upload"
-            android:gravity="left|center_vertical"
-            android:text="Send"
-            android:visibility="visible" />
     </RelativeLayout>
 
     <View
@@ -48,7 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/rl_settings"
-        android:background="@drawable/bg_button_green" />
+        android:background="@drawable/bg_button_green"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_title_listview"
@@ -97,15 +86,30 @@
                     android:text="Email to:"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/et_mail_to"
+                <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="2"
-                    android:background="@android:drawable/editbox_background"
-                    android:ellipsize="start"
-                    android:hint="Input email to send"
-                    android:singleLine="true" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" >
+
+                    <EditText
+                        android:id="@+id/et_mail_to"
+                        style="@style/TextBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_toLeftOf="@+id/btn_address_book"
+                        android:background="@android:drawable/editbox_background"
+                        android:ellipsize="start"
+                        android:hint="Input email to send"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/btn_address_book"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:text="AddressBook" />
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -130,12 +134,13 @@
 
                     <Button
                         android:id="@+id/btn_doc_exquiry_date"
+                        style="@style/TextBox"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="0000/00/00 00:00:00"
-                        android:gravity="left"
+                        android:layout_height="40dp"
+                        android:background="@android:drawable/editbox_background"
+                        android:gravity="left|center_vertical"
                         android:singleLine="true"
-                        android:background="@android:drawable/editbox_background" />
+                        android:text="0000/00/00 00:00:00" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -203,6 +208,19 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_send_file_exe"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_button"
+                android:gravity="center"
+                android:text="Send"
+                android:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 

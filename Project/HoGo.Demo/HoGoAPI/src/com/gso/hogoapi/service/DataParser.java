@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.gso.hogoapi.model.AddressBookItem;
 import com.gso.hogoapi.model.FileData;
 import com.gso.hogoapi.model.LoginData;
 import com.gso.hogoapi.model.PackageData;
@@ -149,6 +150,41 @@ public class DataParser {
 						if(obj !=null){
 							FileData item = new FileData();
 							item.setDocumentId(obj);
+							data.add(item);
+						}
+						
+					}
+				}
+			}
+			resData.setData(data);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return resData;
+	}
+
+	public ResponseData parseAddressBookResponse(String input) {
+		// TODO Auto-generated method stub
+		ResponseData resData = new ResponseData();
+		List<AddressBookItem> data = new ArrayList<AddressBookItem>();
+		try {
+			JSONObject root = new JSONObject(input);
+			String status = root.optString("status");
+			resData.setStatus(status);
+			if(root.optString("status").equalsIgnoreCase("OK")){
+				JSONArray array = root.optJSONArray("recipient_detail");
+				if(array !=null){
+					int length = array.length();
+					for(int i = 0 ; i < length; i++){
+						JSONObject obj = array.optJSONObject(i);
+						if(obj !=null){
+							AddressBookItem item = new AddressBookItem();
+							item.setEmail(obj.optString("e-mail"));
+							item.setFirstName(obj.optString("first_name"));
+							item.setLastName(obj.optString("last_name"));
+							item.setMiddleName(obj.optString("middle_name"));
 							data.add(item);
 						}
 						

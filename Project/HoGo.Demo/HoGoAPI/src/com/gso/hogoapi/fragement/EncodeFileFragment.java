@@ -138,16 +138,21 @@ public class EncodeFileFragment extends DialogFragment implements
 					.parseEncodeResult((String) result.getData());
 			boolean encodeStatus = resData.getStatus().equalsIgnoreCase("OK");
 			if (encodeStatus) {
-				Toast.makeText(getActivity(),
-						"Upload Successful waiting Encode data",
-						Toast.LENGTH_LONG).show();
-				checkEncodeData();
+				if(getActivity()!=null && !getActivity().isFinishing()){
+					Toast.makeText(getActivity(),
+							"Upload Successful waiting Encode data",
+							Toast.LENGTH_LONG).show();
+					checkEncodeData();					
+				}
 			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity)getActivity()).gotologinScreen();
 			}else {
-				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
-						.show();
+				if(getActivity()!=null&&!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+					.show();
+					
+				}
 			}
 		}
 		if (!result.isSuccess()
@@ -163,17 +168,24 @@ public class EncodeFileFragment extends DialogFragment implements
 				if(timer!=null){
 					timer.cancel();
 				}
-				Toast.makeText(getActivity(),
-						"Upload Successful and Encode data sucessful",
-						Toast.LENGTH_LONG).show();
+				
+				if(getActivity()!=null && !getActivity().isFinishing()){
+					Toast.makeText(getActivity(),
+							"Upload Successful and Encode data sucessful",
+							Toast.LENGTH_LONG).show();
+				}
+
 				((MainActivity) getActivity()).setProgressVisibility(false);
 				((MainActivity) getActivity()).gotoAddScreen((FileData)encodeStatus.getData());
 			} else if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equals("4")) {
 				if(timer!=null){
 					timer.cancel();
 				}
-				Toast.makeText(getActivity(), "Upload and encode Fail",
-						Toast.LENGTH_LONG).show();
+				if(!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Upload and encode Fail",
+							Toast.LENGTH_LONG).show();
+				}
+
 				((MainActivity) getActivity()).setProgressVisibility(false);
 
 			} else {
@@ -182,7 +194,7 @@ public class EncodeFileFragment extends DialogFragment implements
 //						.show();
 			}
 		}
-		if (!result.isSuccess()
+		if (getActivity()!=null && !result.isSuccess()
 				&& result.getAction() == ServiceAction.ActionCheckEncodeStatus) {
 			((MainActivity) getActivity()).setProgressVisibility(false);
 		}
@@ -200,14 +212,18 @@ public class EncodeFileFragment extends DialogFragment implements
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				getActivity().runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						exeCheckEncodeFile();		
-					}
-				});
+				if(getActivity() !=null &&!getActivity().isFinishing()){
+					getActivity().runOnUiThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							exeCheckEncodeFile();		
+						}
+					});
+				}else{
+					timer.cancel();
+				}
 				
 			}
 		}, seconds, 5000);

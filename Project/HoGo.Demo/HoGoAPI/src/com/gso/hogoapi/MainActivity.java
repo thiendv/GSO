@@ -366,7 +366,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 				try {
 					//Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
 					write(mScanPDF.getImageInputStream(), localPath);
-					write(mScanPDF.getImageInputStream(), pdfPath);
+					//write(mScanPDF.getImageInputStream(), pdfPath);
 					in = mScanPDF.getImageInputStream();					
 					
 					//write(mScanImage.getImageInputStream(1), localPath);
@@ -382,7 +382,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 					       });
 					}
 					
-					/*
+					
 					JpegToPDF convert = new JpegToPDF();
 					File file = new File(pdfPath);
 					FileOutputStream fos = new FileOutputStream(file);
@@ -398,7 +398,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 					       });
 					}
 						
-					*/
+					
 					FileUpload item = new FileUpload();
 					item.setPdfPath(pdfPath);
 					item.setJpgPath(localPath);

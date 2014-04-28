@@ -12,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="0dp"
         android:text="Add new document"
+        android:visibility="gone"
         android:textStyle="bold" />
 
     <RelativeLayout
@@ -30,6 +31,7 @@
             android:layout_height="wrap_content" >
 
             <EditText
+                style="@style/TextBox"
                 android:id="@+id/et_file_path"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +49,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/bg_button"
-                android:drawableLeft="@android:drawable/ic_menu_upload"
                 android:text="Encode"
                 android:visibility="visible" />
 
@@ -74,6 +75,7 @@
             android:text="PREVIEW" />
 
         <FrameLayout
+            android:id="@+id/img_preview_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
@@ -83,6 +85,7 @@
             android:padding="1dp" >
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/img_preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

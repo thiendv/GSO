@@ -1,6 +1,8 @@
 package com.gso.hogoapi.fragement;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +12,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +23,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.artifex.mupdf.MuPDFFragment;
 import com.gso.hogoapi.APIType;
 import com.gso.hogoapi.FileDialog;
 import com.gso.hogoapi.HoGoApplication;
@@ -40,7 +44,7 @@ import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
 import com.squareup.picasso.Picasso;
 
-public class UploadFileFragment extends Fragment implements OnClickListener,
+public class UploadFileFragment extends MuPDFFragment implements OnClickListener,
 		IServiceListener {
 
 	private static final int SELECT_FILE = 0;
@@ -58,7 +62,15 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 	private String mPath;
 	private FileUpload mFileUpload;
 	private String mFileName;
+	private String mCurrentDateandTime;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle bundle = getArguments();
+		mFileUpload = (FileUpload) bundle.getSerializable("file");
+		core = openFile(Uri.decode(mFileUpload.getPdfPath()));
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -72,21 +84,36 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 				.findViewById(R.id.btn_check_encode_statsu);
 		mEtFilePath = (EditText) v.findViewById(R.id.et_file_path);
 
-		Bundle bundle = getArguments();
-		mFileUpload = (FileUpload) bundle.getSerializable("file");
-		
 		mFileName = getFileNameWithoutExtn(mFileUpload.getPdfPath());
 		
-		mEtFilePath.setText("" + mFileName);
+		final Calendar c = Calendar.getInstance();
+		int year = c.get(Calendar.YEAR);
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH) + 1;
 
-		ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
-		Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
-				.into(imgPreview);
+		int hours = c.get(Calendar.HOUR_OF_DAY);
+		int minutes = c.get(Calendar.MINUTE);
+		int second = c.get(Calendar.SECOND);
+		
+		mCurrentDateandTime = year + "-" + month + "-" + day;
+		mEtFilePath.setText("" + mFileName+"_"+mCurrentDateandTime+"_"+hours+"-"+minutes+"-"+second);
 
+		if (core == null) {
+			ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
+			imgPreview.setVisibility(View.VISIBLE);
+			Picasso.with(getActivity()).load(new File(mFileUpload.getJpgPath()))
+					.into(imgPreview);	
+		} else{
+			FrameLayout imgPreviewContainer = (FrameLayout) v.findViewById(R.id.img_preview_container);
+			View superView = super.onCreateView(inflater, imgPreviewContainer, savedInstanceState);
+			imgPreviewContainer.addView(superView);			
+		}
+		
 		btnUpload.setOnClickListener(this);
 		btnEncode.setOnClickListener(this);
 		btnCheckEncode.setOnClickListener(this);
 		btnUploadExe.setOnClickListener(this);
+		
 		return v;
 	}
 
@@ -221,17 +248,23 @@ public class UploadFileFragment extends Fragment implements OnClickListener,
 			FileData parseData = (FileData) resData.getData();
 			
 			if (resData.getStatus().equals("OK")) {
-				Toast.makeText(getActivity(), "Upload Successful",
-						Toast.LENGTH_LONG).show();
-				parseData.setFileTitle(""+mEtFilePath.getText().toString());
+				if(getActivity()!=null &&!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Upload Successful",
+							Toast.LENGTH_LONG).show();
+					parseData.setFileTitle(""+mEtFilePath.getText().toString());
+				}
+
 				((MainActivity) getActivity()).gotoEncodeScreen(parseData);
 			} else if (resData.getStatus()
 					.equalsIgnoreCase("SessionIdNotFound")) {
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity) getActivity()).gotologinScreen();
 			} else {
-				Toast.makeText(getActivity(), "Upload Fail" +resData.getData(), Toast.LENGTH_LONG)
-						.show();
+				if(getActivity()!=null &&!getActivity().isFinishing()){
+					Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+					.show();	
+				}
+
 			}
 		}
 		((MainActivity) getActivity()).setProgressVisibility(false);
