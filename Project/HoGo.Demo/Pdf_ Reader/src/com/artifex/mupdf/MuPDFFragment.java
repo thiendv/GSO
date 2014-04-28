@@ -26,7 +26,9 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -395,12 +397,20 @@ public class MuPDFFragment extends Fragment
 			searchModeOn();
 
 		// Stick the document view and the buttons overlay into a parent view
-		RelativeLayout layout = new RelativeLayout(getActivity());
-		layout.addView(mDocView);
-//		layout.addView(mButtonsView);
+//		RelativeLayout layout = new RelativeLayout(getActivity());
+//		layout.addView(mDocView);
+////		layout.addView(mButtonsView);
 //		layout.setBackgroundResource(R.drawable.tiled_background);
 //		getActivity().setContentView(layout);
-		return layout;
+        LinearLayout linearLayout = new LinearLayout(getActivity());
+        linearLayout.addView(mDocView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        linearLayout.setBackgroundResource(R.drawable.tiled_background);
+        ScrollView scrollView = new ScrollView(getActivity());
+        scrollView.addView(linearLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        scrollView.setFillViewport(true);
+        return scrollView;
 	}
 
 	@Override
