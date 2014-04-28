@@ -96,7 +96,9 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 		int second = c.get(Calendar.SECOND);
 		
 		mCurrentDateandTime = year + "-" + month + "-" + day;
-		mEtFilePath.setText("" + mFileName+"_"+mCurrentDateandTime+"_"+hours+"-"+minutes+"-"+second);
+		mEtFilePath.setText(
+                "" + mFileName + "_" + mCurrentDateandTime + "_" + hours + "-" + minutes + "-"
+                        + second);
 
 		if (core == null) {
 			ImageView imgPreview = (ImageView) v.findViewById(R.id.img_preview);
@@ -106,7 +108,8 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 		} else{
 			FrameLayout imgPreviewContainer = (FrameLayout) v.findViewById(R.id.img_preview_container);
 			View superView = super.onCreateView(inflater, imgPreviewContainer, savedInstanceState);
-			imgPreviewContainer.addView(superView);			
+			imgPreviewContainer.addView(superView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
 		}
 		
 		btnUpload.setOnClickListener(this);
