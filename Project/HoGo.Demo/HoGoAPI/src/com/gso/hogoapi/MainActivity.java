@@ -346,7 +346,8 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
     	mTopBar.setVisibility(b? View.VISIBLE: View.GONE);
 	}
 
-
+    
+    
 	@Override
     public void onJobCompleted() {
         super.onJobCompleted();
@@ -361,17 +362,22 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
                 // How to get inputStream.
             	final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
             	final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
+            	//Setting runing in Emulator
+                final boolean isEmulatorMode=true;
+                
             	Log.d("pdfPath","pdfPath"+pdfPath);
             	InputStream in = null;
 				try {
 					//Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
-					write(mScanPDF.getImageInputStream(), localPath);
-					//write(mScanPDF.getImageInputStream(), pdfPath);
-					in = mScanPDF.getImageInputStream();					
+					if(isEmulatorMode)
+	            	{
+						// process output image
+					   write(mScanPDF.getImageInputStream(), localPath);
+	            	}
+					else // process output PDF in real device
+						write(mScanPDF.getImageInputStream(), pdfPath);
 					
-					//write(mScanImage.getImageInputStream(1), localPath);
-					//in = mScanImage.getImageInputStream(1);
-					
+					in = mScanPDF.getImageInputStream();										
 					if (in != null) {													
 						runOnUiThread(new Runnable(){
 					          @Override
@@ -382,26 +388,29 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 					       });
 					}
 					
-					
-					JpegToPDF convert = new JpegToPDF();
-					File file = new File(pdfPath);
-					FileOutputStream fos = new FileOutputStream(file);
-					boolean result=convert.convertJpegToPDF(localPath, fos);
-					if(!result)
-					{
-						 runOnUiThread(new Runnable(){
-					          @Override
-					          public void run(){
-					            //update ui here
-					        	  Toast.makeText(getApplicationContext(),"Cannot convert Image to PDF!",Toast.LENGTH_SHORT).show();
-					          }
-					       });
+					// Convert output image to PDF if running in Emulator mode
+					if (isEmulatorMode) {
+						JpegToPDF convert = new JpegToPDF();
+						File file = new File(pdfPath);
+						FileOutputStream fos = new FileOutputStream(file);
+						boolean result = convert.convertJpegToPDF(localPath,
+								fos);
+						if (!result) {
+							runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									// update ui here
+									Toast.makeText(getApplicationContext(),
+											"Cannot convert Image to PDF!",
+											Toast.LENGTH_SHORT).show();
+								}
+							});
+						}
 					}
-						
 					
 					FileUpload item = new FileUpload();
 					item.setPdfPath(pdfPath);
-					item.setJpgPath(localPath);
+					//item.setJpgPath(localPath);
 					return item;
 				} catch (IOException e) { 
 					final String exMessage=e.getMessage();

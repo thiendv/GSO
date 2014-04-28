@@ -1290,7 +1290,6 @@ public class ScanStateMachine {
            requestAttributes.add(JobMode.SCAN_AND_STORE_TEMPORARY);
            requestAttributes.add(ScanColor.AUTO_COLOR);
            requestAttributes.add(OriginalSide.ONE_SIDE);
-           //requestAttributes.add(OriginalPreview.OFF);
            requestAttributes.add(OriginalPreview.OFF);
 
            FileSetting fileSetting = new FileSetting();
