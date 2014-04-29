@@ -1,6 +1,5 @@
 package com.gso.hogoapi;
 
-
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -56,23 +55,23 @@ import com.gso.hogoapi.util.pdf.JpegToPDF;
 import com.gso.hogoapi.views.RadioGroupController;
 import com.gso.hogoapi.views.TabButton;
 
-public class MainActivity extends ScanActivity implements RadioGroupController.OnCheckedChangeListener, OnClickListener{
+public class MainActivity extends ScanActivity implements
+		RadioGroupController.OnCheckedChangeListener, OnClickListener {
 
 	protected static final String TAG = MainActivity.class.getSimpleName();
 	private ProgressBar mPrBar;
 	private FrameLayout mContent;
-    private View mTopBar;
-    private View mBottomBar;
+	private View mTopBar;
+	private View mBottomBar;
 	private FragmentManager mFramentManager;
 	private View mBtnActionAdd;
-	private View mBtnActionSend; 
+	private View mBtnActionSend;
 
-	
 	public static List<FileData> fileDataList = new ArrayList<FileData>();
-    private ScanPDF mScanPDF;
-    private ScanImage mScanImage;
+	private ScanPDF mScanPDF;
+	private ScanImage mScanImage;
 
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -82,66 +81,71 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		mBtnActionSend.setOnClickListener(this);
 		mFramentManager = getSupportFragmentManager();
 		mPrBar = (ProgressBar) findViewById(R.id.pr_bar);
-        mTopBar = findViewById(R.id.top_bar);
-        mBottomBar = findViewById(R.id.bottom_bar);
-        mContent = (FrameLayout) findViewById(R.id.content);
-        initBottomBar();
-		initContent();
+		mTopBar = findViewById(R.id.top_bar);
+		mBottomBar = findViewById(R.id.bottom_bar);
+		mContent = (FrameLayout) findViewById(R.id.content);
+		initBottomBar();
+//		initContent();
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		initContent();
+	}
+	
+	@Override
+	public void onCheckedChanged(int checkedId) {
+		switch (checkedId) {
+		case R.id.tab_send_document:
+			gotoUpdateScreen();
+			break;
+		case R.id.tab_my_document:
+			gotoBookShelfScreen();
+			break;
+		case R.id.tab_send_history:
+			gotoHistoryScreen();
+			break;
+		}
+	}
 
-    @Override
-    public void onCheckedChanged(int checkedId) {
-        switch (checkedId) {
-            case R.id.tab_send_document:
-                gotoUpdateScreen();
-                break;
-            case R.id.tab_my_document:
-                gotoBookShelfScreen();
-                break;
-            case R.id.tab_send_history:
-                gotoHistoryScreen();
-                break;
-        }
-    }
-
-    private void gotoBookShelfScreen() {
-    	BookShelfFragment fragement = new BookShelfFragment();
+	private void gotoBookShelfScreen() {
+		BookShelfFragment fragement = new BookShelfFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.replace(R.id.content, fragement).commit();
 	}
 
-
 	private void initBottomBar() {
-//        final TabButton left = (TabButton) findViewById(R.id.tab_send_document);
-//        left.setType(TabButton.Type.left);
-        final TabButton middle = (TabButton) findViewById(R.id.tab_my_document);
-        middle.setType(TabButton.Type.left);
-        final TabButton right = (TabButton) findViewById(R.id.tab_send_history);
-        right.setType(TabButton.Type.right);
+		// final TabButton left = (TabButton)
+		// findViewById(R.id.tab_send_document);
+		// left.setType(TabButton.Type.left);
+		final TabButton middle = (TabButton) findViewById(R.id.tab_my_document);
+		middle.setType(TabButton.Type.left);
+		final TabButton right = (TabButton) findViewById(R.id.tab_send_history);
+		right.setType(TabButton.Type.right);
 
-        RadioGroupController radioGroupController = new RadioGroupController();
-        radioGroupController.setOnCheckedChangeListener(this);
-        radioGroupController.setRadioButtons(middle, right);
-        radioGroupController.setSelection(0);
-    }
+		RadioGroupController radioGroupController = new RadioGroupController();
+		radioGroupController.setOnCheckedChangeListener(this);
+		radioGroupController.setRadioButtons(middle, right);
+		radioGroupController.setSelection(0);
+	}
 
 	private void initContent() {
 		// TODO Auto-generated method stub
 		if (HoGoApplication.instace().getToken(this) != null) {
-            exitLogin();
-//			UploadFileFragment loginFragment = new UploadFileFragment();
-//			FragmentTransaction transaction = mFramentManager
-//					.beginTransaction();
-//			transaction.add(R.id.content, loginFragment).commit();
-            gotoScanScreen();
+//			exitLogin();
+			// UploadFileFragment loginFragment = new UploadFileFragment();
+			// FragmentTransaction transaction = mFramentManager
+			// .beginTransaction();
+			// transaction.add(R.id.content, loginFragment).commit();
+			gotoScanScreen();
 
 		} else {
-            mTopBar.setVisibility(View.GONE);
-            mBottomBar.setVisibility(View.GONE);
+			mTopBar.setVisibility(View.GONE);
+			mBottomBar.setVisibility(View.GONE);
 			LoginFragment loginFragment = new LoginFragment();
-			FragmentTransaction transaction = mFramentManager
-					.beginTransaction();
+			FragmentTransaction transaction = mFramentManager.beginTransaction();
 			transaction.add(R.id.content, loginFragment).commit();
 
 		}
@@ -158,9 +162,9 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 	public void gotoUpdateScreen() {
 		UploadFileFragment fragement = new UploadFileFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
-		transaction.addToBackStack(null);
+//		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
-		
+
 		setHeaderVisibility(true);
 
 	}
@@ -171,9 +175,9 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("file", file);
 		fragement.setArguments(bundle);
-		transaction.addToBackStack(null);
+//		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
-		
+
 		setHeaderVisibility(true);
 
 	}
@@ -188,7 +192,7 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		LoginFragment fragement = new LoginFragment();
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.replace(R.id.content, fragement).commit();
-		
+
 		setHeaderVisibility(true);
 	}
 
@@ -199,31 +203,31 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		bundle.putSerializable("file", parseData);
 		fragement.setArguments(bundle);
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
-		transaction.addToBackStack(null);
+//		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-		
+
 		setHeaderVisibility(true);
 	}
 
+	public void exitLogin() {
+		mTopBar.setVisibility(View.VISIBLE);
+		// mBottomBar.setVisibility(View.VISIBLE);
+	}
 
-    public void exitLogin() {
-        mTopBar.setVisibility(View.VISIBLE);
-//        mBottomBar.setVisibility(View.VISIBLE);
-    }
-    
-    public void enterBookShelfScreen() {
-    	mBtnActionAdd.setVisibility(View.VISIBLE);
-    }
-    public void exitBookShelfScreen() {
-    	mBtnActionAdd.setVisibility(View.GONE);
-    }
+	public void enterBookShelfScreen() {
+		mBtnActionAdd.setVisibility(View.VISIBLE);
+	}
 
-    private void gotoHistoryScreen() {
-    	SendHistoryFragment fragement = new SendHistoryFragment();
-    	FragmentTransaction transaction = mFramentManager.beginTransaction();
-    	transaction.replace(R.id.content, fragement).commit();
-    }
+	public void exitBookShelfScreen() {
+		mBtnActionAdd.setVisibility(View.GONE);
+	}
+
+	private void gotoHistoryScreen() {
+		SendHistoryFragment fragement = new SendHistoryFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.replace(R.id.content, fragement).commit();
+	}
 
 	public void gotoAddScreen(FileData fileData) {
 		AddFileSuccessfulFragment fragement = new AddFileSuccessfulFragment();
@@ -235,23 +239,23 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		sendData.setDataList(dataList);
 		bundle.putSerializable("send_data", sendData);
 		fragement.setArguments(bundle);
-//		transaction.replace(R.id.content, fragement);
-//		transaction.addToBackStack(null);
+		// transaction.replace(R.id.content, fragement);
+		// transaction.addToBackStack(null);
 		transaction.commit();
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-		
+
 		gotoSendDocumentScreen(sendData);
 	}
-	
+
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
 		case R.id.action_add:
-//			gotoAddScreen();
+			// gotoAddScreen();
 			gotoUpdateScreen();
 			break;
 		case R.id.action_send:
-//			gotoAddScreen();
+			// gotoAddScreen();
 			gotoSendScreen();
 			break;
 		default:
@@ -259,26 +263,24 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		}
 	}
 
-
 	private void gotoSendScreen() {
 		// TODO Auto-generated method stub
 		List<FileData> items = new ArrayList<FileData>();
 		SendData sendData = new SendData();
-		for(FileData item: BookShelfFragment.BookShelfAdapter.mItems){
-			if(item.getIsChecked()){
+		for (FileData item : BookShelfFragment.BookShelfAdapter.mItems) {
+			if (item.getIsChecked()) {
 				items.add(item);
 			}
 		}
 		FileData item = new FileData();
-		if(items.size() > 0){
+		if (items.size() > 0) {
 			sendData.setDataList(items);
 			gotoSendDocumentScreen(sendData);
-			
-		}else{
+
+		} else {
 			Toast.makeText(this, "Please choose any item before sending", Toast.LENGTH_LONG).show();
 		}
 	}
-
 
 	public void gotoSendDocumentScreen(SendData sendData) {
 		// TODO Auto-generated method stub
@@ -287,11 +289,10 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("send_data", sendData);
 		fragement.setArguments(bundle);
-		transaction.addToBackStack(null);
+//		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 		findViewById(R.id.top_bar).setVisibility(View.GONE);
 	}
-
 
 	public void gotoMainScreen() {
 		// TODO Auto-generated method stub
@@ -301,13 +302,11 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
 	}
 
-
 	public void changeAddtoSendData() {
 		// TODO Auto-generated method stub
 		findViewById(R.id.action_send).setVisibility(View.VISIBLE);
 		findViewById(R.id.action_add).setVisibility(View.GONE);
 	}
-
 
 	public void gotologinScreen() {
 		// TODO Auto-generated method stub
@@ -315,7 +314,6 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 		FragmentTransaction transaction = mFramentManager.beginTransaction();
 		transaction.replace(R.id.content, fragement).commit();
 	}
-
 
 	public void changeToAdd() {
 		// TODO Auto-generated method stub
@@ -326,102 +324,104 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		if(keyCode == event.KEYCODE_BACK){
+		if (keyCode == event.KEYCODE_BACK) {
 			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-//			onBackPressed();
+			// onBackPressed();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 
-    public void gotoScanScreen() {
-    	
-    	AppScanFragment fragement = new AppScanFragment();
-        FragmentTransaction transaction = mFramentManager.beginTransaction();
-        transaction.replace(R.id.content, fragement).commit();
-        setHeaderVisibility(false);
-    }
+	public void gotoScanScreen() {
 
-    private void setHeaderVisibility( boolean b) {
-		// TODO Auto-generated method stub
-    	mTopBar.setVisibility(b? View.VISIBLE: View.GONE);
+		getSupportFragmentManager().popBackStack();
+		AppScanFragment fragement = new AppScanFragment();
+		FragmentTransaction transaction = mFramentManager.beginTransaction();
+		transaction.replace(R.id.content, fragement).commit();
+		setHeaderVisibility(false);
 	}
 
-    
-    
+	private void setHeaderVisibility(boolean b) {
+		// TODO Auto-generated method stub
+		mTopBar.setVisibility(b ? View.VISIBLE : View.GONE);
+	}
+
 	@Override
-    public void onJobCompleted() {
-        super.onJobCompleted();
-        mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
-        //mScanImage = new ScanImage(((ScanSampleApplication) getApplication()).getScanJob());
-        /** Continue by change to send screen.
-         * After user click send. You can get inputStream by call ((MainActivity)getActivity).getPDFInputStream().
-         * */
-        new AsyncTask<Void, Void, FileUpload>() {
-            @Override
-            protected FileUpload doInBackground(Void... params) {
-                // How to get inputStream.
-            	final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
-            	final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
-            	//Setting runing in Emulator
-                final boolean isEmulatorMode=true;
-                
-            	Log.d("pdfPath","pdfPath"+pdfPath);
-            	InputStream in = null;
+	public void onJobCompleted() {
+		super.onJobCompleted();
+		mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
+		// mScanImage = new ScanImage(((ScanSampleApplication)
+		// getApplication()).getScanJob());
+		/**
+		 * Continue by change to send screen. After user click send. You can get
+		 * inputStream by call ((MainActivity)getActivity).getPDFInputStream().
+		 * */
+		new AsyncTask<Void, Void, FileUpload>() {
+			@Override
+			protected FileUpload doInBackground(Void... params) {
+				// How to get inputStream.
+				final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
+				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
+				// Setting runing in Emulator
+				final boolean isEmulatorMode = true;
+
+				Log.d("pdfPath", "pdfPath" + pdfPath);
+				InputStream in = null;
 				try {
-					//Log.d(TAG,"path: "  + mScanPDF.getImageFilePath());
-					if(isEmulatorMode)
-	            	{
+					// Log.d(TAG,"path: " + mScanPDF.getImageFilePath());
+					if (isEmulatorMode) {
 						// process output image
-					   write(mScanPDF.getImageInputStream(), localPath);
-	            	}
-					else // process output PDF in real device
+						write(mScanPDF.getImageInputStream(), localPath);
+					} else
+						// process output PDF in real device
 						write(mScanPDF.getImageInputStream(), pdfPath);
-					
-					in = mScanPDF.getImageInputStream();										
-					if (in != null) {													
-						runOnUiThread(new Runnable(){
-					          @Override
-					          public void run(){
-					            //update ui here
-					        	  Toast.makeText(getApplicationContext(),"Scan Job Completed! Get InputStream image success",Toast.LENGTH_SHORT).show();
-					          }
-					       });
+
+					in = mScanPDF.getImageInputStream();
+					if (in != null) {
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								// update ui here
+								Toast.makeText(getApplicationContext(),
+										"Scan Job Completed! Get InputStream image success",
+										Toast.LENGTH_SHORT).show();
+							}
+						});
 					}
-					
+
 					// Convert output image to PDF if running in Emulator mode
 					if (isEmulatorMode) {
 						JpegToPDF convert = new JpegToPDF();
 						File file = new File(pdfPath);
 						FileOutputStream fos = new FileOutputStream(file);
-						boolean result = convert.convertJpegToPDF(localPath,
-								fos);
+						boolean result = convert.convertJpegToPDF(localPath, fos);
 						if (!result) {
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
 									// update ui here
 									Toast.makeText(getApplicationContext(),
-											"Cannot convert Image to PDF!",
-											Toast.LENGTH_SHORT).show();
+											"Cannot convert Image to PDF!", Toast.LENGTH_SHORT)
+											.show();
 								}
 							});
 						}
 					}
-					
+
 					FileUpload item = new FileUpload();
 					item.setPdfPath(pdfPath);
-					//item.setJpgPath(localPath);
+					// item.setJpgPath(localPath);
 					return item;
-				} catch (IOException e) { 
-					final String exMessage=e.getMessage();
-					 runOnUiThread(new Runnable(){
-				          @Override
-				          public void run(){
-				            //update ui here
-				        	  Toast.makeText(getApplicationContext(),"Error: " + exMessage,Toast.LENGTH_LONG).show();
-				          }
-				       });
-					 
+				} catch (IOException e) {
+					final String exMessage = e.getMessage();
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							// update ui here
+							Toast.makeText(getApplicationContext(), "Error: " + exMessage,
+									Toast.LENGTH_LONG).show();
+						}
+					});
+
 					e.printStackTrace();
 				} finally {
 					if (in != null) {
@@ -432,106 +432,106 @@ public class MainActivity extends ScanActivity implements RadioGroupController.O
 						}
 					}
 				}
-                return null;
-            }
-            
-            @Override
-            protected void onPostExecute(FileUpload result) {
-            	super.onPostExecute(result);
-            	if (result != null) {
-            		gotoUpdateScreen(result);
-            	}
-            }
-        }.execute();
-        
-    }
-    
-    public byte[] readBytes(InputStream inputStream) throws IOException {
-    	  // this dynamically extends to take the bytes you read
-    	  ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+				return null;
+			}
 
-    	  // this is storage overwritten on each iteration with bytes
-    	  int bufferSize = 1024;
-    	  byte[] buffer = new byte[bufferSize];
+			@Override
+			protected void onPostExecute(FileUpload result) {
+				super.onPostExecute(result);
+				if (result != null) {
+					gotoUpdateScreen(result);
+				}
+			}
+		}.execute();
 
-    	  // we need to know how may bytes were read to write them to the byteBuffer
-    	  int len = 0;
-    	  while ((len = inputStream.read(buffer)) != -1) {
-    	    byteBuffer.write(buffer, 0, len);
-    	  }
+	}
 
-    	  // and then we can return your byte array.
-    	  return byteBuffer.toByteArray();
-    	}
-    
-    private static InputStream convert2PDF(String filePath) {
-        HttpURLConnection conn = null;
-        try {
-            URL url = new URL("http://do.convertapi.com/Image2Pdf");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(10000);
-            conn.setReadTimeout(10000);
-            conn.setRequestProperty("Content-Type", "multipart/form-data");
-            conn.setRequestMethod("POST");
-            conn.setDoInput(true);
-            conn.setUseCaches(true);
+	public byte[] readBytes(InputStream inputStream) throws IOException {
+		// this dynamically extends to take the bytes you read
+		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 
-            // Write post data
-            conn.setDoOutput(true);
-            OutputStream out = conn.getOutputStream();
-            MultipartEntity requestData = new MultipartEntity();
-            requestData.addPart("ApiKey", new StringBody("260387366"));
-            requestData.addPart("file", new FileBody(new File(filePath), "pdf"));
-            requestData.writeTo(out);
-            out.close();
-            InputStream is = null;
-            if (conn.getResponseCode() >= 400) {
-                is = conn.getErrorStream();
-            } else {
-                is = conn.getInputStream();
-            }
+		// this is storage overwritten on each iteration with bytes
+		int bufferSize = 1024;
+		byte[] buffer = new byte[bufferSize];
 
-            if (is == null) {
-                return null;
-            }
+		// we need to know how may bytes were read to write them to the
+		// byteBuffer
+		int len = 0;
+		while ((len = inputStream.read(buffer)) != -1) {
+			byteBuffer.write(buffer, 0, len);
+		}
 
-            return is;
+		// and then we can return your byte array.
+		return byteBuffer.toByteArray();
+	}
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	private static InputStream convert2PDF(String filePath) {
+		HttpURLConnection conn = null;
+		try {
+			URL url = new URL("http://do.convertapi.com/Image2Pdf");
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setConnectTimeout(10000);
+			conn.setReadTimeout(10000);
+			conn.setRequestProperty("Content-Type", "multipart/form-data");
+			conn.setRequestMethod("POST");
+			conn.setDoInput(true);
+			conn.setUseCaches(true);
 
-        return null;
+			// Write post data
+			conn.setDoOutput(true);
+			OutputStream out = conn.getOutputStream();
+			MultipartEntity requestData = new MultipartEntity();
+			requestData.addPart("ApiKey", new StringBody("260387366"));
+			requestData.addPart("file", new FileBody(new File(filePath), "pdf"));
+			requestData.writeTo(out);
+			out.close();
+			InputStream is = null;
+			if (conn.getResponseCode() >= 400) {
+				is = conn.getErrorStream();
+			} else {
+				is = conn.getInputStream();
+			}
 
-    }
-    
-    
-    public static void write(InputStream inStream, String output)
-            throws IOException {
-        final File outputFile = new File(output);
-        final File parent = outputFile.getParentFile();
-        if (!parent.exists()) {
-            parent.mkdirs();
-        }
-        FileOutputStream outStream = new FileOutputStream(outputFile);
-        byte[] buf = new byte[1024];
-        int l;
-        while ((l = inStream.read(buf)) >= 0) {
-            outStream.write(buf, 0, l);
-        }
-        inStream.close();
-        outStream.flush();
-        outStream.close();
-    }
+			if (is == null) {
+				return null;
+			}
 
-    /**
-     * NOTE: this method should be called in worker thread.
-     * @return Return the scanned pdf by input stream.
-     */
-    public InputStream getPDFInputStream() {
-        return mScanPDF.getImageInputStream();
-    	//return mScanImage.getImageInputStream(1);
-    }
+			return is;
+
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
+	}
+
+	public static void write(InputStream inStream, String output) throws IOException {
+		final File outputFile = new File(output);
+		final File parent = outputFile.getParentFile();
+		if (!parent.exists()) {
+			parent.mkdirs();
+		}
+		FileOutputStream outStream = new FileOutputStream(outputFile);
+		byte[] buf = new byte[1024];
+		int l;
+		while ((l = inStream.read(buf)) >= 0) {
+			outStream.write(buf, 0, l);
+		}
+		inStream.close();
+		outStream.flush();
+		outStream.close();
+	}
+
+	/**
+	 * NOTE: this method should be called in worker thread.
+	 * 
+	 * @return Return the scanned pdf by input stream.
+	 */
+	public InputStream getPDFInputStream() {
+		return mScanPDF.getImageInputStream();
+		// return mScanImage.getImageInputStream(1);
+	}
 }
