@@ -76,7 +76,7 @@ public class AddressBookAdapter extends BaseAdapter {
 
 		holder.email = item.getEmail();
 		holder.cbxTag.setChecked(item.isSelected());
-		holder.tvName.setText(item.getFirstName() + item.getMiddleName() + item.getLastName());
+		holder.tvName.setText(item.getFirstName() + " "+item.getMiddleName() + " "+item.getLastName());
 
 		holder.cbxTag.setTag(item);
 		convertView.setTag(holder);
