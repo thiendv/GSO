@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	private String currentDateandTime;
 	private CheckBox cbxIsPrint;
 	private Button btnAddressBook;
+	private EditText etFolder;
+	private EditText etCopyNumbder;
 
 	/**
 	 * @param args
@@ -81,6 +84,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		View v = inflater.inflate(R.layout.sendfile_screen, container, false);
 		Button btnSendFile = (Button) v.findViewById(R.id.btn_send_file_exe);
 		etMailto = (EditText) v.findViewById(R.id.et_mail_to);
+		etFolder = (EditText) v.findViewById(R.id.et_folder);
+		etCopyNumbder = (EditText) v.findViewById(R.id.et_copy_number);
 		btnDateExprid = (Button) v.findViewById(R.id.btn_doc_exquiry_date);
 		rLDateExprid = (RelativeLayout) v.findViewById(R.id.rl_doc_exprid_date);
 		btnAddressBook = (Button) v.findViewById(R.id.btn_address_book);
@@ -185,13 +190,16 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 
 		}
 	};
+	private Editable folder;
+	private Editable copyNumbder;
 
 	private void exeSendFile() {
 		// TODO Auto-generated method stub
 		String stringDataSend = getDocumentListId();
 		mailTo = getMailToList();
-
-		if (mailTo != null && mailTo.length() == 0) {
+		folder = etFolder.getText();
+		copyNumbder = etCopyNumbder.getText();
+		if ((mailTo != null && mailTo.length() == 0) || (folder != null && folder.length() == 0) || (copyNumbder != null && copyNumbder.length() == 0)) {
 			Toast.makeText(getActivity(), "Please check input data", Toast.LENGTH_LONG).show();
 		} else {
 			Service service = new Service(this);
@@ -199,6 +207,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 			params.put("SessionID", HoGoApplication.instace().getToken(getActivity()));
 			params.put("Documents", "" + stringDataSend);
 			params.put("Method", "1");
+			params.put("LocalCopies", ""+copyNumbder);
+			params.put("Folder", ""+folder);
 			params.put("status_desc", "Test");
 			params.put("Recipients", "" + mailTo);
 			params.put("Printing", cbxIsPrint.isChecked());
