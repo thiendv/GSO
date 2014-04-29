@@ -171,9 +171,11 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
-	        android:textColor="@color/gray"
-	        android:textSize="25px"
-	        android:text="@string/txid_scan_t_state_please_wait" />"
+	        android:text="@string/txid_scan_t_state_please_wait"
+	        android:textColor="@color/black"
+	        android:textSize="25px" />
+
+"
     </LinearLayout>
 
 </RelativeLayout>

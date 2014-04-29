@@ -362,7 +362,7 @@ public class MainActivity extends ScanActivity implements
 				final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
 				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
 				// Setting runing in Emulator
-				final boolean isEmulatorMode = true;
+				final boolean isEmulatorMode = false;
 
 				Log.d("pdfPath", "pdfPath" + pdfPath);
 				InputStream in = null;
@@ -372,8 +372,10 @@ public class MainActivity extends ScanActivity implements
 						// process output image
 						write(mScanPDF.getImageInputStream(), localPath);
 					} else
+					{
 						// process output PDF in real device
 						write(mScanPDF.getImageInputStream(), pdfPath);
+					}
 
 					in = mScanPDF.getImageInputStream();
 					if (in != null) {
