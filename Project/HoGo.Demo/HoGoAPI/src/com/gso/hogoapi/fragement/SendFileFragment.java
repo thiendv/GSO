@@ -19,12 +19,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gso.hogoapi.APIType;
@@ -43,7 +47,8 @@ import com.gso.serviceapilib.Service;
 import com.gso.serviceapilib.ServiceAction;
 import com.gso.serviceapilib.ServiceResponse;
 
-public class SendFileFragment extends Fragment implements OnClickListener, IServiceListener {
+public class SendFileFragment extends Fragment implements OnClickListener,
+		IServiceListener {
 
 	private static final int SELECT_FILE = 0;
 	private SendData sendData;
@@ -79,7 +84,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View v = inflater.inflate(R.layout.sendfile_screen, container, false);
 		Button btnSendFile = (Button) v.findViewById(R.id.btn_send_file_exe);
@@ -94,13 +100,42 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		rLDateExprid.setOnClickListener(this);
 		btnAddressBook.setOnClickListener(this);
 		cbxIsPrint = (CheckBox) v.findViewById(R.id.chx_allow_printing);
-		cbxIsPrint.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		cbxIsPrint
+				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						// TODO Auto-generated method stub
+						isPrint = isChecked;
+
+					}
+				});
+
+		Spinner spinner = (Spinner) v.findViewById(R.id.sp_copy_number);
+		final String[] items = new String[] { "2", "3", "4",
+				"5","6","7","8","9","10" };
+
+		ArrayAdapter<String> ad = new ArrayAdapter<String>(getActivity(),
+				android.R.layout.simple_spinner_item, items);
+
+		ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinner.setAdapter(ad);
+		
+		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
 				// TODO Auto-generated method stub
-				isPrint = isChecked;
+				mLocalCopies = ((TextView) arg1).getText().toString();
+			}
 
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -136,7 +171,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		AddressBookFragement fragment = new AddressBookFragement();
 		fragment.setTargetFragment(this, 1);
 
-		getFragmentManager().beginTransaction().add(fragment, "address_book").commit();
+		getFragmentManager().beginTransaction().add(fragment, "address_book")
+				.commit();
 	}
 
 	@Override
@@ -162,7 +198,8 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		// TODO Auto-generated method stub
 		String mailTo = "";
 		for (AddressBookItem item : list) {
-			mailTo += mailTo.equals("") ? "" + item.getEmail() : "," + item.getEmail();
+			mailTo += mailTo.equals("") ? "" + item.getEmail() : ","
+					+ item.getEmail();
 		}
 		etMailto.setText(mailTo);
 	}
@@ -170,20 +207,22 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	private void showDatePicker() {
 		// TODO Auto-generated method stub
 		Log.d("showDatePicker", "showDatePicker");
-		new DatePickerDialog(getActivity(), datePickerListener, year, month, day).show();
+		new DatePickerDialog(getActivity(), datePickerListener, year, month,
+				day).show();
 	}
 
 	private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
 
 		// when dialog box is closed, below method will be called.
-		public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+		public void onDateSet(DatePicker view, int selectedYear,
+				int selectedMonth, int selectedDay) {
 			year = selectedYear;
 			month = selectedMonth;
 			day = selectedDay;
 
 			// set selected date into textview
-			btnDateExprid.setText(new StringBuilder().append(year).append("/").append(month + 1)
-					.append("/").append(day));
+			btnDateExprid.setText(new StringBuilder().append(year).append("/")
+					.append(month + 1).append("/").append(day));
 
 			// set selected date into datepicker also
 			// dpResult.init(year, month, day, null);
@@ -199,16 +238,20 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		mailTo = getMailToList();
 		folder = etFolder.getText();
 		copyNumbder = etCopyNumbder.getText();
-		if ((mailTo != null && mailTo.length() == 0) || (folder != null && folder.length() == 0) || (copyNumbder != null && copyNumbder.length() == 0)) {
-			Toast.makeText(getActivity(), "Please check input data", Toast.LENGTH_LONG).show();
+		if ((mailTo != null && mailTo.length() == 0)
+				|| (folder != null && folder.length() == 0)
+				|| (copyNumbder != null && copyNumbder.length() == 0)) {
+			Toast.makeText(getActivity(), "Please check input data",
+					Toast.LENGTH_LONG).show();
 		} else {
 			Service service = new Service(this);
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("SessionID", HoGoApplication.instace().getToken(getActivity()));
+			params.put("SessionID",
+					HoGoApplication.instace().getToken(getActivity()));
 			params.put("Documents", "" + stringDataSend);
 			params.put("Method", "1");
-			params.put("LocalCopies", ""+copyNumbder);
-			params.put("Folder", ""+folder);
+			params.put("LocalCopies", "" + copyNumbder);
+			params.put("Folder", "" + folder);
 			params.put("status_desc", "Test");
 			params.put("Recipients", "" + mailTo);
 			params.put("Printing", cbxIsPrint.isChecked());
@@ -228,12 +271,17 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	private String getDocumentListId() {
 		// TODO Auto-generated method stub
 		String result = null;
-		for (FileData item : sendData.getDataList()) {
-			if (result == null) {
-				result = "" + item.getDocumentId();
-			} else {
-				result += "," + item.getDocumentId();
+		try {
+			for (FileData item : sendData.getDataList()) {
+				if (result == null) {
+					result = "" + item.getDocumentId();
+				} else {
+					result += "," + item.getDocumentId();
+				}
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		Log.d("getDocumentListId", "getDocumentListId " + result);
 		return result;
@@ -242,10 +290,12 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	@Override
 	public void onCompleted(Service service, ServiceResponse result) {
 		// TODO Auto-generated method stub
-		if (result.isSuccess() && result.getAction() == ServiceAction.ActionSend) {
+		if (result.isSuccess()
+				&& result.getAction() == ServiceAction.ActionSend) {
 			Log.d("onCompleted", "onCompleted " + result.getData());
 			DataParser parser = new DataParser(true);
-			ResponseData resData = parser.parseSendResponse((String) result.getData());
+			ResponseData resData = parser.parseSendResponse((String) result
+					.getData());
 
 			if (resData.getStatus().equalsIgnoreCase("OK")) {
 				// Toast.makeText(getActivity(), "Send Successful",
@@ -253,32 +303,39 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 				PackageData packageData = (PackageData) resData.getData();
 				sendJPackageNote(packageData);
 				// ((MainActivity) getActivity()).gotoMainScreen();
-			} else if (resData.getStatus().equalsIgnoreCase("SessionIdNotFound")) {
+			} else if (resData.getStatus()
+					.equalsIgnoreCase("SessionIdNotFound")) {
 				HoGoApplication.instace().setToken(getActivity(), null);
 				((MainActivity) getActivity()).gotologinScreen();
 				((MainActivity) getActivity()).setProgressVisibility(false);
 			} else {
-				if(getActivity()!=null &&!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Send Fail", Toast.LENGTH_LONG).show();
+				if (getActivity() != null && !getActivity().isFinishing()) {
+					Toast.makeText(getActivity(), "Send Fail",
+							Toast.LENGTH_LONG).show();
 					((MainActivity) getActivity()).setProgressVisibility(false);
 				}
 
 			}
-		} else if (result.isSuccess() && result.getAction() == ServiceAction.ActionSendPackageNote) {
+		} else if (result.isSuccess()
+				&& result.getAction() == ServiceAction.ActionSendPackageNote) {
 			Log.d("onCompleted", "ActionSendPackageNote " + result.getData());
 			DataParser parser = new DataParser(true);
-			ResponseData resData = parser.parseSendResponse((String) result.getData());
+			ResponseData resData = parser.parseSendResponse((String) result
+					.getData());
 			((MainActivity) getActivity()).setProgressVisibility(false);
-			if(getActivity()!=null &&!getActivity().isFinishing()){
+			if (getActivity() != null && !getActivity().isFinishing()) {
 				if (resData.getStatus().equalsIgnoreCase("OK")) {
-					Toast.makeText(getActivity(), "Send Successful", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Send Successful",
+							Toast.LENGTH_LONG).show();
 
 					((MainActivity) getActivity()).gotoScanScreen();
-				} else if (resData.getStatus().equalsIgnoreCase("SessionIdNotFound")) {
+				} else if (resData.getStatus().equalsIgnoreCase(
+						"SessionIdNotFound")) {
 					HoGoApplication.instace().setToken(getActivity(), null);
 					((MainActivity) getActivity()).gotologinScreen();
 				} else {
-					Toast.makeText(getActivity(), "Send Fail", Toast.LENGTH_LONG).show();
+					Toast.makeText(getActivity(), "Send Fail",
+							Toast.LENGTH_LONG).show();
 				}
 			}
 
@@ -292,13 +349,15 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 		// TODO Auto-generated method stub
 		Service service = new Service(this);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("SessionID", HoGoApplication.instace().getToken(getActivity()));
+		params.put("SessionID",
+				HoGoApplication.instace().getToken(getActivity()));
 		params.put("PackageID", "" + packageData.getId());
 		params.put("EmailAddress", mailTo);
 		// params.put("Subject",);// "HoGo has sent you the following documents"
 		// params.put("Message", "");
 
-		service.login(ServiceAction.ActionSendPackageNote, APIType.SEND_PACKAGE_NOTE, params);
+		service.login(ServiceAction.ActionSendPackageNote,
+				APIType.SEND_PACKAGE_NOTE, params);
 		((MainActivity) getActivity()).setProgressVisibility(true);
 	}
 

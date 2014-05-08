@@ -36,7 +36,7 @@ public class LoginFragment extends Fragment implements IServiceListener {
 
 	private Object mUserName;
 	private Object mPassword;
-	private Object mIsKeepMein;
+	private boolean mIsKeepMein = true;
 	private EditText mEtUsername;
 	private EditText mEtUserpassword;
 	private ProgressBar mPrBar;
