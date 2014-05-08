@@ -228,12 +228,17 @@ public class SendFileFragment extends Fragment implements OnClickListener, IServ
 	private String getDocumentListId() {
 		// TODO Auto-generated method stub
 		String result = null;
-		for (FileData item : sendData.getDataList()) {
-			if (result == null) {
-				result = "" + item.getDocumentId();
-			} else {
-				result += "," + item.getDocumentId();
+		try {
+			for (FileData item : sendData.getDataList()) {
+				if (result == null) {
+					result = "" + item.getDocumentId();
+				} else {
+					result += "," + item.getDocumentId();
+				}
 			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		Log.d("getDocumentListId", "getDocumentListId " + result);
 		return result;

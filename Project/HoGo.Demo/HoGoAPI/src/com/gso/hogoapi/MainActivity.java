@@ -326,6 +326,7 @@ public class MainActivity extends ScanActivity implements
 		// TODO Auto-generated method stub
 		if (keyCode == event.KEYCODE_BACK) {
 			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+			System.exit(1);
 			// onBackPressed();
 		}
 		return super.onKeyDown(keyCode, event);
