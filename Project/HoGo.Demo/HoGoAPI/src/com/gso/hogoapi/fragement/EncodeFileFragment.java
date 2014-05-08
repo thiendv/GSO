@@ -139,9 +139,7 @@ public class EncodeFileFragment extends DialogFragment implements
 			boolean encodeStatus = resData.getStatus().equalsIgnoreCase("OK");
 			if (encodeStatus) {
 				if(getActivity()!=null && !getActivity().isFinishing()){
-					Toast.makeText(getActivity(),
-							"Upload Successful waiting Encode data",
-							Toast.LENGTH_LONG).show();
+					//Toast.makeText(getActivity(),"Please waiting for encoding data!",Toast.LENGTH_LONG).show();
 					checkEncodeData();					
 				}
 			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
@@ -149,7 +147,7 @@ public class EncodeFileFragment extends DialogFragment implements
 				((MainActivity)getActivity()).gotologinScreen();
 			}else {
 				if(getActivity()!=null&&!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+					Toast.makeText(getActivity(), "Encode Fail", Toast.LENGTH_LONG)
 					.show();
 					
 				}
@@ -171,7 +169,7 @@ public class EncodeFileFragment extends DialogFragment implements
 				
 				if(getActivity()!=null && !getActivity().isFinishing()){
 					Toast.makeText(getActivity(),
-							"Upload Successful and Encode data sucessful",
+							"Document encoded successfully",
 							Toast.LENGTH_LONG).show();
 				}
 

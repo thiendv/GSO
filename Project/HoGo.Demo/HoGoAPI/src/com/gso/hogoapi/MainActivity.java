@@ -70,6 +70,8 @@ public class MainActivity extends ScanActivity implements
 	public static List<FileData> fileDataList = new ArrayList<FileData>();
 	private ScanPDF mScanPDF;
 	private ScanImage mScanImage;
+	//Setting mode for running in emulator or real Ricoh device
+	final boolean isEmulatorMode = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -324,20 +326,12 @@ public class MainActivity extends ScanActivity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		/*
-		if (keyCode == event.KEYCODE_BACK) {
-			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-			System.exit(1);
-			// onBackPressed();
-		}
-		return super.onKeyDown(keyCode, event);
-		*/
-		super.onKeyDown(keyCode, event);
-	     if (keyCode == KeyEvent.KEYCODE_BACK) {
-	      finish();
-	      return true;
-	     }
-	     return false;
+				if (keyCode == event.KEYCODE_BACK) {
+					//findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+					System.exit(1);
+					// onBackPressed();
+				}
+				return super.onKeyDown(keyCode, event);
 	}
 
 	public void gotoScanScreen() {
@@ -370,9 +364,7 @@ public class MainActivity extends ScanActivity implements
 				// How to get inputStream.
 				final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
 				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
-				// Setting runing in Emulator
-				final boolean isEmulatorMode = true;
-
+						
 				Log.d("pdfPath", "pdfPath" + pdfPath);
 				InputStream in = null;
 				try {
@@ -393,7 +385,7 @@ public class MainActivity extends ScanActivity implements
 							public void run() {
 								// update ui here
 								Toast.makeText(getApplicationContext(),
-										"Scan Job Completed! Get InputStream image success",
+										"Scan Job Completed! Please wait a moment ...",
 										Toast.LENGTH_SHORT).show();
 							}
 						});
@@ -543,7 +535,6 @@ public class MainActivity extends ScanActivity implements
 	 */
 	public InputStream getPDFInputStream() {
 		return mScanPDF.getImageInputStream();
-		// return mScanImage.getImageInputStream(1);
 	} 
 	
 	

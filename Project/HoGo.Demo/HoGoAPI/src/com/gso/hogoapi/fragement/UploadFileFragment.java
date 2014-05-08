@@ -252,7 +252,7 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 			
 			if (resData.getStatus().equals("OK")) {
 				if(getActivity()!=null &&!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Upload Successful",
+					Toast.makeText(getActivity(), "Document uploaded successfully, please waiting for encoding data.",
 							Toast.LENGTH_LONG).show();
 					parseData.setFileTitle(""+mEtFilePath.getText().toString());
 				}
