@@ -371,7 +371,7 @@ public class MainActivity extends ScanActivity implements
 				final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
 				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
 				// Setting runing in Emulator
-				final boolean isEmulatorMode = false;
+				final boolean isEmulatorMode = true;
 
 				Log.d("pdfPath", "pdfPath" + pdfPath);
 				InputStream in = null;
