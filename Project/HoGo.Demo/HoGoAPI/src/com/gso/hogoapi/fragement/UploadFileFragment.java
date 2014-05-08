@@ -256,7 +256,7 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 							Toast.LENGTH_LONG).show();
 					parseData.setFileTitle(""+mEtFilePath.getText().toString());
 				}
-
+				((MainActivity) getActivity()).deleteFile(mFileUpload);
 				((MainActivity) getActivity()).gotoEncodeScreen(parseData);
 			} else if (resData.getStatus()
 					.equalsIgnoreCase("SessionIdNotFound")) {
@@ -270,6 +270,7 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 
 			}
 		}
+		
 		((MainActivity) getActivity()).setProgressVisibility(false);
 	}
 

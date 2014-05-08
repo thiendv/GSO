@@ -206,7 +206,7 @@ public class MainActivity extends ScanActivity implements
 //		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-
+		
 		setHeaderVisibility(true);
 	}
 
@@ -325,9 +325,9 @@ public class MainActivity extends ScanActivity implements
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == event.KEYCODE_BACK) {
-			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+			//findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
 			System.exit(1);
-			// onBackPressed();
+			// onBackPressesd();
 		}
 		return super.onKeyDown(keyCode, event);
 	}
@@ -363,7 +363,7 @@ public class MainActivity extends ScanActivity implements
 				final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
 				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
 				// Setting runing in Emulator
-				final boolean isEmulatorMode = false;
+				final boolean isEmulatorMode = true;
 
 				Log.d("pdfPath", "pdfPath" + pdfPath);
 				InputStream in = null;
@@ -536,5 +536,54 @@ public class MainActivity extends ScanActivity implements
 	public InputStream getPDFInputStream() {
 		return mScanPDF.getImageInputStream();
 		// return mScanImage.getImageInputStream(1);
+	}
+	
+	class ASynDeleteFile extends AsyncTask<String, Boolean, Boolean> {
+
+		private FileUpload mFile;
+
+		ASynDeleteFile(FileUpload fileUpload) {
+			this.mFile = fileUpload;
+		}
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			boolean status = false;
+			if (mFile != null) {
+				try {
+					File file = new File(mFile.getJpgPath());
+					file.delete();
+					status = true;
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+				
+				try {
+					File pdfFile = new File(mFile.getPdfPath());
+					pdfFile.delete();
+					status = true;
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+
+			}
+			return status;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			Log.d("onPostExecute","onPostExecute "+ result);
+			super.onPostExecute(result);
+		}
+
+	}
+
+	public void deleteFile(FileUpload mFileUpload) {
+		// TODO Auto-generated method stub
+		new ASynDeleteFile(mFileUpload).execute();
 	}
 }
