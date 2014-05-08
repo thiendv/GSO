@@ -230,17 +230,17 @@ public class SendFileFragment extends Fragment implements OnClickListener,
 		}
 	};
 	private Editable folder;
-	private Editable copyNumbder;
+//	private Editable copyNumbder;
 
 	private void exeSendFile() {
 		// TODO Auto-generated method stub
 		String stringDataSend = getDocumentListId();
 		mailTo = getMailToList();
 		folder = etFolder.getText();
-		copyNumbder = etCopyNumbder.getText();
+//		copyNumbder = etCopyNumbder.getText();
 		if ((mailTo != null && mailTo.length() == 0)
 				|| (folder != null && folder.length() == 0)
-				|| (copyNumbder != null && copyNumbder.length() == 0)) {
+				) {//|| (copyNumbder != null && copyNumbder.length() == 0)
 			Toast.makeText(getActivity(), "Please check input data",
 					Toast.LENGTH_LONG).show();
 		} else {
@@ -250,7 +250,7 @@ public class SendFileFragment extends Fragment implements OnClickListener,
 					HoGoApplication.instace().getToken(getActivity()));
 			params.put("Documents", "" + stringDataSend);
 			params.put("Method", "1");
-			params.put("LocalCopies", "" + copyNumbder);
+			params.put("LocalCopies", "" + mLocalCopies);
 			params.put("Folder", "" + folder);
 			params.put("status_desc", "Test");
 			params.put("Recipients", "" + mailTo);
