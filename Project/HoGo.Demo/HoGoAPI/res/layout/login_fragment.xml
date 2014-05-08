@@ -20,7 +20,7 @@
         android:layout_below="@+id/img_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:text="Copyright © 2013 HoGo, Inc. All Rights Reserved"
+        android:text="Copyright © 2014 HoGo, Inc. All Rights Reserved"
         android:textSize="12sp" />
 
     <ScrollView

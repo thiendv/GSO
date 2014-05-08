@@ -324,11 +324,19 @@ public class MainActivity extends ScanActivity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
+		/*
 		if (keyCode == event.KEYCODE_BACK) {
 			findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
 			// onBackPressed();
 		}
 		return super.onKeyDown(keyCode, event);
+		*/
+		super.onKeyDown(keyCode, event);
+	     if (keyCode == KeyEvent.KEYCODE_BACK) {
+	      finish();
+	      return true;
+	     }
+	     return false;
 	}
 
 	public void gotoScanScreen() {
@@ -535,5 +543,7 @@ public class MainActivity extends ScanActivity implements
 	public InputStream getPDFInputStream() {
 		return mScanPDF.getImageInputStream();
 		// return mScanImage.getImageInputStream(1);
-	}
+	} 
+	
+	
 }
