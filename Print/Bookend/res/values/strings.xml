@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 共通 -->
+    <string name="close">Close</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="web_delete">Delete from WebLibrary</string>
+    <string name="send">Send</string>
+    <string name="back">Back</string>
+    <string name="connected">Sorry, This function need internet connection.</string>
+    <string name="starting">Starting</string>
+    <string name="indefinitely">Indefinitely.</string>
+    <string name="unlimited">Unlimited.</string>
+    <string name="download">Download</string>
+    <string name="retry">Retry</string>
+
+    <!-- InAppBilling -->
+    <string name="appMarket_connect_error">Error connecting to Google Play.</string>
+    <string name="error_inappbilling_publicKey">InAppBilling publicKey is NG.</string>
+    <string name="billing_help_url" formatted="false">http://market.android.com/support/bin/answer.py?answer=1050566&amp;hl=%lang%&amp;dl=%region%</string>
+    <string name="learn_more">Learn more</string>
+    <string name="billing_not_supported_title">Can\'t make purchases</string>
+    <string name="billing_not_supported_message">The Market billing
+     service is not available at this time.  You can continue to use this app but you
+     won\'t be able to make purchases.</string>
+    <string name="cannot_connect_title">Can\'t connect to Market</string>
+    <string name="cannot_connect_message">This app cannot connect to Market.
+     Your version of Market may be out of date.
+     You can continue to use this app but you
+     won\'t be able to make purchases.</string>
+     <string name="purchased">Purchased.</string>
+    <string name="must_purchased">It is necessary to purchase it.</string>
+
+    <!-- Contents Status error -->
+    <string name="downloaded">This contents is already downloaded.</string>
+    <string name="contents_no">Specified file is not exist : ErrorCode 103</string>
+    <string name="invalid_platform_error">This content is not allowed view on the Android.</string>
+    <string name="expiry_date_error">This contents is expired.</string>
+    <string name="browse_count_error">There is no remain count of browsing.</string>
+    <string name="shared_device_error">There is no remain sharing count.</string>
+    <string name="filetype_error">This type of file is not supported.</string>
+    <string name="offline_browse_count_error">You need internet connection for view this contents.</string>
+    <string name="dl_error_no_dir">Check Error, content directory.</string>
+
+    <!-- Menu -->
+    <string name="menu_sort">Sort</string>
+    <string name="descend_date">Download Date(descend) </string>
+    <string name="ascend_date">Download Date(ascend)</string>
+    <string name="descend_title">Title(descend)</string>
+    <string name="ascend_title">Title(ascend)</string>
+    <string name="menu_filter">Filter</string>
+    <string name="menu_filter_yet">Not downloaded</string>
+    <string name="menu_filter_all">All contents</string>
+    
+    <!-- MainActivity -->
+    <string name="caution_sdcard">Please set SD card.</string>
+    <string name="viewer_install">Install Viewer App</string>
+    <string name="viewer_update">Update Viewer App</string>
+    <string name="caution_adobereader">You need install AdobeReader for view the contents.</string>
+    <string name="caution_epubviewer">You need install EPubViewer for view the contents.</string>
+    <string name="epubviewer_versionup">You need update EPubViewer for view the contents.</string>
+    <string name="reset_finish">This %1$s has been reset by other one.</string>
+    <string name="reset_complete">Reset process has been completed.</string>
+    <string name="reset_init_restart">This %1$s has been reset by other one.\nThis bookend is initialized and restart now.</string>
+    <string name="first_activation_offline">Please make the network online　at first startup.</string>
+    <string name="activation_false">Restart application is failed.</string>
+    <string name="delete_capture">Screen shots are deleted.</string>
+    <string name="ver_dialog_title">Update application</string>
+    <string name="new_ver">Latest version : </string>
+    <string name="now_ver">Current version : </string>
+    <string name="ver_refer_url_1">Please click URL</string>
+    <string name="ver_refer_url_2">for check the release notes.</string>
+    <string name="ver_force_message">* You need update for latest version.</string>
+    <string name="after">Skip</string>
+    <string name="list_title">BookShelf</string>
+    <string name="list_contents_title">Title</string>
+    <string name="list_auther">Author</string>
+    <string name="open_fail_updatepage">Was not able to transition to the download page.</string>
+
+    <!-- Contents Detail Dialog -->
+    <string name="detail">Contents Info</string>
+    <string name="detail_title">[ Title ] </string>
+    <string name="detail_auther">[ Author ] </string>
+    <string name="detail_distributor_name">[ Distributor Name ] </string>
+    <string name="detail_distributor_url">[ Distributor URL ] </string>
+    <string name="detail_downloadDate">[ Download Date ] </string>
+    <string name="detail_lastAccessDate">[ LastAccess Date ] </string>
+    <string name="detail_shared_device">[ Sharing Count ] </string>
+    <string name="detail_expiry_date">[ Expiry Date ] </string>
+
+    <!-- MainActivity AlertDialog ERROR -->
+    <string name="debug_mode_message">USB debugging is enabled.Please disable that. : ErrorCode 100</string>
+    <string name="clock_check_error">Check clock error : ErrorCode 101</string>
+    <string name="error_remove_layer">Content processing errors : ErrorCode 200</string>
+    <string name="naviUrl_null">URL is null.</string>
+    <string name="error_view_pdf">Could not load the PDF file : ErrorCode 201</string>
+    <string name="key_fail">Bookend key is null : ErrorCode 202</string>
+    <string name="error_send_market">An Google Play page did not open. : ErrorCode 203</string>
+
+    <!-- Progressbar -->
+    <string name="checking">Checking</string>
+    <string name="getting">Getting contents list.</string>
+    <string name="sendding">Sendding</string>
+    <string name="progress_processing">Process contents.</string>
+    <string name="viewer_start">Open viewer.</string>
+    <string name="download_confirm">Download confirmation.</string>
+    <string name="download_wait">Waiting for download.</string>
+    <string name="downloading">Downloading.</string>
+    <string name="download_finish">Download completed.</string>
+    <string name="download_fail">Download error.</string>
+    <string name="registration">Registration.</string>
+    <string name="regist_check">Checking email address.</string>
+
+    <!-- New Contents DL ERROR -->
+    <string name="dl_offline_error">Network connection could not be confirmed.</string>
+    <string name="dl_url_error">Download URL is error.</string>
+    <string name="download_error">Download failed : ErrorCode 102</string>
+    <string name="db_error">Content registration error : ErrorCode 104</string>
+    <string name="already_downloaded_error">This content is already downloaded : ErrorCode 106</string>
+    <string name="authkey_error_contentsid">Check ContentsID failed : ErrorCode 107</string>
+    <string name="authkey_error_host">Check AuthKey failed (Host) : ErrorCode 108</string>
+    <string name="authkey_error_key">Check AuthKey failed (Authkey) : ErrorCode 109</string>
+    <string name="http_error">HTTP error : ErrorCode 110</string>
+    <string name="download_service_error">Could not start the download.</string>
+
+    <!-- StoreActivity -->
+    <string name="store_type_NG">This type of store is not supported.</string>
+    <string name="get_store">Getting sales site list.</string>
+
+    <!-- OptionActivity -->
+    <string name="version">Version</string>
+    <string name="option_confirm_address_title">MailAddress</string>
+    <string name="unregistered">Unregistered</string>
+    <string name="change">Change of\nemail address</string>
+    <string name="reset">Reset the\nWeb Library</string>
+    <string name="reset_message">		Deactivate all bookend\n
+		then you can reset\n
+		the \"Remain sharing\" for\n
+		all contents in the WebLibrary.\n</string>
+
+    <!-- WebBookShelf -->
+    <string name="webshelf_title">CloudLibrary</string>
+    <string name="getcontents_error">Get Cloud Library info is failed : ErrorCode 11009</string>
+    <string name="getcontents">Get Cloud Library info…</string>
+    <string name="download_count_ng">You can download up to three at a time.</string>
+    <string name="contents_delete_message">	    The contents will be deleted from a Cloud Library,
+		and the file in sync with other bookend apps are also deleted.
+		This operation is not undoable.\n
+		Is it OK?</string>
+
+    <!-- Regist MailAddress -->
+    <string name="regist_title1">1.Register e-mail address.</string>
+    <string name="regist_address_msg">Please enter the e-mail address and push "Send".\n\nYou can share the contents with other PCs which same e-mail address registered.</string>
+    <string name="regist_title2">2.Enter the PIN code.</string>
+    <string name="pin">PIN</string>
+    <string name="regist_pin_msg">Please enter a PIN code on the e-mail.\n\nIf you can not receive it, please check the e-mail address you enterd.</string>
+    
+    <string name="bookshelf_regist_message">		You need a e-mail address registration for using Cloud Library.\n
+		Please enter the e-mail address and push \"Send\".\n
+		We send a confirmation mail.\n</string>
+    <string name="change_address_message">		Please enter the new e-mail address and push \"Send\".\n
+		We send a confirmation mail.\n</string>
+    <string name="shelf_regist_after_mes">We send a mail to \"%1$s\".\nPlease enter a PIN code on the mail.</string>
+    <string name="mail_address_none">MailAddress None.</string>
+    <string name="mailaddress_false">Invalid mail address.</string>
+    <string name="pin_false">Invalid PIN code.</string>
+
+</resources>

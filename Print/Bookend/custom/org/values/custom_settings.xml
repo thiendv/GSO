@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- 言語依存のある設定のみこちらに記述します
+    	言語依存の無い設定は custom_settings2.xml に記述してください -->
+    
+    <!-- アプリ名 -->
+    <string name="app_name">bookend</string>
+
+    <!-- Menu -->
+    <string name="menu_main">BookShelf</string>
+    <string name="menu_store">Store</string>
+    <string name="menu_bookshelf">CloudLibrary</string>
+    <string name="menu_option">Option</string>
+    <string name="menu_help">Help</string>
+</resources>

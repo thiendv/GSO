@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- カスタム名 -->
+    <string name="custom_name">kinzai</string>
+    
+    <!-- サービスバインド用カテゴリー名 ※マニフェストは参照が効かないので修正すること -->
+    <string name="service_category">category_kinzai</string>
+    
+    <!-- オーナーID -->
+    <string name="owner_id">154</string>
+    
+    <!-- ヘルプフラグ = 0:標準, 1:専用URL(要help_url設定) -->
+    <string name="help_flag">0</string>
+    
+    <!-- ヘルプURL -->
+    <string name="help_url"></string>
+    
+    <!-- メニューのストアボタン表示有無フラグ = 0:標準, 1:なし, 2:専用 -->
+    <string name="store_flag">1</string>
+    
+    <!-- メニューのWeb書庫ボタン表示有無フラグ = 0:有り（標準）, 1:無し -->
+    <string name="webshelf_btn_flag">0</string>
+    
+    <!-- Splash画像の下の背景を白にするかどうかフラグ = 0:そのまま(黒), 1:白 -->
+    <string name="splash_background_white">0</string>
+    
+    <!-- InAppBilling base64EncodedPublicKey 
+    	アプリを公開するGoogleアカウントの公開鍵を指定する必要があります　-->
+    <string name="inAppBilling_publicKey">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhgOUeO+syd30qoJ/q9JqFOM+pAtMpvcnE6Te++4niQW8I+lYxlzq66VGjomsEUFnmEYTRNGIht3lHQgO5t6T3XC6qPBLvMuVPJLhAMmZG6gBvPePheNEntofHyu9GdVHswXAH9tj7up/17BdtJYXQLXR4uSsmjPzHj0vOYXS6hxInGxcDYJgZh1vvaHNaPie2sZi3z2+/NGDmsyRaSfR9ch8lm8HVbov2OMQCoQA80MO7p/gpsbQE+BKLSBKnPaFkkLbHTZwmIKzvoDR1wUr+yUaeFPQ4vo8GCYj9IbQZE5qp05rCbsRVd0FeYvESXuAXqcxTa7wvQNJHCZPJ0OCQwIDAQAB</string>
+
+    <!-- NetWork -->
+    <string name="network_retry_interval">1</string>
+    <string name="network_retry_count">1</string>
+    <string name="network_timeout">30</string>    
+</resources>

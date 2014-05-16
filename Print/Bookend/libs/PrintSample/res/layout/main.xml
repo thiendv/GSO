@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1024px"
+    android:layout_height="600px"
+    android:background="#eeeeee">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/main_layout"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="22px"
+        android:layout_marginTop="89px"
+        android:text="@string/main_label_app_name"
+        android:textColor="#888888"
+        android:textSize="32px"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:layout_width="870px"
+        android:layout_height="270px"
+        android:orientation="horizontal"
+        android:layout_below="@+id/txt_title"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="@drawable/timecard_back_in" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_print_page"
+                android:layout_width="180px"
+                android:layout_height="60px"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="60px"
+                android:layout_marginLeft="50px"
+                android:enabled="false"
+                android:textColor="#000000"
+                android:textSize="16px" />
+
+            <Button
+                android:id="@+id/btn_print_color"
+                android:layout_width="180px"
+                android:layout_height="60px"
+                android:layout_alignTop="@+id/btn_print_page"
+                android:layout_marginLeft="21px"
+                android:layout_toRightOf="@+id/btn_print_page"
+                android:enabled="false"
+                android:textColor="#000000"
+                android:textSize="16px" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_print_page"
+                android:layout_alignLeft="@+id/btn_print_page"
+                android:layout_marginLeft="8px"
+                android:text="@string/main_btn_print_pages"
+                android:textColor="#444444"
+                android:textSize="20px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_print_color"
+                android:layout_alignLeft="@+id/btn_print_color"
+                android:layout_marginLeft="8px"
+                android:text="@string/main_btn_print_color"
+                android:textColor="#444444"
+                android:textSize="20px" />
+
+            <Button
+                android:id="@+id/btn_select_file"
+                android:layout_width="150px"
+                android:layout_height="70px"
+                android:layout_above="@+id/btn_print_page"
+                android:layout_alignLeft="@+id/btn_print_page"
+                android:layout_marginBottom="33px"
+                android:text="@string/main_btn_select_file" 
+                android:textSize="18px" />
+
+            <TextView
+                android:id="@+id/text_select_file"
+                android:layout_width="440px"
+                android:layout_height="70px"
+                android:layout_alignLeft="@+id/btn_print_page"
+                android:layout_alignTop="@+id/btn_select_file"
+                android:layout_marginLeft="145px"
+                android:background="@android:drawable/editbox_background"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textSize="20px" />
+
+            <LinearLayout
+                android:id="@+id/btn_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/btn_print_color"
+                android:layout_alignRight="@+id/text_select_file"
+                android:clickable="true"
+                android:enabled="false"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="30px"
+                    android:layout_height="30px"
+                    android:layout_alignTop="@+id/btn_other"
+                    android:layout_toLeftOf="@+id/btn_other"
+                    android:background="@android:drawable/ic_media_play" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_btn_other_settings"
+                    android:textColor="#444444"
+                    android:textSize="20px" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="230px"
+            android:layout_height="fill_parent">
+
+	        <RelativeLayout
+	            android:id="@+id/layout_start"
+	            android:layout_width="170px"
+	            android:layout_height="100px"
+	            android:layout_alignParentBottom="true"
+	            android:layout_marginBottom="60px"
+	            android:layout_centerHorizontal="true"
+	            android:background="@drawable/timecard_bt_in_sub_normal"
+	            android:clickable="true" >
+
+	            <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_centerHorizontal="true"
+	                android:layout_centerVertical="true"
+	                android:text="@string/main_btn_start"
+	                android:textColor="#ffffff"
+	                android:textSize="26px" />
+	        </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	        	android:layout_below="@+id/main_layout"
+	        	android:layout_alignLeft="@+id/txt_title"
+	            android:layout_marginTop="5px"
+	            android:orientation="horizontal" >
+
+	    <ImageView
+	        android:layout_width="35px"
+	        android:layout_height="35px"
+	        android:layout_centerVertical="true"
+	        android:src="@android:drawable/ic_menu_info_details" />
+
+	    <TextView
+	        android:id="@+id/txt_state"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:text="@string/printer_status_unknown"
+	        android:textColor="#888888"
+	        android:textSize="25px" />
+    </LinearLayout>
+
+</RelativeLayout>

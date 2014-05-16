@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PrintSample</string>
+
+    <!-- Dialog button -->
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">cancel</string>
+    <string name="btn_close">close</string>
+
+    <!-- Main screen -->
+    <string name="main_label_app_name">Print Sample Application</string>
+    <string name="main_label_other_settings">Other Settings</string>
+    <string name="main_btn_select_file">Select File</string>
+    <string name="main_btn_print_pages">Copies</string>
+    <string name="main_btn_print_color">PrintColor</string>
+    <string name="main_btn_other_settings">Other Settings</string>
+    <string name="main_btn_start">Start</string>
+
+    <!-- Print file setting dialog -->
+    <string name="select_file_dlg_title">Select File</string>
+
+    <!-- Other setting dialog -->
+    <string name="other_settings_dlg_title">Other Settings</string>
+
+	<!-- Staple setting dialog-->
+    <string name="staple_dlg_title">Staple Settings</string>
+
+    <!-- Copies setting dialog -->
+    <string name="print_count_dlg_title">Copies</string>
+
+    <!-- Print color setting dialog -->
+    <string name="print_color_dlg_title">Print Color</string>
+
+    <!-- Staple setting -->
+    <string name="staple_dual_left">dual left</string>
+    <string name="staple_dual_right">dual right</string>
+    <string name="staple_dual_top">dual top</string>
+    <string name="staple_saddle_stitch">saddle stitch</string>
+    <string name="staple_top_left">top left</string>
+    <string name="staple_top_left_slant">top left slant</string>
+    <string name="staple_top_right">top right</string>
+    <string name="staple_top_right_slant">top right slant</string>
+    <string name="staple_bottom_left">bottom left</string>
+    <string name="staple_bottom_left_slant">bottom left slant</string>
+    <string name="staple_none">none</string>
+
+    <!-- Color setting -->
+    <string name="color_auto_color">Auto Color</string>
+    <string name="color_monochrome">Monochrome</string>
+    <string name="color_color">Color</string>
+    <string name="color_red_and_black">Red and Black</string>
+    <string name="color_two_color">Two Color</string>
+    <string name="color_single_color">Single Color</string>
+
+    <!-- Sample file name -->
+    <string name="assets_file_sample_01">test.pdf</string>
+    <string name="assets_file_sample_02">test.prn</string>
+
+    <!-- File extension -->
+    <string name="file_extension_PDF">pdf</string>
+    <string name="file_extension_PRN">prn</string>
+    <string name="file_extension_XPS">xps</string>
+
+    <!-- Job state -->
+    <string name="job_status_aborted">Aborted</string>
+    <string name="job_status_canceled">Canceled</string>
+    <string name="job_status_completed">Completed</string>
+    <string name="job_status_pending">Pending</string>
+    <string name="job_status_processing">Processing</string>
+    <string name="job_status_processing_stopped">Stopped</string>
+
+    <!-- Printer state -->
+    <string name="printer_status_idle">Ready</string>
+    <string name="printer_status_maintenance">Maintenance</string>
+    <string name="printer_status_processing">Processing</string>
+    <string name="printer_status_stopped">Stopped</string>
+    <string name="printer_status_unknown">Unknown</string>
+
+    <!-- Error message-->
+    <string name="error_title">Error</string>
+    <string name="error_pdl_not_found">This format is not supported.</string>
+    <string name="error_settings_not_found">Print start failed.</string>
+    <string name="error_cannot_connect">Cannot connect to the service.</string>
+
+    <!--Please wait dialog-->
+    <string name="dlg_waiting_message">Please wait...</string>
+
+    <!-- Printing dialog -->
+    <string name="dlg_printing_title">Printing</string>
+    <string name="dlg_printing_message_send_file">Transfer</string>
+    <string name="dlg_printing_message_printing">%d page</string>
+    <string name="dlg_printing_button_cancel">cancel job</string>
+    <string name="dlg_printing_message_printing_stopped">printing stopped.</string>
+
+    <!-- Default value -->
+    <string name="default_copies">3</string>
+</resources>
