@@ -1,0 +1,20 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="copy_right_margin_bottom">32dp</dimen>
+    <dimen name="margin_16px">8dp</dimen>
+    <dimen name="top_bar_h">48dp</dimen>
+    <dimen name="top_bar_padding_bottom">8dp</dimen>
+    <dimen name="bottom_bar_h">48dp</dimen>
+    <dimen name="top_bar_padding_top">4dp</dimen>
+    <dimen name="book_item_padding">16dp</dimen>
+    <dimen name="book_shelf_margin_bottom">12dp</dimen>
+    <dimen name="ic_add_size">32dp</dimen>
+    <dimen name="margin_8px">4dp</dimen>
+    <dimen name="id_accept_size">64dp</dimen>
+    <dimen name="margin_90px">45dp</dimen>
+    <dimen name="margin_32px">16dp</dimen>
+
+</resources>

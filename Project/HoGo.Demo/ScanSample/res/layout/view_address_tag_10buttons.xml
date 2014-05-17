@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_tag_buttons"
+    android:layout_width="630px"
+    android:layout_height="40px"
+    android:gravity="center_horizontal" >
+
+    <Button
+        android:id="@+id/button0"
+        style="@style/address_tag_button"
+        android:layout_weight="1"
+        android:text="@string/txid_addressbook_b_freqent" />
+    <Button
+        android:id="@+id/button1"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button2"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button3"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button4"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button5"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button6"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button7"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button8"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button9"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+    <Button
+        android:id="@+id/button10"
+        style="@style/address_tag_button"
+        android:layout_weight="1" />
+ </LinearLayout>

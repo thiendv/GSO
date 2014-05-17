@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/rl_settings"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:padding="5dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Settings"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/tv_title"
+            style="@style/TextTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/hogo_logo"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/v_delivery"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/rl_settings"
+        android:background="@drawable/bg_button_green"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_title_listview"
+        style="@style/TextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="File send:"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/lv_file_send"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_title_listview"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_container"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/v_delivery" >
+
+        <LinearLayout
+            android:id="@+id/ln_option"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/white_container"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_email_to"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Email to:"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" >
+
+                    <EditText
+                        android:id="@+id/et_mail_to"
+                        style="@style/TextBox"
+                        android:inputType="textEmailAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_toLeftOf="@+id/btn_address_book"
+                        android:background="@android:drawable/editbox_background"
+                        android:ellipsize="start"
+                        android:hint="Input email to send"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:id="@+id/btn_address_book"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:text="AddressBook" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_doc_exquiry_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Document Expiry Date:"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_doc_exprid_date"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="2" >
+
+                    <Button
+                        android:id="@+id/btn_doc_exquiry_date"
+                        style="@style/TextBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@android:drawable/editbox_background"
+                        android:gravity="left|center_vertical"
+                        android:singleLine="true"
+                        android:text="0000/00/00 00:00:00" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <TextView
+                    android:id="@+id/tv_local_copy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Local copy:"
+                    android:textStyle="bold" />
+                
+                <Spinner
+                    android:id="@+id/sp_copy_number"
+                    style="@style/TextBox"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:inputType="number"
+                    android:layout_weight="2"
+                    android:background="@android:drawable/editbox_background" />
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/et_copy_number"
+                    style="@style/TextBox"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:inputType="number"
+                    android:layout_weight="2"
+                    android:background="@android:drawable/editbox_background" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <TextView
+                    android:id="@+id/tv_foler"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Folder:"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_folder"
+                    style="@style/TextBox"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="2"
+                    android:text="My Documents"
+                    android:background="@android:drawable/editbox_background" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_allow_printing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Allow printing"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/chx_allow_printing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_send_file_exe"
+                style="@style/AppButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_button"
+                android:gravity="center"
+                android:text="Send"
+                android:visibility="visible" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jp.co.ricoh.ssdk.sample.app.scan"
+    android:versionCode="14"
+    android:versionName="1.00.00" >
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="10" />
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="jp.co.ricoh.isdk.sdkservice.common.SdkService.APP_CMD_PERMISSION"/>
+    <uses-permission android:name="jp.co.ricoh.isdk.sdkservice.common.SdkService.APP_EVENT_PERMISSION"/>
+
+    <application
+        android:name="jp.co.ricoh.ssdk.sample.app.scan.application.ScanSampleApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+
+        <meta-data android:name="productId" android:value="874520576" />
+
+        <activity
+            android:name="jp.co.ricoh.ssdk.sample.app.scan.activity.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="jp.co.ricoh.ssdk.sample.app.scan.activity.AddressActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"
+            android:exported="true" />
+
+        <activity android:name="jp.co.ricoh.ssdk.sample.app.scan.activity.PreviewActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:exported="true" />
+
+        <activity android:name="jp.co.ricoh.ssdk.sample.app.scan.activity.ApplicationActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"
+            android:exported="true" />
+
+    </application>
+</manifest>

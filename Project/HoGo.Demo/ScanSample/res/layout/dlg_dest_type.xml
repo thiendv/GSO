@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="400px"
+    android:layout_height="fill_parent">
+
+    <TextView
+	    android:text="@string/txid_scan_b_kind_to"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize = "20px" />
+
+	<Button
+	    android:text="@string/txid_scan_b_address_address_book"
+	    android:id="@+id/btn_address_address_book"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"/>
+
+	<Button
+	    android:text="@string/txid_scan_b_address_direct"
+	    android:id="@+id/btn_address_direct"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"/>
+
+	<TextView
+	    android:text=""
+	    android:layout_width="fill_parent"
+	    android:layout_height="20px" />
+
+    <TextView
+	    android:text="@string/txid_scan_b_kind_folder"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:textSize = "20px" />
+
+	<Button
+	    android:text="@string/txid_scan_b_address_address_book"
+	    android:id="@+id/btn_folder_address_book"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"/>
+
+	<Button
+	    android:text="@string/txid_scan_b_address_direct"
+	    android:id="@+id/btn_folder_direct"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"/>
+</LinearLayout>
+

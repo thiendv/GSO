@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/TextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:text="Add new document"
+        android:visibility="gone"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/rl_choosefile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_container"
+        android:gravity="center_vertical"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/rl_content1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                style="@style/TextBox"
+                android:id="@+id/et_file_path"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/btn_upload_file_exe"
+                android:ellipsize="start"
+                android:hint="Choose file to upload..."
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btn_upload_file_exe"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/bg_button"
+                android:text="Encode"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btn_upload_file"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_button"
+                android:src="@android:drawable/ic_menu_add"
+                android:text=""
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/rl_content1"
+            android:text="PREVIEW" />
+
+        <FrameLayout
+            android:id="@+id/img_preview_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txt_preview"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border"
+            android:padding="1dp" >
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/img_preview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_encode_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_choosefile"
+        android:layout_marginTop="10dp"
+        android:text="Start Encode file"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_check_encode_statsu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_encode_file"
+        android:layout_marginTop="10dp"
+        android:text="Check encode status"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_90px"
+    android:paddingRight="@dimen/margin_90px"
+     >
+
+    <TextView
+        style="@style/TextTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Add new document" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_marginBottom="@dimen/margin_90px"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/ic_status"
+        android:layout_width="@dimen/id_accept_size"
+        android:layout_height="@dimen/id_accept_size"
+        android:layout_marginBottom="@dimen/margin_32px"
+        android:background="@drawable/ic_success" />
+
+    <TextView
+        android:id="@+id/tb_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/margin_32px"
+        android:text="Your file has been encoded successfully"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_send_this_document"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_8px"
+        android:background="@drawable/bg_button"
+        android:text="Send this document"
+        android:textSize="18sp" />
+
+</LinearLayout>
