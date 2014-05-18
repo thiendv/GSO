@@ -69,9 +69,8 @@ public class MainActivity extends ScanActivity implements
 
 	public static List<FileData> fileDataList = new ArrayList<FileData>();
 	private ScanPDF mScanPDF;
-	private ScanImage mScanImage;
 	//Setting mode for running in emulator or real Ricoh device
-	final boolean isEmulatorMode = true;
+	final boolean isEmulatorMode = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -136,11 +135,6 @@ public class MainActivity extends ScanActivity implements
 	private void initContent() {
 		// TODO Auto-generated method stub
 		if (HoGoApplication.instace().getToken(this) != null) {
-//			exitLogin();
-			// UploadFileFragment loginFragment = new UploadFileFragment();
-			// FragmentTransaction transaction = mFramentManager
-			// .beginTransaction();
-			// transaction.add(R.id.content, loginFragment).commit();
 			gotoScanScreen();
 
 		} else {
@@ -208,7 +202,7 @@ public class MainActivity extends ScanActivity implements
 //		transaction.addToBackStack(null);
 		transaction.replace(R.id.content, fragement).commit();
 		findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-
+		
 		setHeaderVisibility(true);
 	}
 
@@ -326,12 +320,12 @@ public class MainActivity extends ScanActivity implements
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-				if (keyCode == event.KEYCODE_BACK) {
-					//findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-					System.exit(1);
-					// onBackPressed();
-				}
-				return super.onKeyDown(keyCode, event);
+		if (keyCode == event.KEYCODE_BACK) {
+			//findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
+			System.exit(1);
+			// onBackPressesd();
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	public void gotoScanScreen() {
@@ -352,8 +346,6 @@ public class MainActivity extends ScanActivity implements
 	public void onJobCompleted() {
 		super.onJobCompleted();
 		mScanPDF = new ScanPDF(((ScanSampleApplication) getApplication()).getScanJob());
-		// mScanImage = new ScanImage(((ScanSampleApplication)
-		// getApplication()).getScanJob());
 		/**
 		 * Continue by change to send screen. After user click send. You can get
 		 * inputStream by call ((MainActivity)getActivity).getPDFInputStream().
@@ -363,8 +355,7 @@ public class MainActivity extends ScanActivity implements
 			protected FileUpload doInBackground(Void... params) {
 				// How to get inputStream.
 				final String localPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.jpg";
-				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";
-						
+				final String pdfPath = MainActivity.this.getFilesDir() + "/hogodoc_scan.pdf";			
 				Log.d("pdfPath", "pdfPath" + pdfPath);
 				InputStream in = null;
 				try {
@@ -538,4 +529,53 @@ public class MainActivity extends ScanActivity implements
 	} 
 	
 	
+	
+	class ASynDeleteFile extends AsyncTask<String, Boolean, Boolean> {
+
+		private FileUpload mFile;
+
+		ASynDeleteFile(FileUpload fileUpload) {
+			this.mFile = fileUpload;
+		}
+
+		@Override
+		protected Boolean doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			boolean status = false;
+			if (mFile != null) {
+				try {
+					File file = new File(mFile.getJpgPath());
+					file.delete();
+					status = true;
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+				
+				try {
+					File pdfFile = new File(mFile.getPdfPath());
+					pdfFile.delete();
+					status = true;
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+
+			}
+			return status;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			// TODO Auto-generated method stub
+			Log.d("onPostExecute","onPostExecute "+ result);
+			super.onPostExecute(result);
+		}
+
+	}
+
+	public void deleteFile(FileUpload mFileUpload) {
+		// TODO Auto-generated method stub
+		new ASynDeleteFile(mFileUpload).execute();
+	}
 }
