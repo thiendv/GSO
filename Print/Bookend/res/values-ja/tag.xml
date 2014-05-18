@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- View Tag -->
+    <string name="status_main_tag">status_main_tag</string>
+    <string name="status_web_tag">status_web_tag</string>
+    
+    <string name="dl_btn_tag">dl_btn_tag</string>
+    <string name="progress_tag">progress_tag</string>
+    <string name="cancel_btn_tag">cancel_btn_tag</string>
+    <string name="dl_error_tag">dl_error_tag</string>
+    <string name="retry_btn_tag">retry_btn_tag</string>
+    <string name="dl_init_set_tag">dl_init_set_tag</string>
+    <string name="dl_ing_set_tag">dl_ing_set_tag</string>
+    <string name="dl_error_set_tag">dl_error_set_tag</string>
+	<string name="shareddevice_tag">shareddevice_tag</string>
+	
+</resources>

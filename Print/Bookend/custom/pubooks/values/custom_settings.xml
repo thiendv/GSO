@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- アプリ名 -->
+    <string name="app_name">pubooks</string>
+
+    <!-- Menu -->
+    <string name="menu_main">BookShelf</string>
+    <string name="menu_store">Store</string>
+    <string name="menu_bookshelf">WebLibrary</string>
+    <string name="menu_option">Option</string>
+    <string name="menu_help">Help</string>    
+</resources>

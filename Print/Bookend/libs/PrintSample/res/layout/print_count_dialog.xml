@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="600px"
+    android:layout_height="400px"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layout_middle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/layout_middle_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_info_details" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/print_count_dlg_title"
+                android:textSize="32px" />
+"
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/text_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:gravity="top"
+            android:maxLines="1">
+        </EditText>
+
+        <LinearLayout
+            android:id="@+id/layout_middle_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/print_count_bt_ok"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/btn_ok" />
+
+            <Button
+                android:id="@+id/print_count_bt_cancel"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/btn_cancel" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

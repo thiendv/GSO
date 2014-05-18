@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- 日本語ロケールで使用するリソース 
+    	言語依存のある設定のみこちらに記述します
+    	言語依存の無い設定は custom_settings2.xml に記述してください -->
+    	
+    <!-- アプリ名 -->
+    <string name="app_name">パチ小冊子</string>
+
+    <!-- Menu -->
+    <string name="menu_main">本棚</string>
+    <string name="menu_store">ストア</string>
+    <string name="menu_bookshelf">Web書庫</string>
+    <string name="menu_option">オプション</string>
+    <string name="menu_help">ヘルプ</string>    
+</resources>
