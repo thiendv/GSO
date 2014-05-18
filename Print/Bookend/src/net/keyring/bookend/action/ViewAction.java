@@ -213,7 +213,7 @@ public class ViewAction implements ConstList{
 		Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
 		intent.setClassName(ADOBE_READER, ADOBE_READER + ".AdobeReader");
 		//	Intent.FLAG_ACTIVITY_CLEAR_TASK を指定しないと前に開いていたアクティビティやPDFファイルがそのまま開く場合がある
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);// | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		Logput.v(">>Send Adobe Reader");
 		mCon.startActivity(intent);
 		

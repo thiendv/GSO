@@ -2,6 +2,7 @@
  *  Copyright (C) 2013 RICOH Co.,LTD.
  *  All rights reserved.
  */
+
 package jp.co.ricoh.ssdk.sample.app.print.activity;
 
 import android.os.Handler;
@@ -56,37 +57,44 @@ class PrintServiceAttributeListenerImpl implements PrintServiceAttributeListener
             @Override
             public void run() {
                 PrintServiceAttributeSet attributes = mEvent.getAttributes();
-                TextView statusView = (TextView)mActivity.findViewById(R.id.txt_state);
+                TextView statusView = null;// (TextView)mActivity.findViewById(R.id.txt_state);
                 StringBuilder statusString = new StringBuilder();
 
-                PrinterState state = (PrinterState)attributes.get(PrinterState.class);
-                if(state != null) {
-                    switch(state){
+                PrinterState state = (PrinterState) attributes.get(PrinterState.class);
+                if (state != null) {
+                    switch (state) {
                         case IDLE:
-                            statusString.append(mActivity.getResources().getString(R.string.printer_status_idle));
+                            statusString.append(mActivity.getResources().getString(
+                                    R.string.printer_status_idle));
                             break;
                         case MAINTENANCE:
-                            statusString.append(mActivity.getResources().getString(R.string.printer_status_maintenance));
+                            statusString.append(mActivity.getResources().getString(
+                                    R.string.printer_status_maintenance));
                             break;
                         case PROCESSING:
-                            statusString.append(mActivity.getResources().getString(R.string.printer_status_processing));
+                            statusString.append(mActivity.getResources().getString(
+                                    R.string.printer_status_processing));
                             break;
                         case STOPPED:
-                            statusString.append(mActivity.getResources().getString(R.string.printer_status_stopped));
+                            statusString.append(mActivity.getResources().getString(
+                                    R.string.printer_status_stopped));
                             break;
                         case UNKNOWN:
-                            statusString.append(mActivity.getResources().getString(R.string.printer_status_unknown));
+                            statusString.append(mActivity.getResources().getString(
+                                    R.string.printer_status_unknown));
                             break;
                     }
                 }
 
-                PrinterStateReasons reasons = (PrinterStateReasons)attributes.get(PrinterStateReasons.class);
-                if(reasons != null) {
+                PrinterStateReasons reasons = (PrinterStateReasons) attributes
+                        .get(PrinterStateReasons.class);
+                if (reasons != null) {
                     statusString.append("：");
                     statusString.append(reasons.getReasons());
                 }
 
-                statusView.setText(statusString.toString());
+                if (statusView != null)
+                    statusView.setText(statusString.toString());
 
             }
         });

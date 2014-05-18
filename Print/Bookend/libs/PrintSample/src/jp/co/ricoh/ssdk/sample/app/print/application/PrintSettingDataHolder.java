@@ -14,6 +14,7 @@ import jp.co.ricoh.ssdk.sample.function.print.attribute.standard.Copies;
 import jp.co.ricoh.ssdk.sample.function.print.attribute.standard.PrintColor;
 import jp.co.ricoh.ssdk.sample.function.print.attribute.standard.Staple;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -46,6 +47,10 @@ public class PrintSettingDataHolder {
      * File name
      */
     private String mSelectedPrintAssetFileName;
+    
+    private String mSelectedFileName;
+    
+    private boolean fromAssets;
 
     /**
      * 印刷カラー設定
@@ -72,6 +77,20 @@ public class PrintSettingDataHolder {
         PrintFile printfile = null;
         try {
             is = resources.getAssets().open(mSelectedPrintAssetFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        printfile = (new PrintFile.Builder()).localFileInputStream(is).pdl(mSelectedPDL).build();
+        return printfile;
+    }
+    
+    public PrintFile getPrintFile() throws PrintException {
+        InputStream is = null;
+        PrintFile printfile = null;
+        try {
+            is = new FileInputStream(mSelectedFileName);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -126,6 +145,12 @@ public class PrintSettingDataHolder {
      */
     public void setSelectedPrintAssetFileName(String selectedPrintAssetFileName) {
         mSelectedPrintAssetFileName = selectedPrintAssetFileName;
+        fromAssets = true;
+    }
+    
+    public void setSelectedFileName(String fileName) {
+        mSelectedFileName = fileName;
+        fromAssets = false;
     }
 
     /**
@@ -176,6 +201,14 @@ public class PrintSettingDataHolder {
      */
     public String getSelectedPrintAssetFileName() {
         return mSelectedPrintAssetFileName;
+    }
+    
+    public String getSelectedFileName() {
+        return mSelectedFileName;
+    }
+    
+    public boolean fromAssets() {
+        return fromAssets;
     }
 
     /**

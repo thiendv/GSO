@@ -127,10 +127,12 @@ public class PrintStateMachine {
         STATE_JOB_INITIAL {
             @Override
             public State getNextState(PrintEvent event, Object param) {
-                switch(event) {
+                switch (event) {
                     case CHANGE_JOB_STATE_PRE_PROCESS:
-                        if(param == null) return STATE_JOB_INITIAL;
-                        if(!(param instanceof PrintSettingDataHolder)) return STATE_JOB_INITIAL;
+                        if (param == null)
+                            return STATE_JOB_INITIAL;
+                        if (!(param instanceof PrintSettingDataHolder))
+                            return STATE_JOB_INITIAL;
 
                         new StartPrintJobTask().execute((PrintSettingDataHolder) param);
 
@@ -213,7 +215,7 @@ public class PrintStateMachine {
                     case CHANGE_APP_ACTIVITY_DESTROYED:
                         return WAITING_JOB_CANCEL;
                     default:
-                        return super.getNextState(event,param);
+                        return super.getNextState(event, param);
                 }
             }
         },
@@ -247,18 +249,21 @@ public class PrintStateMachine {
                         return WAITING_JOB_CANCEL;
 
                     default:
-                        return super.getNextState(event,param);
+                        return super.getNextState(event, param);
                 }
             }
 
             @Override
             public void entry(Object... params) {
-                //Show print start dialog
-                if(params[0] instanceof PrintJobPrintingInfo) {
+                // Show print start dialog
+                if (params[0] instanceof PrintJobPrintingInfo) {
                     PrintJobPrintingInfo printingInfo = (PrintJobPrintingInfo) params[0];
-                    if(printingInfo == null) return;
+                    if (printingInfo == null)
+                        return;
 
-                    String printedMessage = String.format(mContext.getResources().getString(R.string.dlg_printing_message_printing),
+                    String printedMessage = String.format(
+                            mContext.getResources().getString(
+                                    R.string.dlg_printing_message_printing),
                             printingInfo.getPrintedCount());
 
                     updatePrintingDialog(mContext, printedMessage);
@@ -270,7 +275,7 @@ public class PrintStateMachine {
          * ジョブ一時停止中状態*
          * Job pausing
          */
-        STATE_JOB_PROCESSING_STOPPED{
+        STATE_JOB_PROCESSING_STOPPED {
             @Override
             public State getNextState(PrintEvent event, Object param) {
                 switch (event) {
@@ -292,25 +297,28 @@ public class PrintStateMachine {
                         return WAITING_JOB_CANCEL;
 
                     default:
-                        return super.getNextState(event,param);
+                        return super.getNextState(event, param);
                 }
             }
 
             @Override
             public void entry(Object... params) {
-                if(params[0] == null) return;
+                if (params[0] == null)
+                    return;
 
-                PrinterStateReasons reasons = (PrinterStateReasons)params[0];
+                PrinterStateReasons reasons = (PrinterStateReasons) params[0];
                 StringBuilder sb = new StringBuilder();
-                for(PrinterStateReason reason : reasons.getReasons()) {
+                for (PrinterStateReason reason : reasons.getReasons()) {
                     sb.append(reason.toString());
                     sb.append("\n");
                 }
 
                 // Update job pausing dialog
-                updatePrintingDialog(mContext,
+                updatePrintingDialog(
+                        mContext,
                         mContext.getResources().getString(
-                                R.string.dlg_printing_message_printing_stopped) + "\n" + sb.toString());
+                                R.string.dlg_printing_message_printing_stopped) + "\n"
+                                + sb.toString());
             }
         },
 
@@ -321,7 +329,7 @@ public class PrintStateMachine {
         WAITING_JOB_CANCEL {
             @Override
             public State getNextState(PrintEvent event, Object param) {
-                switch (event){
+                switch (event) {
                     case CHANGE_JOB_STATE_INITIAL:
                         return STATE_JOB_INITIAL;
                     case CHANGE_JOB_STATE_CANCELED:
@@ -356,14 +364,14 @@ public class PrintStateMachine {
                         return STATE_JOB_INITIAL;
 
                     default:
-                        return super.getNextState(event,param);
+                        return super.getNextState(event, param);
                 }
             }
 
             @Override
             public void entry(Object... params) {
                 unLockMode();
-                //close printing dialog
+                // close printing dialog
                 closePrintingDialog();
             }
         },
@@ -379,21 +387,21 @@ public class PrintStateMachine {
                         return STATE_JOB_INITIAL;
 
                     default:
-                        return super.getNextState(event,param);
+                        return super.getNextState(event, param);
                 }
             }
 
             @Override
             public void entry(Object... params) {
                 unLockMode();
-                //close printing dialog
+                // close printing dialog
                 closePrintingDialog();
 
                 // show toast message with aborted reason
                 String message = "job aborted.";
                 if ((params != null) && (params.length > 0)) {
                     if (params[0] instanceof PrinterStateReasons) {
-                        PrinterStateReasons reasons = (PrinterStateReasons)params[0];
+                        PrinterStateReasons reasons = (PrinterStateReasons) params[0];
                         StringBuilder sb = new StringBuilder();
                         sb.append(message);
                         sb.append(System.getProperty("line.separator"));
@@ -416,17 +424,17 @@ public class PrintStateMachine {
                         return STATE_JOB_INITIAL;
 
                     default:
-                        return super.getNextState(event,param);
+                        return super.getNextState(event, param);
                 }
             }
 
             @Override
             public void entry(Object... params) {
                 unLockMode();
-                //close printing dialog
+                // close printing dialog
                 closePrintingDialog();
             }
-        } ;
+        };
 
         /******************************************************************
          * Stateの共通処理
@@ -444,7 +452,7 @@ public class PrintStateMachine {
          * Obtains the next methods.
          */
         public State getNextState(final PrintEvent event, final Object param) {
-            switch (event){
+            switch (event) {
                 default:
                     return null;
             }
@@ -454,7 +462,7 @@ public class PrintStateMachine {
          * 入場メソッド
          * Entry method
          */
-        public void entry(final Object ... params) {
+        public void entry(final Object... params) {
 
         }
 
@@ -462,7 +470,7 @@ public class PrintStateMachine {
          * 退場メソッド
          * Exit method
          */
-        public void exit(final Object ... params) {
+        public void exit(final Object... params) {
 
         }
     }
@@ -492,7 +500,8 @@ public class PrintStateMachine {
             public void run() {
                 State newState = mState.getNextState(event, prm);
                 if (newState != null) {
-                    Log.i(getClass().getSimpleName(), "#evtp :" + event + " state:" + mState + " > " + newState);
+                    Log.i(getClass().getSimpleName(), "#evtp :" + event + " state:" + mState
+                            + " > " + newState);
                     mState.exit(prm);
                     mState = newState;
                     mState.entry(prm);
@@ -501,58 +510,56 @@ public class PrintStateMachine {
         });
     }
 
-
     /******************************************************************
-     * アクションメソッド
-     * Action method.
+     * アクションメソッド Action method.
      ******************************************************************/
 
     /**
-     * PleaseWait画面の表示
-     * Displays please wait dialog
+     * PleaseWait画面の表示 Displays please wait dialog
      */
     private static void showPleaseWaitDialog(Context context) {
         mPleaseWaitDialog = new ProgressDialog(context);
         mPleaseWaitDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mPleaseWaitDialog.setMessage(context.getResources().getString(R.string.dlg_waiting_message));
+        mPleaseWaitDialog
+                .setMessage(context.getResources().getString(R.string.dlg_waiting_message));
         mPleaseWaitDialog.setCancelable(false);
-        mPleaseWaitDialog.setButton(DialogInterface.BUTTON_NEGATIVE, mContext.getString(R.string.btn_cancel),
+        mPleaseWaitDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                mContext.getString(R.string.btn_cancel),
                 new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ((Activity)mContext).finish();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((Activity) mContext).finish();
+                    }
+                });
         DialogUtil.showDialog(mPleaseWaitDialog);
     }
 
     /**
-     * PleaseWait画面の消去
-     * Hides please wait dialog
+     * PleaseWait画面の消去 Hides please wait dialog
      */
     private static void closePleaseWaitDialog() {
-        if(mPleaseWaitDialog == null) return;
+        if (mPleaseWaitDialog == null)
+            return;
         mPleaseWaitDialog.dismiss();
         mPleaseWaitDialog = null;
     }
 
     /**
-     * 初期化失敗ダイアログの表示
-     * Displays boot failed dialog
+     * 初期化失敗ダイアログの表示 Displays boot failed dialog
      */
     private static void showBootFailedDialog() {
-        if(mBootFailedDialog==null || mBootFailedDialog.isShowing()==false) {
+        if (mBootFailedDialog == null || mBootFailedDialog.isShowing() == false) {
             AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
             builder.setTitle(R.string.error_title);
             builder.setMessage(R.string.error_cannot_connect);
             builder.setCancelable(false);
             builder.setNegativeButton(R.string.btn_close,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ((Activity)mContext).finish();
-                    }
-                });
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ((Activity) mContext).finish();
+                        }
+                    });
             mBootFailedDialog = builder.create();
             DialogUtil.showDialog(mBootFailedDialog);
         }
@@ -567,7 +574,7 @@ public class PrintStateMachine {
     private static void showPrintingDialog(Context context) {
         mProgressDialog = new ProgressDialog(context);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		mProgressDialog.setTitle(context.getResources().getString(R.string.dlg_printing_title));
+        mProgressDialog.setTitle(context.getResources().getString(R.string.dlg_printing_title));
         mProgressDialog.setMessage(
                 context.getResources().getString(R.string.dlg_printing_message_send_file));
         mProgressDialog.setCancelable(false);
@@ -593,18 +600,20 @@ public class PrintStateMachine {
      *                      String to display on the dialog
      */
     private static void updatePrintingDialog(Context context, String updateMessage) {
-        if(mProgressDialog == null) return;
+        if (mProgressDialog == null)
+            return;
         mProgressDialog.setMessage(updateMessage);
     }
 
     /**
-     * 印刷中ダイアログの非表示
-     * Close the printing dialog,
+     * 印刷中ダイアログの非表示 Close the printing dialog,
      */
     private static void closePrintingDialog() {
-        if(mProgressDialog == null) return;
+        if (mProgressDialog == null)
+            return;
         mProgressDialog.dismiss();
         mProgressDialog = null;
+        ((Activity)mContext).finish();
     }
 
     /**
@@ -614,14 +623,16 @@ public class PrintStateMachine {
      *               true:display false:hide
      */
     private static void setPrintingDialogCancelable(boolean enable) {
-        if(mProgressDialog == null) return;
+        if (mProgressDialog == null)
+            return;
 
         Button cancelButton = mProgressDialog.getButton(ProgressDialog.BUTTON_NEGATIVE);
-        if(cancelButton == null) return;
+        if (cancelButton == null)
+            return;
 
-        if(enable){
+        if (enable) {
             cancelButton.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             cancelButton.setVisibility(View.INVISIBLE);
         }
     }
@@ -640,8 +651,7 @@ public class PrintStateMachine {
     }
 
     /******************************************************************
-     * 非同期タスク
-     * Asynchronous task
+     * 非同期タスク Asynchronous task
      ******************************************************************/
 
     /**
@@ -688,8 +698,7 @@ public class PrintStateMachine {
     }
 
     /**
-     * ジョブを開始するタスクです。
-     * The asynchronous task to start the scan job.
+     * ジョブを開始するタスクです。 The asynchronous task to start the scan job.
      */
     static class StartPrintJobTask extends AsyncTask<PrintSettingDataHolder, Void, Boolean> {
 
@@ -700,28 +709,33 @@ public class PrintStateMachine {
             /* 省エネロック、オフラインロック */
             if (!mApplication.lockPowerMode() || !mApplication.lockOffline()) {
                 mHandler.post(new Runnable() {
-                     @Override
-                     public void run() {
-                         Toast.makeText(mContext, "Error: cannot start scan job. LockPowerMode() or lockOffline() failed.", Toast.LENGTH_SHORT).show();
-                     }
+                    @Override
+                    public void run() {
+                        Toast.makeText(
+                                mContext,
+                                "Error: cannot start scan job. LockPowerMode() or lockOffline() failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 });
                 return false;
             }
 
             PrintFile printFile;
             try {
-                printFile = holders[0].getPrintFile(mApplication.getResources());
+                printFile = holders[0].fromAssets() ? holders[0].getPrintFile(mApplication
+                        .getResources()) : holders[0].getPrintFile();
             } catch (PrintException e) {
                 e.printStackTrace();
                 message = "Print Job Failed. " + e.getMessage();
                 if (e instanceof PrintResponseException) {
-                    message = mApplication.getStateMachine().makeJobErrorResponceMessage((PrintResponseException)e, message);
+                    message = mApplication.getStateMachine().makeJobErrorResponceMessage(
+                            (PrintResponseException) e, message);
                 }
                 return false;
             }
 
             PrintRequestAttributeSet attributeSet = holders[0].getPrintRequestAttributeSet();
-            if(printFile == null || attributeSet == null) {
+            if (printFile == null || attributeSet == null) {
                 return false;
             }
 
@@ -733,7 +747,8 @@ public class PrintStateMachine {
                 e.printStackTrace();
                 message = "Print Job Failed. " + e.getMessage();
                 if (e instanceof PrintResponseException) {
-                    message = mApplication.getStateMachine().makeJobErrorResponceMessage((PrintResponseException)e, message);
+                    message = mApplication.getStateMachine().makeJobErrorResponceMessage(
+                            (PrintResponseException) e, message);
                 }
             }
             return false;
@@ -741,7 +756,7 @@ public class PrintStateMachine {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if(!result) {
+            if (!result) {
                 Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
                 mApplication.getStateMachine().procPrintEvent(PrintEvent.CHANGE_JOB_STATE_INITIAL);
                 unLockMode();
@@ -754,15 +769,15 @@ public class PrintStateMachine {
     }
 
     /**
-     * 現在印刷中のジョブを中止するタスクです。
-     * The task to cancel the job.
+     * 現在印刷中のジョブを中止するタスクです。 The task to cancel the job.
      */
-    static class CancelPrintJobTask extends  AsyncTask<Void, Void, Boolean> {
+    static class CancelPrintJobTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... voids) {
             boolean result = false;
 
-            if(currentPrintJob == null) return false;
+            if (currentPrintJob == null)
+                return false;
 
             try {
                 result = currentPrintJob.cancelPrintJob();

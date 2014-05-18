@@ -56,6 +56,8 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	private final int ERROR_SEND_MARKET = -10;
 	private final int PROGRESS_PROCESSING = -11;
 	
+	BookBeans book;
+	
 	public ViewTask(Activity a, ViewListener listener){
 		this.mActivity = a;
 		this.mCon = a.getApplicationContext();
@@ -82,7 +84,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 
 	@Override
 	protected String doInBackground(ViewTaskParam... params) {
-		BookBeans book = params[0].mBook;
+		book = params[0].mBook;
 		boolean isTemporary = params[0].mIsTemporary;
 		boolean success = false;
 		try {
@@ -276,9 +278,14 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	@Override
 	protected void onPostExecute(String result) {
 		progress_stop();
-		if(mListener != null){
-			mListener.result_view(result);
-		}
+//		if(mListener != null){
+//			mListener.result_view(result);
+//		}
+		
+			Intent intent = new Intent(mActivity, jp.co.ricoh.ssdk.sample.app.print.activity.MainActivity.class);
+			intent.putExtra("path", book.getFile_path());
+//			intent.putExtra("key", book.getEncryptionKey());
+			mActivity.startActivity(intent);
 	}
 	
 	/**
@@ -340,7 +347,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 			// オンライン時のみGetLicenseリクエスト - DB更新
 			book = mViewAction.getLicense(book);
 			// AdobeReaderで閲覧
-			mViewAction.sendAdobeReader(book, copyPath, isTemporary);
+//			mViewAction.sendAdobeReader(book, copyPath, isTemporary);
 		} catch (NullPointerException e){
 			Logput.w(e.getMessage(), e);
 			publishProgress(CONTENT_NONE);
@@ -385,7 +392,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				mViewAction.pdfCopy(COPY_KRPDF_DE, filePath, fileName, key);
 			}// ●フォーマットバージョンが変わった場合はここに処理を追加
 			String copyPath = mCon.getFilesDir()+ "/" + fileName;
-			mViewAction.sendAdobeReader(book, copyPath, isTemporary);
+//			mViewAction.sendAdobeReader(book, copyPath, isTemporary);
 		} catch (NullPointerException e) {
 			Logput.w(e.getMessage(), e);
 			publishProgress(CONTENT_NONE);

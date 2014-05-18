@@ -2,6 +2,7 @@
  * Copyright (C) 2013 RICOH Co.,LTD.
  * All rights reserved.
  */
+
 package jp.co.ricoh.ssdk.sample.app.print.activity;
 
 import android.app.Activity;
@@ -87,6 +88,8 @@ public class MainActivity extends Activity{
      */
     private RelativeLayout mStartLayout;
 
+    private String fileName;
+
     /**
      * アクティビティが生成されると呼び出されます。
      * [処理内容]
@@ -113,140 +116,151 @@ public class MainActivity extends Activity{
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        if (getIntent().getExtras() != null) {
+            fileName = getIntent().getExtras().getString("path");
+            // String key = getIntent().getExtras().getString("key");
 
-        //(1)
+            // new PrintServiceInitTask().execute();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.error_settings_not_found,
+                    Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        // (1)
         initialize();
 
-        //(2)
-        mSelectFileBtn = (Button)findViewById(R.id.btn_select_file);
-        mSelectFileBtn.setOnClickListener(new View.OnClickListener() {
+        // // (2)
+        // mSelectFileBtn = (Button) findViewById(R.id.btn_select_file);
+        // mSelectFileBtn.setOnClickListener(new View.OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // List<String> fileList = new ArrayList<String>();
+        // fileList.add(v.getContext().getString(R.string.assets_file_sample_01));
+        // fileList.add(v.getContext().getString(R.string.assets_file_sample_02));
+        //
+        // AlertDialog dlg = DialogUtil.selectFileDialog(v.getContext(),
+        // fileList);
+        // dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        //
+        // /**
+        // * 印刷ファイル選択ダイアログが閉じると呼び出されるメソッドです。 [処理内容]
+        // * (1)メインアクティビティが保持する設定値の更新
+        // * (2)メインアクティビティが保持する設定値に応じてボタンの表示を更新 The method when the
+        // * print file selection dialog closed. [Processes]
+        // * (1)Updates the setting value saved on MainActivity
+        // * (2)Updates the button displays according to the setting
+        // * value saved on MainActivity
+        // */
+        // @Override
+        // public void onDismiss(DialogInterface arg0) {
+        // // (1)
+        // updateSettings();
+        // // (2)
+        // updateSettingButtons();
+        // }
+        // });
+        // DialogUtil.showDialog(dlg, DialogUtil.DEFAULT_DIALOG_WIDTH);
+        // }
+        // });
+        //
+        // // (3)
+        // mPrintCountBtn = (Button) findViewById(R.id.btn_print_page);
+        // mPrintCountBtn.setOnClickListener(new View.OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        //
+        // AlertDialog dlg = DialogUtil.createPrintCountDialog(v.getContext());
+        // dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        //
+        // @Override
+        // public void onDismiss(DialogInterface arg0) {
+        // if (null != mHolder.getSelectedCopiesValue()) {
+        // String printCount = mHolder.getSelectedCopiesValue().getValue()
+        // .toString();
+        // mPrintCountBtn.setText(printCount);
+        // }
+        // }
+        // });
+        // DialogUtil.showDialog(dlg, DialogUtil.DEFAULT_DIALOG_WIDTH);
+        // }
+        // });
+        //
+        // // (4)
+        // mPrintColorBtn = (Button) findViewById(R.id.btn_print_color);
+        // mPrintColorBtn.setOnClickListener(new View.OnClickListener() {
+        // /**
+        // * 印刷カラー設定ボタンが押下されると呼び出されるメソッドです。 [処理内容] (1)設定可能なカラーを取得
+        // * (2)印刷カラー設定ダイアログを表示 The method called when the print color setting
+        // * button clicked. [Processes] (1)Obtains the supported print colors
+        // * (2)Displays the print color setting dialog
+        // */
+        // @Override
+        // public void onClick(View view) {
+        // // (1)
+        // PDL selectedPDL = getSettingHolder().getSelectedPDL();
+        // Map<PDL, PrintSettingSupportedHolder> map =
+        // ((PrintSampleApplication) getApplication())
+        // .getSettingSupportedDataHolders();
+        // PrintSettingSupportedHolder holder = map.get(selectedPDL);
+        //
+        // // (2)
+        // AlertDialog dlg =
+        // DialogUtil.createPrintColorDialog(view.getContext(),
+        // holder.getSelectablePrintColorList());
+        //
+        // dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        // @Override
+        // public void onDismiss(DialogInterface dialogInterface) {
+        // if (null != mHolder.getSelectedPrintColorValue()) {
+        // String printColor = PrintColorUtil.getPrintColorResourceString(
+        // MainActivity.this, mHolder.getSelectedPrintColorValue());
+        // mPrintColorBtn.setText(printColor);
+        // }
+        // }
+        // });
+        // DialogUtil.showDialog(dlg, DialogUtil.DEFAULT_DIALOG_WIDTH);
+        // }
+        // });
+        //
+        // // (5)
+        // mOtherSettingLayout = (LinearLayout) findViewById(R.id.btn_other);
+        // mOtherSettingLayout.setOnClickListener(new View.OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        //
+        // AlertDialog dlg =
+        // DialogUtil.createOtherSettingDialog(v.getContext());
+        // if (null == dlg) {
+        // return;
+        // }
+        // DialogUtil.showDialog(dlg, DialogUtil.INPUT_DIALOG_WIDTH);
+        // }
+        // });
+        //
+        // // (6)
+        // mStartLayout = (RelativeLayout) findViewById(R.id.layout_start);
+        // mStartLayout.setOnClickListener(new View.OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // if (null == mHolder ||
+        // null == mHolder.getSelectedPrintAssetFileName() ||
+        // null == mHolder.getSelectedPDL()) {
+        // Toast.makeText(v.getContext(), R.string.error_settings_not_found,
+        // Toast.LENGTH_LONG).show();
+        // return;
+        // }
+        // ((PrintSampleApplication) getApplication()).startPrint(mHolder);
+        // }
+        // });
 
-            @Override
-            public void onClick(View v) {
-                List<String> fileList = new ArrayList<String>();
-                fileList.add(v.getContext().getString(R.string.assets_file_sample_01));
-                fileList.add(v.getContext().getString(R.string.assets_file_sample_02));
-
-                AlertDialog dlg = DialogUtil.selectFileDialog(v.getContext(),fileList);
-                dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
-                    /**
-                     * 印刷ファイル選択ダイアログが閉じると呼び出されるメソッドです。
-                     * [処理内容]
-                     * (1)メインアクティビティが保持する設定値の更新
-                     * (2)メインアクティビティが保持する設定値に応じてボタンの表示を更新
-                     *
-                     * The method when the print file selection dialog closed.
-                     * [Processes]
-                     *   (1)Updates the setting value saved on MainActivity
-                     *   (2)Updates the button displays according to the setting value saved on MainActivity
-                     */
-                    @Override
-                    public void onDismiss(DialogInterface arg0) {
-                        //(1)
-                        updateSettings();
-                        //(2)
-                        updateSettingButtons();
-                    }
-                });
-                DialogUtil.showDialog(dlg, DialogUtil.DEFAULT_DIALOG_WIDTH);
-            }
-        });
-
-        //(3)
-        mPrintCountBtn = (Button)findViewById(R.id.btn_print_page);
-        mPrintCountBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog dlg = DialogUtil.createPrintCountDialog(v.getContext());
-                dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
-                    @Override
-                    public void onDismiss(DialogInterface arg0) {
-                        if (null != mHolder.getSelectedCopiesValue()) {
-                            String printCount = mHolder.getSelectedCopiesValue().getValue()
-                                    .toString();
-                            mPrintCountBtn.setText(printCount);
-                        }
-                    }
-                });
-                DialogUtil.showDialog(dlg, DialogUtil.DEFAULT_DIALOG_WIDTH);
-            }
-        });
-
-        //(4)
-        mPrintColorBtn = (Button)findViewById(R.id.btn_print_color);
-        mPrintColorBtn.setOnClickListener(new View.OnClickListener(){
-            /**
-             * 印刷カラー設定ボタンが押下されると呼び出されるメソッドです。
-             * [処理内容]
-             * (1)設定可能なカラーを取得
-             * (2)印刷カラー設定ダイアログを表示
-             *
-             * The method called when the print color setting button clicked.
-             * [Processes]
-             *   (1)Obtains the supported print colors
-             *   (2)Displays the print color setting dialog
-             */
-            @Override
-            public void onClick(View view) {
-                //(1)
-                PDL selectedPDL = getSettingHolder().getSelectedPDL();
-                Map<PDL,PrintSettingSupportedHolder> map =
-                        ((PrintSampleApplication)getApplication()).getSettingSupportedDataHolders();
-                PrintSettingSupportedHolder holder = map.get(selectedPDL);
-
-                //(2)
-                AlertDialog dlg = DialogUtil.createPrintColorDialog(view.getContext(), holder.getSelectablePrintColorList());
-
-                dlg.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        if(null != mHolder.getSelectedPrintColorValue()) {
-                            String printColor = PrintColorUtil.getPrintColorResourceString(MainActivity.this,mHolder.getSelectedPrintColorValue());
-                            mPrintColorBtn.setText(printColor);
-                        }
-                    }
-                });
-                DialogUtil.showDialog(dlg, DialogUtil.DEFAULT_DIALOG_WIDTH);
-            }
-        });
-
-        //(5)
-        mOtherSettingLayout = (LinearLayout)findViewById(R.id.btn_other);
-        mOtherSettingLayout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                AlertDialog dlg = DialogUtil.createOtherSettingDialog(v.getContext());
-                if(null == dlg){
-                    return;
-                }
-                DialogUtil.showDialog(dlg, DialogUtil.INPUT_DIALOG_WIDTH);
-            }
-        });
-
-        //(6)
-        mStartLayout = (RelativeLayout)findViewById(R.id.layout_start);
-        mStartLayout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if(null == mHolder ||
-                        null == mHolder.getSelectedPrintAssetFileName() ||
-                        null == mHolder.getSelectedPDL()){
-                    Toast.makeText(v.getContext(), R.string.error_settings_not_found, Toast.LENGTH_LONG).show();
-                    return;
-                }
-                ((PrintSampleApplication)getApplication()).startPrint(mHolder);
-            }
-        });
-
-        //(7)
+        // (7)
         initializeListener();
+
     }
 
     /**
@@ -266,12 +280,13 @@ public class MainActivity extends Activity{
     protected void onDestroy() {
         super.onDestroy();
 
-        //(1)
-        ((PrintSampleApplication)getApplication()).getStateMachine().procPrintEvent(PrintStateMachine.PrintEvent.CHANGE_APP_ACTIVITY_DESTROYED);
+        // (1)
+        ((PrintSampleApplication) getApplication()).getStateMachine().procPrintEvent(
+                PrintStateMachine.PrintEvent.CHANGE_APP_ACTIVITY_DESTROYED);
 
-        //(2)
-        if(mServiceAttributeListener != null) {
-            PrintService service = ((PrintSampleApplication)getApplication()).getPrintService();
+        // (2)
+        if (mServiceAttributeListener != null) {
+            PrintService service = ((PrintSampleApplication) getApplication()).getPrintService();
             service.removePrintServiceAttributeListener(mServiceAttributeListener);
         }
     }
@@ -290,26 +305,25 @@ public class MainActivity extends Activity{
      *   (3)Post the initial event to state machine.
      */
     private void initializeListener() {
-        //(1)
+        // (1)
         mServiceAttributeListener = new PrintServiceAttributeListenerImpl(this, new Handler());
 
-        //(2)
+        // (2)
         new PrintServiceInitTask().execute(mServiceAttributeListener);
 
-        //(3)
-        ((PrintSampleApplication)getApplication()).getStateMachine().procPrintEvent(
+        // (3)
+        ((PrintSampleApplication) getApplication()).getStateMachine().procPrintEvent(
                 PrintStateMachine.PrintEvent.CHANGE_APP_ACTIVITY_INITIAL);
     }
 
     /**
-     * 各設定値ボタンの表示を更新します。
-     * Update setting button displays.
+     * 各設定値ボタンの表示を更新します。 Update setting button displays.
      */
-    private void updateSettingButtons(){
-         TextView fileNameTxt = (TextView)findViewById(R.id.text_select_file);
+    private void updateSettingButtons() {
+        TextView fileNameTxt = (TextView) findViewById(R.id.text_select_file);
         fileNameTxt.setText(mHolder.getSelectedPrintAssetFileName());
 
-        if(null != mHolder.getSelectedCopiesValue()){
+        if (null != mHolder.getSelectedCopiesValue()) {
             mPrintCountBtn.setEnabled(true);
             mPrintCountBtn.setText(mHolder.getSelectedCopiesValue().getValue().toString());
         } else {
@@ -317,32 +331,32 @@ public class MainActivity extends Activity{
             mPrintCountBtn.setEnabled(false);
         }
 
-        if(null != mHolder.getSelectedPrintColorValue()) {
+        if (null != mHolder.getSelectedPrintColorValue()) {
             mPrintColorBtn.setEnabled(true);
             mPrintColorBtn.setText(PrintColorUtil.getPrintColorResourceString(MainActivity.this,
                     mHolder.getSelectedPrintColorValue()));
-        }else {
+        } else {
             mPrintColorBtn.setText("");
             mPrintColorBtn.setEnabled(false);
         }
 
-        if(null != mHolder.getSelectedStaple()){
+        if (null != mHolder.getSelectedStaple()) {
             mOtherSettingLayout.setEnabled(true);
 
-        }else{
+        } else {
             mOtherSettingLayout.setEnabled(false);
         }
 
     }
 
     /**
-     * メイン画面の初期化を行います。
-     * Initialize the main screen.
+     * メイン画面の初期化を行います。 Initialize the main screen.
      */
     private void initSetting() {
-        mHolder.setSelectedPrintAssetFileName(getString(R.string.assets_file_sample_01));
+        // mHolder.setSelectedPrintAssetFileName(getString(R.string.assets_file_sample_01));
+        mHolder.setSelectedFileName(fileName);
         updateSettings();
-        updateSettingButtons();
+        // updateSettingButtons();
     }
 
     /**
@@ -363,29 +377,32 @@ public class MainActivity extends Activity{
      * @param fileName
      * @return PDL
      */
-    public PrintFile.PDL currentPDL(String fileName){
+    public PrintFile.PDL currentPDL(String fileName) {
 
-        if(fileName == null){
+        if (fileName == null) {
             return null;
         }
 
-        //(1)
+        // (1)
         PrintFile.PDL currentPDL = null;
         String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
 
-        //(2)
-        Set<PDL> pdlList = ((PrintSampleApplication)getApplication()).getSettingSupportedDataHolders().keySet();
+        // (2)
+        Set<PDL> pdlList = ((PrintSampleApplication) getApplication())
+                .getSettingSupportedDataHolders().keySet();
 
-        //(3)
-        if(ext.equals(getString(R.string.file_extension_PDF))
-                && pdlList.contains(PDL.PDF)){
+        // (3)
+        if (ext.equals(getString(R.string.file_extension_PDF))
+                && pdlList.contains(PDL.PDF)) {
             currentPDL = PDL.PDF;
-        }else if(ext.equals(getString(R.string.file_extension_PRN))
-                && pdlList.contains(PDL.RPCS)){
+        } else if (ext.equals(getString(R.string.file_extension_PRN))
+                && pdlList.contains(PDL.RPCS)) {
             currentPDL = PDL.RPCS;
-        }else if(ext.equals(getString(R.string.file_extension_XPS))
-                && pdlList.contains(PDL.XPS)){
+        } else if (ext.equals(getString(R.string.file_extension_XPS))
+                && pdlList.contains(PDL.XPS)) {
             currentPDL = PDL.XPS;
+        } else {
+            currentPDL = PDL.PDF;
         }
         return currentPDL;
     }
@@ -405,82 +422,80 @@ public class MainActivity extends Activity{
      * */
     private boolean updateSettings(){
 
-        String filename = mHolder.getSelectedPrintAssetFileName();
-        if(null == filename){
+        // String filename = mHolder.getSelectedPrintAssetFileName();
+        String filename = mHolder.getSelectedFileName();
+        if (null == filename) {
             return false;
         }
 
-        //(1)
+        // (1)
         mHolder.setSelectedPDL(currentPDL(filename));
 
-        if(null == mHolder.getSelectedPDL()){
+        if (null == mHolder.getSelectedPDL()) {
             return false;
         }
 
-        //(2)
+        // (2)
         Set<Class<? extends PrintRequestAttribute>> categories;
         Map<PDL, PrintSettingSupportedHolder> supportedHolderMap =
-                ((PrintSampleApplication)getApplication()).getSettingSupportedDataHolders();
+                ((PrintSampleApplication) getApplication()).getSettingSupportedDataHolders();
         categories = supportedHolderMap.get(mHolder.getSelectedPDL()).getSelectableCategories();
 
-        if(null == categories){
+        if (null == categories) {
             return false;
         }
 
-       //(3)
-        if(categories.contains(Copies.class)){
+        // (3)
+        if (categories.contains(Copies.class)) {
             mHolder.setSelectedCopiesValue(
                     new Copies(Integer.parseInt(getString(R.string.default_copies))));
         } else {
             mHolder.setSelectedCopiesValue(null);
         }
-        if(categories.contains(Staple.class)){
+        if (categories.contains(Staple.class)) {
             List<Staple> stapleList = StapleUtil.getSelectableStapleList(this);
 
-            if(stapleList != null){
+            if (stapleList != null) {
                 mHolder.setSelectedStaple(stapleList.get(0));
-            }else{
+            } else {
                 mHolder.setSelectedStaple(null);
             }
         } else {
             mHolder.setSelectedStaple(null);
         }
-        if(categories.contains(PrintColor.class)) {
+        if (categories.contains(PrintColor.class)) {
             List<PrintColor> printColorList = PrintColorUtil.getSelectablePrintColorList(this);
 
-            if(printColorList != null){
+            if (printColorList != null) {
                 mHolder.setSelectedPrintColorValue(printColorList.get(0));
-            }else{
+            } else {
                 mHolder.setSelectedStaple(null);
             }
         }
         return true;
     }
 
-    public PrintSettingDataHolder getSettingHolder(){
+    public PrintSettingDataHolder getSettingHolder() {
         return mHolder;
     }
 
-    public void setSettingHolder(PrintSettingDataHolder holder){
+    public void setSettingHolder(PrintSettingDataHolder holder) {
         this.mHolder = holder;
     }
 
     /**
-     * アプリケーションを初期化します。
-     * ここでは、ステートマシンの初期化を行います。
-     * Initializes the application.
+     * アプリケーションを初期化します。 ここでは、ステートマシンの初期化を行います。 Initializes the application.
      * StateMachine is initialized here.
      */
-    private void initialize(){
+    private void initialize() {
 
-        PrintSampleApplication sampleApplication = (PrintSampleApplication)getApplication();
+        PrintSampleApplication sampleApplication = (PrintSampleApplication) getApplication();
         PrintStateMachine stateMachine = sampleApplication.getStateMachine();
         stateMachine.setContext(this);
     }
 
     /**
-     * 非同期でプリントサービスとの接続を行います。
-     * Connects with the print service asynchronously.
+     * 非同期でプリントサービスとの接続を行います。 Connects with the print service asynchronously.
      */
     class PrintServiceInitTask extends AsyncTask<PrintServiceAttributeListener, Void, Integer> {
 
@@ -508,11 +523,12 @@ public class MainActivity extends Activity{
         @Override
         protected Integer doInBackground(PrintServiceAttributeListener... listeners) {
 
-            PrintService printService = ((PrintSampleApplication)getApplication()).getPrintService();
+            PrintService printService = ((PrintSampleApplication) getApplication())
+                    .getPrintService();
 
-            //(1)
+            // (1)
             while (true) {
-                if(isCancelled()) {
+                if (isCancelled()) {
                     return -1;
                 }
                 addListenerResult = printService.addPrintServiceAttributeListener(listeners[0]);
@@ -526,13 +542,13 @@ public class MainActivity extends Activity{
                     break;
                 }
 
-                if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.NO_ERROR){
+                if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.NO_ERROR) {
                     // do nothing
                 } else if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.BUSY) {
                     sleep(10000);
-                } else if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.TIMEOUT){
+                } else if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.TIMEOUT) {
                     // do nothing
-                } else if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.INVALID){
+                } else if (addListenerResult.getErrorCode() == AsyncConnectState.ERROR_CODE.INVALID) {
                     return 0;
                 } else {
                     // unknown state
@@ -544,9 +560,9 @@ public class MainActivity extends Activity{
                 return 0;
             }
 
-            //(2)
+            // (2)
             while (true) {
-                if(isCancelled()) {
+                if (isCancelled()) {
                     return -1;
                 }
                 getAsyncConnectStateResult = printService.getAsyncConnectState();
@@ -560,13 +576,13 @@ public class MainActivity extends Activity{
                     break;
                 }
 
-                if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.NO_ERROR){
+                if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.NO_ERROR) {
                     // do nothing
                 } else if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.BUSY) {
                     sleep(10000);
-                } else if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.TIMEOUT){
+                } else if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.TIMEOUT) {
                     // do nothing
-                } else if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.INVALID){
+                } else if (getAsyncConnectStateResult.getErrorCode() == AsyncConnectState.ERROR_CODE.INVALID) {
                     return 0;
                 } else {
                     // unknown state
@@ -574,17 +590,18 @@ public class MainActivity extends Activity{
                 }
             }
 
-            //(3)
+            // (3)
             if (addListenerResult.getState() == AsyncConnectState.STATE.CONNECTED
                     && getAsyncConnectStateResult.getState() == AsyncConnectState.STATE.CONNECTED) {
 
                 List<PrintFile.PDL> supportedPDL = printService.getSupportedPDL();
-                if(supportedPDL == null) return null;
+                if (supportedPDL == null)
+                    return null;
 
-                for(PrintFile.PDL pdl : supportedPDL) {
-                    ((PrintSampleApplication)getApplication())
-                    .putPrintSettingSupportedHolder(pdl,
-                            new PrintSettingSupportedHolder(printService, pdl));
+                for (PrintFile.PDL pdl : supportedPDL) {
+                    ((PrintSampleApplication) getApplication())
+                            .putPrintSettingSupportedHolder(pdl,
+                                    new PrintSettingSupportedHolder(printService, pdl));
                 }
 
             }
@@ -599,7 +616,7 @@ public class MainActivity extends Activity{
         @Override
         protected void onPostExecute(Integer result) {
 
-            if (result!=0) {
+            if (result != 0) {
                 /* canceled. */
                 return;
             }
@@ -608,12 +625,22 @@ public class MainActivity extends Activity{
                     && getAsyncConnectStateResult.getState() == AsyncConnectState.STATE.CONNECTED) {
                 // connection succeeded.
                 initSetting();
-                ((PrintSampleApplication)getApplication()).getStateMachine().procPrintEvent(
+                ((PrintSampleApplication) getApplication()).getStateMachine().procPrintEvent(
                         PrintStateMachine.PrintEvent.CHANGE_APP_ACTIVITY_STARTED);
+
+                if (null == mHolder ||
+                        null == mHolder.getSelectedFileName() ||
+                        null == mHolder.getSelectedPDL()) {
+                    Toast.makeText(getApplicationContext(),
+                            R.string.error_settings_not_found,
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
+                ((PrintSampleApplication) getApplication()).startPrint(mHolder);
             }
             else {
                 // the connection is invalid.
-                ((PrintSampleApplication)getApplication()).getStateMachine().procPrintEvent(
+                ((PrintSampleApplication) getApplication()).getStateMachine().procPrintEvent(
                         PrintStateMachine.PrintEvent.CHANGE_APP_ACTIVITY_START_FAILED);
             }
         }
