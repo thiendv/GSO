@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\Users\\MD101\\Downloads\\Bookend\\src\\com\\android\\vending\\billing\\IMarketBillingService.aidl
+ * Original file: D:\\Project\\HoGo\\Android\\DEMO\\GSO\\Print\\Bookend\\src\\com\\android\\vending\\billing\\IMarketBillingService.aidl
  */
 package com.android.vending.billing;
 public interface IMarketBillingService extends android.os.IInterface
