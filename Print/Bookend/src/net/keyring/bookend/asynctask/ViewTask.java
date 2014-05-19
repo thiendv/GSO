@@ -87,6 +87,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 		book = params[0].mBook;
 		boolean isTemporary = params[0].mIsTemporary;
 		boolean success = false;
+		String strPassword = null;
 		try {
 			mViewAction = new ViewAction(mCon, mActivity);
 			boolean isInstallViewer = false;
@@ -171,7 +172,8 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				// -----------------------------------------------
 				//	password of PDF file
 				byte[] userPassword = Utils.getBytesKeyFromHexStr(book.getKey(), 32);
-				Logput.d("userPassword = " + DecryptUtil.base16enc(userPassword));
+				strPassword =  DecryptUtil.base16enc(userPassword);
+				Logput.d("userPassword = " + strPassword);
 				//	file path of PDF file
 				String filePath = book.getFile_path();
 				Logput.d("filePath = " + filePath);
@@ -208,7 +210,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				mViewAction.temporary(book);
 			}
 		}
-		return null;
+		return strPassword;
 	}
 	
 	/**
@@ -278,13 +280,13 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	@Override
 	protected void onPostExecute(String result) {
 		progress_stop();
-//		if(mListener != null){
-//			mListener.result_view(result);
-//		}
+		if(mListener != null){
+			mListener.result_view(result);
+		}
 		
 			Intent intent = new Intent(mActivity, jp.co.ricoh.ssdk.sample.app.print.activity.MainActivity.class);
 			intent.putExtra("path", book.getFile_path());
-//			intent.putExtra("key", book.getEncryptionKey());
+			intent.putExtra("key", result);
 			mActivity.startActivity(intent);
 	}
 	

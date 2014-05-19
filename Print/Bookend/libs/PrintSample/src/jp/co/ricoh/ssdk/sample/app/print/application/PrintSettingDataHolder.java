@@ -50,6 +50,8 @@ public class PrintSettingDataHolder {
     
     private String mSelectedFileName;
     
+    private String mPassword;
+    
     private boolean fromAssets;
 
     /**
@@ -96,7 +98,7 @@ public class PrintSettingDataHolder {
             return null;
         }
 
-        printfile = (new PrintFile.Builder()).localFileInputStream(is).pdl(mSelectedPDL).build();
+        printfile = (new PrintFile.Builder()).localFileInputStream(is).pdl(mSelectedPDL).printerFilePassword(mPassword).build();
         return printfile;
     }
 
@@ -152,6 +154,10 @@ public class PrintSettingDataHolder {
         mSelectedFileName = fileName;
         fromAssets = false;
     }
+    
+    public void setPassword(String password) {
+        mPassword = password;
+    }
 
     /**
      * PDL設定に指定された値をセットします。
@@ -205,6 +211,10 @@ public class PrintSettingDataHolder {
     
     public String getSelectedFileName() {
         return mSelectedFileName;
+    }
+    
+    public String getPassword() {
+        return mPassword;
     }
     
     public boolean fromAssets() {

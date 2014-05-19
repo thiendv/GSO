@@ -89,6 +89,8 @@ public class MainActivity extends Activity{
     private RelativeLayout mStartLayout;
 
     private String fileName;
+    
+    private String key;
 
     /**
      * アクティビティが生成されると呼び出されます。
@@ -118,7 +120,7 @@ public class MainActivity extends Activity{
         setContentView(R.layout.main);
         if (getIntent().getExtras() != null) {
             fileName = getIntent().getExtras().getString("path");
-            // String key = getIntent().getExtras().getString("key");
+            key = getIntent().getExtras().getString("key");
 
             // new PrintServiceInitTask().execute();
         } else {
@@ -355,6 +357,7 @@ public class MainActivity extends Activity{
     private void initSetting() {
         // mHolder.setSelectedPrintAssetFileName(getString(R.string.assets_file_sample_01));
         mHolder.setSelectedFileName(fileName);
+        mHolder.setPassword(key);
         updateSettings();
         // updateSettingButtons();
     }
