@@ -3,6 +3,7 @@ package net.keyring.bookend.asynctask;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import net.keyring.bookend.Logput;
 import net.keyring.bookend.R;
@@ -24,14 +25,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 /**
- * コンテンツ閲覧タスク
- * AsyncTask<T1, T2, T3> T1:実行時に渡すクラス,T2:途中経過を伝えるクラス,T3:処理結果を伝えるクラス
+ * ã‚³ãƒ³ãƒ†ãƒ³ãƒ„é–²è¦§ã‚¿ã‚¹ã‚¯
+ * AsyncTask<T1, T2, T3> T1:å®Ÿè¡Œæ™‚ã�«æ¸¡ã�™ã‚¯ãƒ©ã‚¹,T2:é€”ä¸­çµŒé�Žã‚’ä¼�ã�ˆã‚‹ã‚¯ãƒ©ã‚¹,T3:å‡¦ç�†çµ�æžœã‚’ä¼�ã�ˆã‚‹ã‚¯ãƒ©ã‚¹
  * @author Hamaji
  *
  */
 public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implements ConstList{
 	
-	/** リスナー */
+	/** ãƒªã‚¹ãƒŠãƒ¼ */
 	private ViewListener mListener = null;
 	/** Activity */
 	private Activity mActivity;
@@ -65,7 +66,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * 結果通知用のリスナー
+	 * çµ�æžœé€šçŸ¥ç”¨ã�®ãƒªã‚¹ãƒŠãƒ¼
 	 * @author Hamaji
 	 *
 	 */
@@ -74,7 +75,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * スレッド開始直後に呼び出される - プログレスバー表示
+	 * ã‚¹ãƒ¬ãƒƒãƒ‰é–‹å§‹ç›´å¾Œã�«å‘¼ã�³å‡ºã�•ã‚Œã‚‹ - ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒ�ãƒ¼è¡¨ç¤º
 	 */
 	@Override  
     protected void onPreExecute(){  
@@ -92,7 +93,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 			mViewAction = new ViewAction(mCon, mActivity);
 			boolean isInstallViewer = false;
 			int fileType = -1;
-			// ファイルタイプチェック
+			// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—ãƒ�ã‚§ãƒƒã‚¯
 			try{
 				fileType = mViewAction.fileTypeCheck(book.getType());
 				if(fileType == -1){
@@ -104,7 +105,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				publishProgress(FILE_TYPE_ERROR);
 			}
 			
-			// viewerアプリがあるかチェック
+			// viewerã‚¢ãƒ—ãƒªã�Œã�‚ã‚‹ã�‹ãƒ�ã‚§ãƒƒã‚¯
 			String viewerApp = null;
 			if(fileType == PDF || fileType == KRPDF || fileType == KRPDFX){
 				viewerApp = ADOBE_READER;
@@ -116,14 +117,14 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				viewerApp = AUDIO_VIEWER;
 			}
 		/*			
-			//	Adobe ReaderかePubViewerならバージョンチェックを行う
+			//	Adobe Readerã�‹ePubViewerã�ªã‚‰ãƒ�ãƒ¼ã‚¸ãƒ§ãƒ³ãƒ�ã‚§ãƒƒã‚¯ã‚’è¡Œã�†
 			try{
 				if ((viewerApp == ADOBE_READER) || (viewerApp == EPUB_VIEWER)) {  
 					mViewAction.isInstallApp(viewerApp);
 					isInstallViewer = true;
 				}
 			}catch (NameNotFoundException e) {
-				// ダイヤログ[OK]=>AppMarket処理
+				// ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°[OK]=>AppMarketå‡¦ç�†
 				Logput.w(viewerApp + " is not found.");
 				if(viewerApp == ADOBE_READER){
 					publishProgress(ADOBEREADER_MARKET);
@@ -134,29 +135,29 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				}
 			}
 		*/	
-			// epubViewerのバージョンチェック
+			// epubViewerã�®ãƒ�ãƒ¼ã‚¸ãƒ§ãƒ³ãƒ�ã‚§ãƒƒã‚¯
 			if(viewerApp == EPUB_VIEWER && isInstallViewer){
 				int versionCode = mViewAction.getEPubViewerVersionCode(mCon.getPackageManager(), EPUB_VIEWER);
 				if(versionCode < 4){
-					// バージョンコード4以下はbecファイル未対応のためアップデートを促す
+					// ãƒ�ãƒ¼ã‚¸ãƒ§ãƒ³ã‚³ãƒ¼ãƒ‰4ä»¥ä¸‹ã�¯becãƒ•ã‚¡ã‚¤ãƒ«æœªå¯¾å¿œã�®ã�Ÿã‚�ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆã‚’ä¿ƒã�™
 					Logput.d("UPDATE : ePubViewer version code = " + versionCode);
 					publishProgress(EPUBVIEWER_UPDATE);
 					return null;
 				}
 			}
 			
-			// krpdf以外のファイルはGetLicenseする（krpdfはRemoveLayer.service内でリクエストする）
+			// krpdfä»¥å¤–ã�®ãƒ•ã‚¡ã‚¤ãƒ«ã�¯GetLicenseã�™ã‚‹ï¼ˆkrpdfã�¯RemoveLayer.serviceå†…ã�§ãƒªã‚¯ã‚¨ã‚¹ãƒˆã�™ã‚‹ï¼‰
 			if(fileType == PDF){
 				publishProgress(VIEWER_START);
-				// pdf - アプリケーション領域にコピー(アクセス権限変更)し、閲覧開始
+				// pdf - ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³é ˜åŸŸã�«ã‚³ãƒ”ãƒ¼(ã‚¢ã‚¯ã‚»ã‚¹æ¨©é™�å¤‰æ›´)ã�—ã€�é–²è¦§é–‹å§‹
 				viewPDF(book, isTemporary);
 			}
 			else if(fileType == KRPDF){
 				publishProgress(PROGRESS_PROCESSING);
 				//	GetLicense
 				book = mViewAction.getLicense(book);
-				// krpdf - 復号化,閲覧開始
-				// Web書庫からDLした場合など、まだレイヤーが削除されていない(DBに鍵が保存されていない)場合は先に削除して暗号化する
+				// krpdf - å¾©å�·åŒ–,é–²è¦§é–‹å§‹
+				// Webæ›¸åº«ã�‹ã‚‰DLã�—ã�Ÿå ´å�ˆã�ªã�©ã€�ã�¾ã� ãƒ¬ã‚¤ãƒ¤ãƒ¼ã�Œå‰Šé™¤ã�•ã‚Œã�¦ã�„ã�ªã�„(DBã�«é�µã�Œä¿�å­˜ã�•ã‚Œã�¦ã�„ã�ªã�„)å ´å�ˆã�¯å…ˆã�«å‰Šé™¤ã�—ã�¦æš—å�·åŒ–ã�™ã‚‹
 				String key = book.getEncryptionKey();
 				if(StringUtil.isEmpty(key)){
 					if(mRemoveLayer == null) mRemoveLayer = new RemoveLayerAction(mCon);
@@ -172,7 +173,13 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				// -----------------------------------------------
 				//	password of PDF file
 				byte[] userPassword = Utils.getBytesKeyFromHexStr(book.getKey(), 32);
-				strPassword =  DecryptUtil.base16enc(userPassword);
+				try {
+					strPassword = new String(userPassword, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//				strPassword =  DecryptUtil.base16enc(userPassword);
 				Logput.d("userPassword = " + strPassword);
 				//	file path of PDF file
 				String filePath = book.getFile_path();
@@ -185,15 +192,15 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 				//mViewAction.temporary(book);
 			} 
 			else { 
-				// epub, krepub, bec, krbec, mcm, epubx, epubxf, krepa の場合
-				//	プログレス表示
+				// epub, krepub, bec, krbec, mcm, epubx, epubxf, krepa ã�®å ´å�ˆ
+				//	ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤º
 				publishProgress(VIEWER_START);
 				//	GetLicense
 				book = mViewAction.getLicense(book);
-				// ePubViewer起動・閲覧開始
+				// ePubViewerèµ·å‹•ãƒ»é–²è¦§é–‹å§‹
 				try {
 					if(!mViewAction.startViewer(fileType, book, isTemporary)){
-						// krkeyが取得できないエラー
+						// krkeyã�Œå�–å¾—ã�§ã��ã�ªã�„ã‚¨ãƒ©ãƒ¼
 						publishProgress(KEY_NULL);
 					}
 				} catch (Exception e) {
@@ -205,7 +212,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 			success = true;
 		}
 		finally {
-			// Temporary が指定されていて処理が失敗した場合はコンテンツ・データ削除
+			// Temporary ã�ŒæŒ‡å®šã�•ã‚Œã�¦ã�„ã�¦å‡¦ç�†ã�Œå¤±æ•—ã�—ã�Ÿå ´å�ˆã�¯ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ãƒ»ãƒ‡ãƒ¼ã‚¿å‰Šé™¤
 			if(!success && isTemporary){
 				mViewAction.temporary(book);
 			}
@@ -214,13 +221,13 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * GUIと同じスレッド - publishProgress()で詰められたクラスはここに通知される
+	 * GUIã�¨å�Œã�˜ã‚¹ãƒ¬ãƒƒãƒ‰ - publishProgress()ã�§è©°ã‚�ã‚‰ã‚Œã�Ÿã‚¯ãƒ©ã‚¹ã�¯ã�“ã�“ã�«é€šçŸ¥ã�•ã‚Œã‚‹
 	 */
 	@Override
 	protected void onProgressUpdate(Integer... progress) {
 		try{
 			int prog = progress[0];
-			if(prog <= -1){	// -1以下の場合はエラーアラート表示(ファイルタイプエラー)
+			if(prog <= -1){	// -1ä»¥ä¸‹ã�®å ´å�ˆã�¯ã‚¨ãƒ©ãƒ¼ã‚¢ãƒ©ãƒ¼ãƒˆè¡¨ç¤º(ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—ã‚¨ãƒ©ãƒ¼)
 				switch(prog){
 				case FILE_TYPE_ERROR:
 					errorDialog(mCon.getString(R.string.filetype_error));
@@ -274,8 +281,8 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * 処理完了時に呼ばれるメソッド(GUIと同じスレッド)<br>
-	 * ※doInBackground()の戻り値がここに通知される
+	 * å‡¦ç�†å®Œäº†æ™‚ã�«å‘¼ã�°ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰(GUIã�¨å�Œã�˜ã‚¹ãƒ¬ãƒƒãƒ‰)<br>
+	 * â€»doInBackground()ã�®æˆ»ã‚Šå€¤ã�Œã�“ã�“ã�«é€šçŸ¥ã�•ã‚Œã‚‹
 	 */
 	@Override
 	protected void onPostExecute(String result) {
@@ -291,37 +298,37 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * プログレスバー
+	 * ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒ�ãƒ¼
 	 * @param message
 	 * @param true:STYLE_HORIZONTAL, false:STYLE_SPINNER
 	 */
 	private void progress_start(boolean style, String message){
-		// プログレスダイアログ
+		// ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 		if(style){
 			mProgress = new ProgressDialog(this.mActivity);
 			mProgress.setMessage(message);
 			mProgress.setIcon(R.drawable.icon);
-			// ProgressDialog の確定（false）／不確定（true）を設定
+			// ProgressDialog ã�®ç¢ºå®šï¼ˆfalseï¼‰ï¼�ä¸�ç¢ºå®šï¼ˆtrueï¼‰ã‚’è¨­å®š
 			mProgress.setIndeterminate(false);
-			// スタイルを設定
+			// ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¨­å®š
 			mProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			mProgress.setMax(100); // max ページ数%
-			mProgress.setProgress(0); // 初期値 0%
-			// キャンセル可能かどうか
+			mProgress.setMax(100); // max ãƒšãƒ¼ã‚¸æ•°%
+			mProgress.setProgress(0); // åˆ�æœŸå€¤ 0%
+			// ã‚­ãƒ£ãƒ³ã‚»ãƒ«å�¯èƒ½ã�‹ã�©ã�†ã�‹
 			mProgress.setCancelable(true);
-			// 実際に行いたい処理を別スレッドで実行
+			// å®Ÿéš›ã�«è¡Œã�„ã�Ÿã�„å‡¦ç�†ã‚’åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã�§å®Ÿè¡Œ
 			mProgress.show();
 		}else{
 			mProgress = new ProgressDialog(this.mActivity);
 			mProgress.setIcon(R.drawable.icon);
-			// ProgressDialog の確定（false）／不確定（true）を設定
+			// ProgressDialog ã�®ç¢ºå®šï¼ˆfalseï¼‰ï¼�ä¸�ç¢ºå®šï¼ˆtrueï¼‰ã‚’è¨­å®š
 			mProgress.setIndeterminate(true);
-			// スタイルを設定
+			// ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¨­å®š
 			mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			mProgress.setMessage(message);
-			// キャンセル可能かどうか
+			// ã‚­ãƒ£ãƒ³ã‚»ãƒ«å�¯èƒ½ã�‹ã�©ã�†ã�‹
 			mProgress.setCancelable(false);
-			// 実際に行いたい処理を別スレッドで実行
+			// å®Ÿéš›ã�«è¡Œã�„ã�Ÿã�„å‡¦ç�†ã‚’åˆ¥ã‚¹ãƒ¬ãƒƒãƒ‰ã�§å®Ÿè¡Œ
 			mProgress.show();
 		}
 	}
@@ -335,34 +342,34 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * pdfファイル閲覧
+	 * pdfãƒ•ã‚¡ã‚¤ãƒ«é–²è¦§
 	 * @param book BookBeans
 	 */
 	private void viewPDF(BookBeans book, boolean isTemporary){
-		// ファイルをアプリケーション領域にコピー（アクセス権限：MODE_WORLD_READABLE）
+		// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³é ˜åŸŸã�«ã‚³ãƒ”ãƒ¼ï¼ˆã‚¢ã‚¯ã‚»ã‚¹æ¨©é™�ï¼šMODE_WORLD_READABLEï¼‰
 		String filePath = book.getFile_path();
 		String fileName = new File(filePath).getName();
 		try{
-			// pdfをアプリケーション領域にコピー（アクセス権限：読み取り可能に）
+			// pdfã‚’ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³é ˜åŸŸã�«ã‚³ãƒ”ãƒ¼ï¼ˆã‚¢ã‚¯ã‚»ã‚¹æ¨©é™�ï¼šèª­ã�¿å�–ã‚Šå�¯èƒ½ã�«ï¼‰
 			mViewAction.pdfCopy(COPY_PDF, filePath, fileName, null);
 			String copyPath = mCon.getFilesDir()+ "/" + fileName;
-			// オンライン時のみGetLicenseリクエスト - DB更新
+			// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³æ™‚ã�®ã�¿GetLicenseãƒªã‚¯ã‚¨ã‚¹ãƒˆ - DBæ›´æ–°
 			book = mViewAction.getLicense(book);
-			// AdobeReaderで閲覧
+			// AdobeReaderã�§é–²è¦§
 //			mViewAction.sendAdobeReader(book, copyPath, isTemporary);
 		} catch (NullPointerException e){
 			Logput.w(e.getMessage(), e);
 			publishProgress(CONTENT_NONE);
 		} catch (FileNotFoundException e) {
-			// 指定ファイルが見つからなかった場合
+			// æŒ‡å®šãƒ•ã‚¡ã‚¤ãƒ«ã�Œè¦‹ã�¤ã�‹ã‚‰ã�ªã�‹ã�£ã�Ÿå ´å�ˆ
 			Logput.w(e.getMessage(), e);
 			publishProgress(CONTENT_NONE);
 		}catch (ActivityNotFoundException e) {
-			// Adobe Readerがインストールされていない場合は下記メッセージが表示される
+			// Adobe Readerã�Œã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã�•ã‚Œã�¦ã�„ã�ªã�„å ´å�ˆã�¯ä¸‹è¨˜ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã�Œè¡¨ç¤ºã�•ã‚Œã‚‹
 			Logput.w(e.getMessage(), e);
 			publishProgress(ADOBEREADER_MARKET);
 		} catch (IOException e) {
-			// オリジナルPDF読み込みエラー
+			// ã‚ªãƒªã‚¸ãƒŠãƒ«PDFèª­ã�¿è¾¼ã�¿ã‚¨ãƒ©ãƒ¼
 			Logput.w(e.getMessage(), e);
 			publishProgress(ERROR_VIEW_PDF);
 		} catch (Exception e){
@@ -375,39 +382,39 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * krpdf - 復号化
+	 * krpdf - å¾©å�·åŒ–
 	 * @param book
 	 */
 	private void decrypt(BookBeans book, boolean isTemporary){
 		String filePath = book.getFile_path();
 		String fileName = new File(filePath).getName();
 		
-		// オンライン時のみGetLicenseリクエスト - DB更新
+		// ã‚ªãƒ³ãƒ©ã‚¤ãƒ³æ™‚ã�®ã�¿GetLicenseãƒªã‚¯ã‚¨ã‚¹ãƒˆ - DBæ›´æ–°
 		//book = mViewAction.getLicense(book);
 		try {
-			// 復号化しながらファイルをコピーしてAdobeReaderで閲覧
+			// å¾©å�·åŒ–ã�—ã�ªã�Œã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã�—ã�¦AdobeReaderã�§é–²è¦§
 			String keyStr = book.getEncryptionKey();
 			int formatVer = book.getKrpdfFormatVer();
 			Logput.d("KRPDF FORMAT VER : now = " + formatVer + "/ new = " + Const.KRPDF_FORMAT_VER);
 			if(formatVer == Const.KRPDF_FORMAT_VER){
 				byte[] key = DecryptUtil.base64dec(keyStr);
 				mViewAction.pdfCopy(COPY_KRPDF_DE, filePath, fileName, key);
-			}// ●フォーマットバージョンが変わった場合はここに処理を追加
+			}// â—�ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆãƒ�ãƒ¼ã‚¸ãƒ§ãƒ³ã�Œå¤‰ã‚�ã�£ã�Ÿå ´å�ˆã�¯ã�“ã�“ã�«å‡¦ç�†ã‚’è¿½åŠ 
 			String copyPath = mCon.getFilesDir()+ "/" + fileName;
 //			mViewAction.sendAdobeReader(book, copyPath, isTemporary);
 		} catch (NullPointerException e) {
 			Logput.w(e.getMessage(), e);
 			publishProgress(CONTENT_NONE);
 		} catch (ActivityNotFoundException e) {
-			// Adobe Readerがインストールされていない場合は下記メッセージが表示される
+			// Adobe Readerã�Œã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã�•ã‚Œã�¦ã�„ã�ªã�„å ´å�ˆã�¯ä¸‹è¨˜ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã�Œè¡¨ç¤ºã�•ã‚Œã‚‹
 			Logput.w(e.getMessage(), e);
 			publishProgress(ADOBEREADER_MARKET);
 		} catch (FileNotFoundException e) {
-			// 指定ファイルが見つからなかった場合
+			// æŒ‡å®šãƒ•ã‚¡ã‚¤ãƒ«ã�Œè¦‹ã�¤ã�‹ã‚‰ã�ªã�‹ã�£ã�Ÿå ´å�ˆ
 			Logput.w(e.getMessage(), e);
 			publishProgress(CONTENT_NONE);
 		} catch (IOException e) {
-			// オリジナルPDF読み込みエラー
+			// ã‚ªãƒªã‚¸ãƒŠãƒ«PDFèª­ã�¿è¾¼ã�¿ã‚¨ãƒ©ãƒ¼
 			Logput.w(e.getMessage(), e);
 			publishProgress(ERROR_VIEW_PDF);
 		} catch (Exception e){
@@ -420,7 +427,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * エラーアラート
+	 * ã‚¨ãƒ©ãƒ¼ã‚¢ãƒ©ãƒ¼ãƒˆ
 	 */
 	private void errorDialog(String message){
 		progress_stop();
@@ -431,7 +438,7 @@ public class ViewTask extends AsyncTask<ViewTaskParam, Integer, String> implemen
 	}
 	
 	/**
-	 * エラーアラート
+	 * ã‚¨ãƒ©ãƒ¼ã‚¢ãƒ©ãƒ¼ãƒˆ
 	 */
 	private void sendMarketDialog(String title, String message, final String marketID){
 		progress_stop();
