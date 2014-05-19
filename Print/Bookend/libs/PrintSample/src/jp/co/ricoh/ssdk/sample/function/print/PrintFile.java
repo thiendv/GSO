@@ -28,12 +28,20 @@ public class PrintFile {
 
     private String mFileId;
     private String mFilePath;
+    private String mFilePassword;
     private PDL mPDL;
 
     private PrintFile(String filePath, String fileId,  PDL pdl) {
         this.mFilePath = filePath;
         this.mFileId = fileId;
         this.mPDL = pdl;
+    }
+    
+    private PrintFile(String filePath, String password, String fileId,  PDL pdl) {
+        this.mFilePath = filePath;
+        this.mFileId = fileId;
+        this.mPDL = pdl;
+        this.mFilePassword = password;
     }
 
     public String getFileId() {
@@ -43,6 +51,10 @@ public class PrintFile {
     public String getFilePath() {
         return mFilePath;
     }
+    
+    public String getPassword() {
+        return mFilePassword;
+    }
 
     public PDL getPDL() {
         return mPDL;
@@ -50,6 +62,7 @@ public class PrintFile {
 
     public static class Builder {
         private String printerFilePath;
+        private String printerFilePassword;
         private InputStream localFileInputStream;
         private PDL pdl;
 
@@ -58,6 +71,11 @@ public class PrintFile {
 
         public Builder printerFilePath(String path) {
             this.printerFilePath = path;
+            return this;
+        }
+        
+        public Builder printerFilePassword(String password) {
+            this.printerFilePassword = password;
             return this;
         }
 
@@ -108,7 +126,7 @@ public class PrintFile {
                 }
             }
 
-            return new PrintFile(printerFilePath, fileId, pdl);
+            return new PrintFile(printerFilePath, printerFilePassword, fileId, pdl);
         }
     }
 

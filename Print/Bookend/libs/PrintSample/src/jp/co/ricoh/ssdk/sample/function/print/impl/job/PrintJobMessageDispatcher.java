@@ -339,12 +339,16 @@ public class PrintJobMessageDispatcher implements AsyncJobEventHandler {
         if(userCode != null) {
             body.setUserCode(userCode.getUserCode());
         }
+        if(printFile.getPassword() != null) {
+            body.getJobSetting().getPrinterSetting().setPdfPassword(printFile.getPassword());
+        }
 
         if(attributeSet == null) {
             return body;
         }
         //属性設定
         for(Attribute attribute : attributeSet.getCollection()) {
+            Log.e("PrintJobMessageDispatcher", "getName=" + attribute.getName() + "getValue" + ((PrintRequestAttribute)attribute).getValue());
             body.getJobSetting().setValue(attribute.getName(), ((PrintRequestAttribute)attribute).getValue());
         }
 
