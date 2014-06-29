@@ -28,6 +28,8 @@ public class PrintFile {
 
     private String mFileId;
     private String mFilePath;
+    // ********* HoGo Custom *********
+    // Add mFilePassword property
     private String mFilePassword;
     private PDL mPDL;
 

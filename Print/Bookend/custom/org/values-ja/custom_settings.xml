@@ -2,7 +2,7 @@
 <resources>
     
     <!-- アプリ名 -->
-    <string name="app_name">bookend</string>
+   <!-- <string name="app_name">bookend</string> -->
     
     <!-- Menu -->
     <string name="menu_main">本棚</string>

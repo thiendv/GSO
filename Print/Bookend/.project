@@ -3,6 +3,8 @@
 	<name>Bookend</name>
 	<comment></comment>
 	<projects>
+		<project>MainActivity</project>
+		<project>PrintSample</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

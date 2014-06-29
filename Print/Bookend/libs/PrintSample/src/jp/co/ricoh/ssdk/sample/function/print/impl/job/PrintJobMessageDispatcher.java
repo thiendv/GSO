@@ -339,6 +339,9 @@ public class PrintJobMessageDispatcher implements AsyncJobEventHandler {
         if(userCode != null) {
             body.setUserCode(userCode.getUserCode());
         }
+        
+        // ********* HoGo Custom *********
+        // Set password for JobSetting
         if(printFile.getPassword() != null) {
             body.getJobSetting().getPrinterSetting().setPdfPassword(printFile.getPassword());
         }

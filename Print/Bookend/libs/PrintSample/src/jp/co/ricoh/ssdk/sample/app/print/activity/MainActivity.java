@@ -119,6 +119,9 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if (getIntent().getExtras() != null) {
+            
+           // ********* HoGo Custom *********
+           // Capture filepath and password
             fileName = getIntent().getExtras().getString("path");
             key = getIntent().getExtras().getString("key");
 
@@ -356,6 +359,8 @@ public class MainActivity extends Activity{
      */
     private void initSetting() {
         // mHolder.setSelectedPrintAssetFileName(getString(R.string.assets_file_sample_01));
+       // ********* HoGo Custom *********
+       // Set file path and password
         mHolder.setSelectedFileName(fileName);
         mHolder.setPassword(key);
         updateSettings();

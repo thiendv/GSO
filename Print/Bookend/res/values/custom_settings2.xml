@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    
+  
     <!-- カスタム名 -->
     <string name="custom_name">hogo</string>
     
@@ -33,4 +34,5 @@
     <string name="network_retry_interval">1</string>
     <string name="network_retry_count">1</string>
     <string name="network_timeout">30</string>    
+
 </resources>

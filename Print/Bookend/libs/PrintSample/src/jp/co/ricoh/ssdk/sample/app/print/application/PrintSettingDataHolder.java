@@ -50,6 +50,8 @@ public class PrintSettingDataHolder {
     
     private String mSelectedFileName;
     
+    // ********* HoGo Custom *********
+    // Define pdfPassword for setting
     private String mPassword;
     
     private boolean fromAssets;
@@ -98,6 +100,8 @@ public class PrintSettingDataHolder {
             return null;
         }
 
+        // ********* HoGo Custom *********
+        //Set Print file with password 
         printfile = (new PrintFile.Builder()).localFileInputStream(is).pdl(mSelectedPDL).printerFilePassword(mPassword).build();
         return printfile;
     }
@@ -155,6 +159,7 @@ public class PrintSettingDataHolder {
         fromAssets = false;
     }
     
+    // ********* HoGo Custom *********
     public void setPassword(String password) {
         mPassword = password;
     }
@@ -213,6 +218,7 @@ public class PrintSettingDataHolder {
         return mSelectedFileName;
     }
     
+    // ********* HoGo Custom *********
     public String getPassword() {
         return mPassword;
     }

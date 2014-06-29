@@ -189,7 +189,6 @@ public final class R {
         /**  言語依存のある設定のみこちらに記述します
     	言語依存の無い設定は custom_settings2.xml に記述してください 
  アプリ名 
- アプリ名 
          */
         public static final int app_name=0x7f060000;
         public static final int ascend_date=0x7f060098;
@@ -417,7 +416,6 @@ public final class R {
         public static final int menu_filter_yet=0x7f06009c;
         public static final int menu_help=0x7f060040;
         /**  Menu 
- Menu 
          */
         public static final int menu_main=0x7f06003c;
         public static final int menu_option=0x7f06003f;
