@@ -241,37 +241,48 @@ public class UploadFileFragment extends MuPDFFragment implements OnClickListener
 
 	@Override
 	public void onCompleted(Service service, ServiceResponse result) {
-		// TODO Auto-generated method stub
-		if (result.isSuccess()
-				&& result.getAction() == ServiceAction.ActionUpload) {
-			Log.d("onCompleted", "onCompleted " + result.getData());
-			DataParser parser = new DataParser(true);
-			ResponseData resData = parser.parseUpdateResult((String) result
-					.getData());
-			FileData parseData = (FileData) resData.getData();
-			
-			if (resData.getStatus().equals("OK")) {
-				if(getActivity()!=null &&!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Document uploaded successfully, please waiting for encoding data.",
-							Toast.LENGTH_LONG).show();
-					parseData.setFileTitle(""+mEtFilePath.getText().toString());
-				}
-				((MainActivity) getActivity()).deleteFile(mFileUpload);
-				((MainActivity) getActivity()).gotoEncodeScreen(parseData);
-			} else if (resData.getStatus()
-					.equalsIgnoreCase("SessionIdNotFound")) {
-				HoGoApplication.instace().setToken(getActivity(), null);
-				((MainActivity) getActivity()).gotologinScreen();
-			} else {
-				if(getActivity()!=null &&!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
-					.show();	
-				}
+		try {
 
+			// TODO Auto-generated method stub
+			if (result.isSuccess()
+					&& result.getAction() == ServiceAction.ActionUpload) {
+				Log.d("onCompleted", "onCompleted " + result.getData());
+				DataParser parser = new DataParser(true);
+				ResponseData resData = parser.parseUpdateResult((String) result
+						.getData());
+				FileData parseData = (FileData) resData.getData();
+				
+				if (resData.getStatus().equals("OK")) {
+					if(getActivity()!=null &&!getActivity().isFinishing()){
+						Toast.makeText(getActivity(), "Document uploaded successfully, please waiting for encoding data.",
+								Toast.LENGTH_LONG).show();
+						parseData.setFileTitle(""+mEtFilePath.getText().toString());
+					}
+					((MainActivity) getActivity()).deleteFile(mFileUpload);
+					((MainActivity) getActivity()).gotoEncodeScreen(parseData);
+				} else if (resData.getStatus()
+						.equalsIgnoreCase("SessionIdNotFound")) {
+					HoGoApplication.instace().setToken(getActivity(), null);
+					((MainActivity) getActivity()).gotologinScreen();
+				} else {
+					if(getActivity()!=null &&!getActivity().isFinishing()){
+						Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+						.show();	
+					}
+
+				}
+			}
+			if(getActivity()!=null &&!getActivity().isFinishing()){
+				((MainActivity) getActivity()).setProgressVisibility(false);
+			}
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			if(getActivity()!=null &&!getActivity().isFinishing()){
+				((MainActivity) getActivity()).setProgressVisibility(false);
 			}
 		}
-		
-		((MainActivity) getActivity()).setProgressVisibility(false);
 	}
 
 	@Override
