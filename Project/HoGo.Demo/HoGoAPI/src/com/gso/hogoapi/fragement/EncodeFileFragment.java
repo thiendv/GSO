@@ -130,73 +130,95 @@ public class EncodeFileFragment extends DialogFragment implements
 
 	@Override
 	public void onCompleted(Service service, ServiceResponse result) {
-		// TODO Auto-generated method stub
-		if (result.isSuccess()
-				&& result.getAction() == ServiceAction.ActionEncode) {
-			DataParser parser = new DataParser(true);
-			ResponseData resData = parser
-					.parseEncodeResult((String) result.getData());
-			boolean encodeStatus = resData.getStatus().equalsIgnoreCase("OK");
-			if (encodeStatus) {
-				if(getActivity()!=null && !getActivity().isFinishing()){
-					//Toast.makeText(getActivity(),"Please waiting for encoding data!",Toast.LENGTH_LONG).show();
-					checkEncodeData();					
+		try {
+
+			// TODO Auto-generated method stub
+			if (result.isSuccess()
+					&& result.getAction() == ServiceAction.ActionEncode) {
+				DataParser parser = new DataParser(true);
+				ResponseData resData = parser
+						.parseEncodeResult((String) result.getData());
+				boolean encodeStatus = resData.getStatus().equalsIgnoreCase("OK");
+				if (encodeStatus) {
+					if(getActivity()!=null && !getActivity().isFinishing()){
+						//Toast.makeText(getActivity(),"Please waiting for encoding data!",Toast.LENGTH_LONG).show();
+						checkEncodeData();					
+					}
+				} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
+					HoGoApplication.instace().setToken(getActivity(), null);
+					((MainActivity)getActivity()).gotologinScreen();
+				}else {
+					if(getActivity()!=null&&!getActivity().isFinishing()){
+						Toast.makeText(getActivity(), "Encode Fail", Toast.LENGTH_LONG)
+						.show();
+						
+					}
 				}
-			} else if(resData.getStatus().equalsIgnoreCase("SessionIdNotFound")){
-				HoGoApplication.instace().setToken(getActivity(), null);
-				((MainActivity)getActivity()).gotologinScreen();
-			}else {
-				if(getActivity()!=null&&!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Encode Fail", Toast.LENGTH_LONG)
-					.show();
+			}
+			if (!result.isSuccess()
+					&& result.getAction() == ServiceAction.ActionEncode) {
+				((MainActivity) getActivity()).setProgressVisibility(false);
+			}
+			if (result.isSuccess()
+					&& result.getAction() == ServiceAction.ActionCheckEncodeStatus) {
+				DataParser parser = new DataParser(true);
+				ResponseData encodeStatus = (ResponseData) parser
+						.parseCheckEncodeResult((String) result.getData());
+				if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equalsIgnoreCase("OK")) {
+					if(timer!=null){
+						timer.cancel();
+					}
 					
+					if(getActivity()!=null && !getActivity().isFinishing()){
+						Toast.makeText(getActivity(),
+								"Document encoded successfully",
+								Toast.LENGTH_LONG).show();
+						((MainActivity) getActivity()).setProgressVisibility(false);
+						((MainActivity) getActivity()).gotoAddScreen((FileData)encodeStatus.getData());
+					}
+
+
+				} else if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equals("4")) {
+					if(timer!=null){
+						timer.cancel();
+					}
+					if(getActivity()!=null && !getActivity().isFinishing()){
+						Toast.makeText(getActivity(), "Upload and encode Fail",
+								Toast.LENGTH_LONG).show();
+						((MainActivity) getActivity()).setProgressVisibility(false);
+					}
+
+
+
+				} else {
+		
+//					Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
+//							.show();
 				}
 			}
-		}
-		if (!result.isSuccess()
-				&& result.getAction() == ServiceAction.ActionEncode) {
-			((MainActivity) getActivity()).setProgressVisibility(false);
-		}
-		if (result.isSuccess()
-				&& result.getAction() == ServiceAction.ActionCheckEncodeStatus) {
-			DataParser parser = new DataParser(true);
-			ResponseData encodeStatus = (ResponseData) parser
-					.parseCheckEncodeResult((String) result.getData());
-			if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equalsIgnoreCase("OK")) {
-				if(timer!=null){
-					timer.cancel();
-				}
-				
-				if(getActivity()!=null && !getActivity().isFinishing()){
-					Toast.makeText(getActivity(),
-							"Document encoded successfully",
-							Toast.LENGTH_LONG).show();
-				}
-
+			if (getActivity()!=null && !result.isSuccess()
+					&& result.getAction() == ServiceAction.ActionCheckEncodeStatus) {
 				((MainActivity) getActivity()).setProgressVisibility(false);
-				((MainActivity) getActivity()).gotoAddScreen((FileData)encodeStatus.getData());
-			} else if (encodeStatus.getStatus()!=null && encodeStatus.getStatus().equals("4")) {
-				if(timer!=null){
-					timer.cancel();
-				}
-				if(!getActivity().isFinishing()){
-					Toast.makeText(getActivity(), "Upload and encode Fail",
-							Toast.LENGTH_LONG).show();
-				}
+			}
+			
+			if(getActivity()!=null &&  !getActivity().isFinishing() && timer!=null){
+				timer.cancel();
+			}
 
-				((MainActivity) getActivity()).setProgressVisibility(false);
-
-			} else {
-	
-//				Toast.makeText(getActivity(), "Upload Fail", Toast.LENGTH_LONG)
-//						.show();
+			if(getActivity() ==null && timer!=null){
+				timer.cancel();
+			}
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			if(getActivity() ==null && timer!=null){
+				timer.cancel();
+			}
+			if(getActivity()!=null &&  getActivity().isFinishing() && timer!=null){
+				timer.cancel();
 			}
 		}
-		if (getActivity()!=null && !result.isSuccess()
-				&& result.getAction() == ServiceAction.ActionCheckEncodeStatus) {
-			((MainActivity) getActivity()).setProgressVisibility(false);
-		}
-
 	}
 
 	private void checkEncodeData() {
