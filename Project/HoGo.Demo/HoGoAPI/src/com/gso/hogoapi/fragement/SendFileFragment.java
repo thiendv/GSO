@@ -349,6 +349,11 @@ public class SendFileFragment extends Fragment implements OnClickListener,
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			if (getActivity() != null && !getActivity().isFinishing()) {
+				Toast.makeText(getActivity(), "Send Fail",
+						Toast.LENGTH_LONG).show();
+				((MainActivity) getActivity()).setProgressVisibility(false);
+			}
 		}
 	}
 
